@@ -1,10 +1,11 @@
-const { describe, it, expect } = require('@jest/globals');
-const routes = require('./server.js');
+import {describe, test, expect} from '@jest/globals';
+import app from './server.js';
+import request from 'supertest';
 
 describe('The API', () => {
-	it('Should receive Hello world!', async () => {
-		const list = await request(routes).get('/');
+	test('should receive Hello world!', async () => {
+		const list = await request(app).get('/');
 		expect(list.statusCode).toEqual(200);
-		expect(list.body).toEqual(['Hello World!']);
+		expect(list.text).toEqual('Hello World!');
 	});
 });
