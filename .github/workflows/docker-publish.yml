@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: justinferrara968/gestion-decheterie
+  IMAGE_NAME: justinferrara968/gestion-decheterie-backend
 
 jobs:
   push_to_registry:
