@@ -5,6 +5,10 @@ on:
     branches:
       - "main"
 
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: justinferrara968/gestion-decheterie
+
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
