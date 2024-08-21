@@ -1,5 +1,5 @@
 import { describe, test, expect } from "@jest/globals";
-import app from "./server.js";
+import app from "../server.js";
 import request from "supertest";
 
 const Responsable = { username: "jdoe", password: "123" };
