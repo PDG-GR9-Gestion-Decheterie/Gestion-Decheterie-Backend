@@ -62,7 +62,7 @@ describe("Ramassage employe", () => {
       message: "Ramassage added successfully",
       ramassage: {
         id: 6,
-        date: "2022-01-01",
+        date: "2032-02-21",
         fk_status: "accepté",
         poids: 100,
         fk_contenant: 1,
@@ -114,7 +114,36 @@ describe("Ramassage employe", () => {
     ]);
   });
 
-  //test("get all futurs ramassages", async () => {
+  test("get all futurs ramassages", async () => {
+    const list = await request(app).post("/api/login").send(employe);
+    const cookie = list.headers["set-cookie"];
+    await request(app).post("/api/ramassage").set("Cookie", cookie).send({
+      id: 10,
+      date: 1660995200000,
+      fk_status: "accepté",
+      poids: 100,
+      fk_contenant: 1,
+      fk_employee: "rsmith2",
+      fk_decheterie: 1,
+      fk_vehicule: "VD 756 254",
+    });
+    const ramassage = await request(app)
+      .get("/api/ramassage")
+      .set("Cookie", cookie);
+    expect(ramassage.statusCode).toEqual(200);
+    expect(ramassage.body).toEqual([
+      {
+        id: 1,
+        date: "2032-02-21",
+        fk_status: "accepté",
+        poids: 100,
+        fk_contenant: 1,
+        fk_employee: "rsmith2",
+        fk_decheterie: 1,
+        fk_vehicule: "VD 756 254",
+      },
+    ]);
+  });
 
   // get all des ramassages futurs
 
