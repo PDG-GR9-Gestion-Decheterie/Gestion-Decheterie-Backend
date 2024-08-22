@@ -120,6 +120,28 @@ const defineModels = (sequelize) => {
       schema: "gestion_decheterie",
     }
   );
+  models.Decheterie = sequelize.define(
+    "decheterie",
+    {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+      },
+      nom: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
+      },
+      fk_adresse: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+    },
+    {
+      tableName: "decheterie",
+      timestamps: false,
+      schema: "gestion_decheterie",
+    }
+  );
 };
 
 export async function closeConnection() {
