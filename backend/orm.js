@@ -24,6 +24,7 @@ export async function initializeDB() {
     console.log("Connection has been established successfully.");
 
     models = defineModels(sequelize);
+
     await sequelize.sync({ schema: "gestion_decheterie" });
     console.log("Models have been synchronized successfully.");
   } catch (error) {
@@ -81,6 +82,40 @@ const defineModels = (sequelize) => {
     },
     {
       tableName: "employe",
+      timestamps: false,
+      schema: "gestion_decheterie",
+    }
+  );
+  models.Adresse = sequelize.define(
+    "adresse",
+    {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+      },
+      rue: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
+      },
+      numero: {
+        type: Sequelize.STRING(10),
+        allowNull: false,
+      },
+      npa: {
+        type: Sequelize.STRING(10),
+        allowNull: false,
+      },
+      nomville: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
+      },
+      pays: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
+      },
+    },
+    {
+      tableName: "adresse",
       timestamps: false,
       schema: "gestion_decheterie",
     }
