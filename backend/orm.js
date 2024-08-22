@@ -242,6 +242,20 @@ const defineModels = (sequelize) => {
       schema: "gestion_decheterie",
     }
   );
+  models.Status = sequelize.define(
+    "status",
+    {
+      nom: {
+        type: Sequelize.STRING(10),
+        primaryKey: true,
+      },
+    },
+    {
+      tableName: "status",
+      timestamps: false,
+      schema: "gestion_decheterie",
+    }
+  );
 };
 
 export async function closeConnection() {
