@@ -52,7 +52,7 @@ describe("Ramassage CRUD", () => {
 
     // create in futur
     const ramassage = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -71,7 +71,7 @@ describe("Ramassage CRUD", () => {
 
     // create in past
     const ramassagePast = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 10,
@@ -90,7 +90,7 @@ describe("Ramassage CRUD", () => {
 
     // get one
     const ramassageGet = await request(app)
-      .get("/api/ramassage/6")
+      .get("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageGet.statusCode).toEqual(200);
     expect(ramassageGet.body).toEqual({
@@ -108,7 +108,7 @@ describe("Ramassage CRUD", () => {
 
     // get all
     const ramassageGetAll = await request(app)
-      .get("/api/ramassage")
+      .get("/api/ramassages")
       .set("Cookie", cookie);
     expect(ramassageGetAll.statusCode).toEqual(200);
     expect(ramassageGetAll.body).toEqual({
@@ -152,7 +152,7 @@ describe("Ramassage CRUD", () => {
 
     // update
     const ramassageUpdate = await request(app)
-      .put("/api/ramassage/6")
+      .put("/api/ramassages/6")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -171,14 +171,14 @@ describe("Ramassage CRUD", () => {
 
     // delete
     const ramassageDelete = await request(app)
-      .delete("/api/ramassage/6")
+      .delete("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(200);
     expect(ramassageDelete.body).toEqual({
       message: "Ramassage deleted successfully",
     });
     const ramassageDelete2 = await request(app)
-      .delete("/api/ramassage/10")
+      .delete("/api/ramassages/10")
       .set("Cookie", cookie);
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
@@ -192,7 +192,7 @@ describe("Ramassage CRUD", () => {
 
     // create in futur
     const ramassage = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -211,7 +211,7 @@ describe("Ramassage CRUD", () => {
 
     // create in past
     const ramassagePast = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 10,
@@ -230,7 +230,7 @@ describe("Ramassage CRUD", () => {
 
     // get one
     const ramassageGet = await request(app)
-      .get("/api/ramassage/6")
+      .get("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageGet.statusCode).toEqual(200);
     expect(ramassageGet.body).toEqual({
@@ -248,7 +248,7 @@ describe("Ramassage CRUD", () => {
 
     // get all
     const ramassageGetAll = await request(app)
-      .get("/api/ramassage")
+      .get("/api/ramassages")
       .set("Cookie", cookie);
     expect(ramassageGetAll.statusCode).toEqual(200);
     expect(ramassageGetAll.body).toEqual({
@@ -292,7 +292,7 @@ describe("Ramassage CRUD", () => {
 
     // update
     const ramassageUpdate = await request(app)
-      .put("/api/ramassage/6")
+      .put("/api/ramassages/6")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -311,14 +311,14 @@ describe("Ramassage CRUD", () => {
 
     // delete
     const ramassageDelete = await request(app)
-      .delete("/api/ramassage/6")
+      .delete("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(200);
     expect(ramassageDelete.body).toEqual({
       message: "Ramassage deleted successfully",
     });
     const ramassageDelete2 = await request(app)
-      .delete("/api/ramassage/10")
+      .delete("/api/ramassages/10")
       .set("Cookie", cookie);
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
@@ -332,7 +332,7 @@ describe("Ramassage CRUD", () => {
 
     // create in futur
     const ramassage = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -351,7 +351,7 @@ describe("Ramassage CRUD", () => {
 
     // create in past
     const ramassagePast = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 10,
@@ -370,7 +370,7 @@ describe("Ramassage CRUD", () => {
 
     // get one
     const ramassageGet = await request(app)
-      .get("/api/ramassage/6")
+      .get("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageGet.statusCode).toEqual(200);
     expect(ramassageGet.body).toEqual({
@@ -388,7 +388,7 @@ describe("Ramassage CRUD", () => {
 
     // get all
     const ramassageGetAll = await request(app)
-      .get("/api/ramassage")
+      .get("/api/ramassages")
       .set("Cookie", cookie);
     expect(ramassageGetAll.statusCode).toEqual(200);
     expect(ramassageGetAll.body).toEqual({
@@ -415,7 +415,7 @@ describe("Ramassage CRUD", () => {
 
     // update
     const ramassageUpdate = await request(app)
-      .put("/api/ramassage/6")
+      .put("/api/ramassages/6")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -434,7 +434,7 @@ describe("Ramassage CRUD", () => {
 
     // delete
     const ramassageDelete = await request(app)
-      .delete("/api/ramassage/6")
+      .delete("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(500);
     expect(ramassageDelete.body).toEqual({
@@ -446,14 +446,14 @@ describe("Ramassage CRUD", () => {
     const cookieResp = listResp.headers["set-cookie"];
 
     const ramassageDelete2 = await request(app)
-      .delete("/api/ramassage/6")
+      .delete("/api/ramassages/6")
       .set("Cookie", cookieResp);
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
       message: "Ramassage deleted successfully",
     });
     const ramassageDelete3 = await request(app)
-      .delete("/api/ramassage/10")
+      .delete("/api/ramassages/10")
       .set("Cookie", cookie);
     expect(ramassageDelete3.statusCode).toEqual(200);
     expect(ramassageDelete3.body).toEqual({
@@ -467,7 +467,7 @@ describe("Ramassage CRUD", () => {
 
     // create in futur
     const ramassage = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -486,7 +486,7 @@ describe("Ramassage CRUD", () => {
 
     // create in past
     const ramassagePast = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 10,
@@ -505,7 +505,7 @@ describe("Ramassage CRUD", () => {
 
     // get one
     const ramassageGet = await request(app)
-      .get("/api/ramassage/6")
+      .get("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageGet.statusCode).toEqual(200);
     expect(ramassageGet.body).toEqual({
@@ -523,7 +523,7 @@ describe("Ramassage CRUD", () => {
 
     // get all
     const ramassageGetAll = await request(app)
-      .get("/api/ramassage")
+      .get("/api/ramassages")
       .set("Cookie", cookie);
     expect(ramassageGetAll.statusCode).toEqual(200);
     expect(ramassageGetAll.body).toEqual({
@@ -550,7 +550,7 @@ describe("Ramassage CRUD", () => {
 
     // update
     const ramassageUpdate = await request(app)
-      .put("/api/ramassage/6")
+      .put("/api/ramassages/6")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -569,7 +569,7 @@ describe("Ramassage CRUD", () => {
 
     // delete
     const ramassageDelete = await request(app)
-      .delete("/api/ramassage/6")
+      .delete("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(500);
     expect(ramassageDelete.body).toEqual({
@@ -581,14 +581,14 @@ describe("Ramassage CRUD", () => {
     const cookieResp = listResp.headers["set-cookie"];
 
     const ramassageDelete2 = await request(app)
-      .delete("/api/ramassage/6")
+      .delete("/api/ramassages/6")
       .set("Cookie", cookieResp);
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
       message: "Ramassage deleted successfully",
     });
     const ramassageDelete3 = await request(app)
-      .delete("/api/ramassage/10")
+      .delete("/api/ramassages/10")
       .set("Cookie", cookie);
     expect(ramassageDelete3.statusCode).toEqual(200);
     expect(ramassageDelete3.body).toEqual({
@@ -604,7 +604,7 @@ describe("Ramassage CRUD not working", () => {
 
     // create in futur
     const ramassage = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -623,7 +623,7 @@ describe("Ramassage CRUD not working", () => {
 
     // create the same
     const ramassage2 = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -642,7 +642,7 @@ describe("Ramassage CRUD not working", () => {
 
     // get one that does not exist
     const ramassageGet = await request(app)
-      .get("/api/ramassage/99")
+      .get("/api/ramassages/99")
       .set("Cookie", cookie);
     expect(ramassageGet.statusCode).toEqual(500);
     expect(ramassageGet.body).toEqual({
@@ -651,7 +651,7 @@ describe("Ramassage CRUD not working", () => {
 
     // update one that does not exist
     const ramassageUpdate = await request(app)
-      .put("/api/ramassage/99")
+      .put("/api/ramassages/99")
       .set("Cookie", cookie)
       .send({
         id: 99,
@@ -670,7 +670,7 @@ describe("Ramassage CRUD not working", () => {
 
     // delete one that does not exist
     const ramassageDelete = await request(app)
-      .delete("/api/ramassage/99")
+      .delete("/api/ramassages/99")
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(500);
     expect(ramassageDelete.body).toEqual({
@@ -690,7 +690,7 @@ describe("Ramassage CRUD with different decheterie", () => {
 
     // create a ramassage with in a different primary decheterie
     const ramassage = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -709,7 +709,7 @@ describe("Ramassage CRUD with different decheterie", () => {
 
     // create a ramassage with in the same primary decheterie
     const ramassage2 = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie2)
       .send({
         id: 6,
@@ -728,7 +728,7 @@ describe("Ramassage CRUD with different decheterie", () => {
 
     // get one
     const ramassageGet = await request(app)
-      .get("/api/ramassage/6")
+      .get("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageGet.statusCode).toEqual(500);
     expect(ramassageGet.body).toEqual({
@@ -737,7 +737,7 @@ describe("Ramassage CRUD with different decheterie", () => {
 
     // get all
     const ramassageGetAll = await request(app)
-      .get("/api/ramassage")
+      .get("/api/ramassages")
       .set("Cookie", cookie);
     expect(ramassageGetAll.statusCode).toEqual(200);
     expect(ramassageGetAll.body).toEqual({
@@ -746,16 +746,34 @@ describe("Ramassage CRUD with different decheterie", () => {
 
     // get all
     const ramassageGetAll2 = await request(app)
-      .get("/api/ramassage")
+      .get("/api/ramassages")
       .set("Cookie", cookie2);
     expect(ramassageGetAll2.statusCode).toEqual(200);
     expect(ramassageGetAll2.body).toEqual({
-      ramassages: [],
+      ramassages: [
+        {
+          id_ramassage: 6,
+          date_ramassage: "2032-02-21",
+          id_decheterie: 1,
+          nom_decheterie: "Decheterie Yverdon",
+          status_ramassage: "accepté",
+          id_employe: "rsmith2",
+          nom_employe: "Smith",
+          prenom_employe: "Rebecca",
+          id_contenant: 1,
+          nom_contenant: "benne",
+          poids: 100,
+          taille_contenant: null,
+          nbcadre_contenant: null,
+          type_vehicule: "camion",
+          immatriculation_vehicule: "VD 756 254",
+        },
+      ],
     });
 
     // update
     const ramassageUpdate = await request(app)
-      .put("/api/ramassage/6")
+      .put("/api/ramassages/6")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -767,22 +785,22 @@ describe("Ramassage CRUD with different decheterie", () => {
         fk_decheterie: 1,
         fk_vehicule: "VD 756 254",
       });
-    expect(ramassageUpdate.statusCode).toEqual(200);
+    expect(ramassageUpdate.statusCode).toEqual(500);
     expect(ramassageUpdate.body).toEqual({
-      message: "Ramassage updated successfully",
+      message: "Error updating ramassage",
     });
 
     // delete
     const ramassageDelete = await request(app)
-      .delete("/api/ramassage/6")
+      .delete("/api/ramassages/6")
       .set("Cookie", cookie);
-    expect(ramassageDelete.statusCode).toEqual(200);
+    expect(ramassageDelete.statusCode).toEqual(500);
     expect(ramassageDelete.body).toEqual({
-      message: "Ramassage deleted successfully",
+      message: "Error deleting ramassage",
     });
     const ramassageDelete2 = await request(app)
-      .delete("/api/ramassage/10")
-      .set("Cookie", cookie);
+      .delete("/api/ramassages/6")
+      .set("Cookie", cookie2);
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
       message: "Ramassage deleted successfully",
