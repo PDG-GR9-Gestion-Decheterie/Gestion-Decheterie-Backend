@@ -11,4 +11,23 @@ export async function initializeDB() {
 
     console.log("Connection string:", sequelize.config);
 
+    await sequelize
+      .query("SET search_path TO gestion_decheterie")
+      .then(() => {
+        console.log("Schema defined successfully");
+      })
+      .catch((err) => {
+        console.error("Error while defining schema :", err);
+      });
+
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
+
+    models = defineModels(sequelize);
+
+    await sequelize.sync({ schema: "gestion_decheterie" });
+    console.log("Models have been synchronized successfully.");
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
 }
