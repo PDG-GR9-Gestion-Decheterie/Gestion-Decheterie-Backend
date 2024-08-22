@@ -3,8 +3,8 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import bcrypt from "bcrypt";
 import cookieParser from "cookie-parser";
-import { corsOptions,
-  sessionOptions } from "./moduleOptions.js";
+import { corsOptions, sessionOptions } from "./moduleOptions.js";
+import { models } from "./orm.js";
 import {
   getEmployees,
   getEmployeeById,
@@ -17,7 +17,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(corsOption);
+app.use(corsOptions);
 app.use(sessionOptions);
 app.use(passport.initialize());
 app.use(passport.session());
@@ -72,7 +72,7 @@ passport.use(
 //-------------------------------------------------------------------//
 // ------------------ Endpoints Authentification ------------------- //
 
-app.post("/api/login", loginLimiter, (req, res, next) => {
+app.post("/api/login", (req, res, next) => {
   try {
     passport.authenticate("local", (err, user, info) => {
       if (err) {
@@ -110,7 +110,6 @@ app.post("/api/logout", (req, res) => {
     });
   });
 });
-
 
 //-------------------------------------------------------------------//
 //-------------------------- API Endpoints --------------------------//

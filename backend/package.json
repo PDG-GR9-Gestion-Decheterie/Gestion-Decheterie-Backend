@@ -15,13 +15,11 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.19.2",
-<<<<<<< HEAD
+    "express-session": "^1.18.0",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
-=======
     "pg": "^8.12.0",
     "pg-hstore": "^2.3.4",
->>>>>>> 307f65bdb90c36a45ce5aa78b2694b6c5c9fed26
     "sequelize": "^6.37.3"
   },
   "devDependencies": {
