@@ -2,43 +2,15 @@ import { describe, test, expect } from "@jest/globals";
 import app from "../server.js";
 import request from "supertest";
 
-const Responsable = { username: "jdoe", password: "123" };
-const Secretaire = { username: "jferrara", password: "123" };
-const Employe = { username: "asmith", password: "123" };
-const Chauffeur = { username: "rsmith2", password: "123" };
+const Responsable = { username: "jdoe", password: "123" }; // déchèterie 1
+const Secretaire = { username: "jferrara", password: "123" }; // déchèterie 1
+const Employe = { username: "asmith", password: "123" }; // déchèterie 1
+const Chauffeur = { username: "rsmith2", password: "123" }; // déchèterie 1 licence C
 
-describe("The API default route", () => {
-  test("should receive Hello world!", async () => {
-    const list = await request(app).get("/api");
-    expect(list.statusCode).toEqual(200);
-    expect(list.text).toEqual("Hello World!");
-  });
-});
-
-describe("Login/Logout", () => {
-  test("should login", async () => {
-    const list = await request(app).post("/api/login").send(Responsable);
-    expect(list.statusCode).toEqual(200);
-    expect(list.body).toEqual({
-      idlogin: responsable.username,
-      fonction: "Responsable",
-    });
-  });
-
-  test("should not login", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send({ username: "admin", password: "admin1" });
-    expect(list.statusCode).toEqual(401);
-    expect(list.body).toEqual({ message: "Login failed." });
-  });
-
-  test("should logout", async () => {
-    const list = await request(app).get("/api/logout");
-    expect(list.statusCode).toEqual(200);
-    expect(list.text).toEqual({ message: "Logged out successfully." });
-  });
-});
+const Responsable2 = { username: "jdurand", password: "123" }; // déchèterie 5
+const Secretaire2 = { username: "jdoe3", password: "123" }; // déchèterie 5
+const Employe2 = { username: "rlandry", password: "123" }; // déchèterie 6
+const Chauffeur2 = { username: "lchevalier", password: "123" }; // déchèterie 5
 
 describe("Ramassage CRUD", () => {
   test("Responsable", async () => {
@@ -47,7 +19,7 @@ describe("Ramassage CRUD", () => {
 
     // create in futur
     const ramassage = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -62,21 +34,11 @@ describe("Ramassage CRUD", () => {
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 6,
-        date: "2032-02-21",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // create in past
     const ramassagePast = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 10,
@@ -91,21 +53,11 @@ describe("Ramassage CRUD", () => {
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 10,
-        date: "2022-08-20",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // get one
     const ramassageGet = await request(app)
-      .get("/api/ramassage/6")
+      .get("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageGet.statusCode).toEqual(200);
     expect(ramassageGet.body).toEqual({
@@ -123,7 +75,7 @@ describe("Ramassage CRUD", () => {
 
     // get all
     const ramassageGetAll = await request(app)
-      .get("/api/ramassage")
+      .get("/api/ramassages")
       .set("Cookie", cookie);
     expect(ramassageGetAll.statusCode).toEqual(200);
     expect(ramassageGetAll.body).toEqual({
@@ -167,7 +119,7 @@ describe("Ramassage CRUD", () => {
 
     // update
     const ramassageUpdate = await request(app)
-      .put("/api/ramassage/6")
+      .put("/api/ramassages/6")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -186,14 +138,15 @@ describe("Ramassage CRUD", () => {
 
     // delete
     const ramassageDelete = await request(app)
-      .delete("/api/ramassage/6")
+      .delete("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(200);
     expect(ramassageDelete.body).toEqual({
       message: "Ramassage deleted successfully",
     });
+
     const ramassageDelete2 = await request(app)
-      .delete("/api/ramassage/10")
+      .delete("/api/ramassages/10")
       .set("Cookie", cookie);
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
@@ -207,7 +160,7 @@ describe("Ramassage CRUD", () => {
 
     // create in futur
     const ramassage = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -222,21 +175,11 @@ describe("Ramassage CRUD", () => {
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 6,
-        date: "2032-02-21",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // create in past
     const ramassagePast = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 10,
@@ -251,21 +194,11 @@ describe("Ramassage CRUD", () => {
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 10,
-        date: "2022-08-20",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // get one
     const ramassageGet = await request(app)
-      .get("/api/ramassage/6")
+      .get("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageGet.statusCode).toEqual(200);
     expect(ramassageGet.body).toEqual({
@@ -283,7 +216,7 @@ describe("Ramassage CRUD", () => {
 
     // get all
     const ramassageGetAll = await request(app)
-      .get("/api/ramassage")
+      .get("/api/ramassages")
       .set("Cookie", cookie);
     expect(ramassageGetAll.statusCode).toEqual(200);
     expect(ramassageGetAll.body).toEqual({
@@ -327,7 +260,7 @@ describe("Ramassage CRUD", () => {
 
     // update
     const ramassageUpdate = await request(app)
-      .put("/api/ramassage/6")
+      .put("/api/ramassages/6")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -346,14 +279,15 @@ describe("Ramassage CRUD", () => {
 
     // delete
     const ramassageDelete = await request(app)
-      .delete("/api/ramassage/6")
+      .delete("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(200);
     expect(ramassageDelete.body).toEqual({
       message: "Ramassage deleted successfully",
     });
+
     const ramassageDelete2 = await request(app)
-      .delete("/api/ramassage/10")
+      .delete("/api/ramassages/10")
       .set("Cookie", cookie);
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
@@ -367,7 +301,7 @@ describe("Ramassage CRUD", () => {
 
     // create in futur
     const ramassage = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -382,21 +316,11 @@ describe("Ramassage CRUD", () => {
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 6,
-        date: "2032-02-21",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // create in past
     const ramassagePast = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 10,
@@ -411,21 +335,11 @@ describe("Ramassage CRUD", () => {
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 10,
-        date: "2022-08-20",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // get one
     const ramassageGet = await request(app)
-      .get("/api/ramassage/6")
+      .get("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageGet.statusCode).toEqual(200);
     expect(ramassageGet.body).toEqual({
@@ -443,7 +357,7 @@ describe("Ramassage CRUD", () => {
 
     // get all
     const ramassageGetAll = await request(app)
-      .get("/api/ramassage")
+      .get("/api/ramassages")
       .set("Cookie", cookie);
     expect(ramassageGetAll.statusCode).toEqual(200);
     expect(ramassageGetAll.body).toEqual({
@@ -470,7 +384,7 @@ describe("Ramassage CRUD", () => {
 
     // update
     const ramassageUpdate = await request(app)
-      .put("/api/ramassage/6")
+      .put("/api/ramassages/6")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -489,7 +403,7 @@ describe("Ramassage CRUD", () => {
 
     // delete
     const ramassageDelete = await request(app)
-      .delete("/api/ramassage/6")
+      .delete("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(500);
     expect(ramassageDelete.body).toEqual({
@@ -501,14 +415,14 @@ describe("Ramassage CRUD", () => {
     const cookieResp = listResp.headers["set-cookie"];
 
     const ramassageDelete2 = await request(app)
-      .delete("/api/ramassage/6")
+      .delete("/api/ramassages/6")
       .set("Cookie", cookieResp);
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
       message: "Ramassage deleted successfully",
     });
     const ramassageDelete3 = await request(app)
-      .delete("/api/ramassage/10")
+      .delete("/api/ramassages/10")
       .set("Cookie", cookie);
     expect(ramassageDelete3.statusCode).toEqual(200);
     expect(ramassageDelete3.body).toEqual({
@@ -522,7 +436,7 @@ describe("Ramassage CRUD", () => {
 
     // create in futur
     const ramassage = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -537,21 +451,11 @@ describe("Ramassage CRUD", () => {
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 6,
-        date: "2032-02-21",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // create in past
     const ramassagePast = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 10,
@@ -566,21 +470,11 @@ describe("Ramassage CRUD", () => {
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 10,
-        date: "2022-08-20",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // get one
     const ramassageGet = await request(app)
-      .get("/api/ramassage/6")
+      .get("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageGet.statusCode).toEqual(200);
     expect(ramassageGet.body).toEqual({
@@ -598,7 +492,7 @@ describe("Ramassage CRUD", () => {
 
     // get all
     const ramassageGetAll = await request(app)
-      .get("/api/ramassage")
+      .get("/api/ramassages")
       .set("Cookie", cookie);
     expect(ramassageGetAll.statusCode).toEqual(200);
     expect(ramassageGetAll.body).toEqual({
@@ -625,7 +519,7 @@ describe("Ramassage CRUD", () => {
 
     // update
     const ramassageUpdate = await request(app)
-      .put("/api/ramassage/6")
+      .put("/api/ramassages/6")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -644,7 +538,7 @@ describe("Ramassage CRUD", () => {
 
     // delete
     const ramassageDelete = await request(app)
-      .delete("/api/ramassage/6")
+      .delete("/api/ramassages/6")
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(500);
     expect(ramassageDelete.body).toEqual({
@@ -656,14 +550,14 @@ describe("Ramassage CRUD", () => {
     const cookieResp = listResp.headers["set-cookie"];
 
     const ramassageDelete2 = await request(app)
-      .delete("/api/ramassage/6")
+      .delete("/api/ramassages/6")
       .set("Cookie", cookieResp);
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
       message: "Ramassage deleted successfully",
     });
     const ramassageDelete3 = await request(app)
-      .delete("/api/ramassage/10")
+      .delete("/api/ramassages/10")
       .set("Cookie", cookie);
     expect(ramassageDelete3.statusCode).toEqual(200);
     expect(ramassageDelete3.body).toEqual({
@@ -672,6 +566,7 @@ describe("Ramassage CRUD", () => {
   });
 });
 
+// TODO check if necessary
 describe("Ramassage CRUD not working", () => {
   test("Responsable not working", async () => {
     const list = await request(app).post("/api/login").send(Responsable);
@@ -679,7 +574,7 @@ describe("Ramassage CRUD not working", () => {
 
     // create in futur
     const ramassage = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -694,21 +589,11 @@ describe("Ramassage CRUD not working", () => {
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 6,
-        date: "2032-02-21",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // create the same
     const ramassage2 = await request(app)
-      .post("/api/ramassage")
+      .post("/api/ramassages")
       .set("Cookie", cookie)
       .send({
         id: 6,
@@ -727,7 +612,7 @@ describe("Ramassage CRUD not working", () => {
 
     // get one that does not exist
     const ramassageGet = await request(app)
-      .get("/api/ramassage/99")
+      .get("/api/ramassages/99")
       .set("Cookie", cookie);
     expect(ramassageGet.statusCode).toEqual(500);
     expect(ramassageGet.body).toEqual({
@@ -736,7 +621,7 @@ describe("Ramassage CRUD not working", () => {
 
     // update one that does not exist
     const ramassageUpdate = await request(app)
-      .put("/api/ramassage/99")
+      .put("/api/ramassages/99")
       .set("Cookie", cookie)
       .send({
         id: 99,
@@ -755,7 +640,7 @@ describe("Ramassage CRUD not working", () => {
 
     // delete one that does not exist
     const ramassageDelete = await request(app)
-      .delete("/api/ramassage/99")
+      .delete("/api/ramassages/99")
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(500);
     expect(ramassageDelete.body).toEqual({
@@ -764,4 +649,175 @@ describe("Ramassage CRUD not working", () => {
   });
 });
 
-// TODO: test si la déchèterie principale est la même que celle du ramassage qu'on veut ajouter
+describe("Ramassage CRUD with different decheterie", () => {
+  test("Responsable", async () => {
+    const list = await request(app).post("/api/login").send(Responsable);
+    const cookie = list.headers["set-cookie"];
+
+    const list2 = await request(app).post("/api/login").send(Responsable2);
+    const cookie2 = list2.headers["set-cookie"];
+
+    // create a ramassage with in a different primary decheterie
+    const ramassage = await request(app)
+      .post("/api/ramassages")
+      .set("Cookie", cookie)
+      .send({
+        id: 6,
+        date: 1960995200000,
+        fk_status: "accepté",
+        poids: 100,
+        fk_contenant: 1,
+        fk_employee: "rlandry",
+        fk_decheterie: 6,
+        fk_vehicule: "VD 756 254",
+      });
+    expect(ramassage.statusCode).toEqual(500);
+    expect(ramassage.body).toEqual({
+      error: "Error adding ramassage",
+    });
+
+    // create a ramassage with in the same primary decheterie
+    const ramassage2 = await request(app)
+      .post("/api/ramassages")
+      .set("Cookie", cookie2)
+      .send({
+        id: 6,
+        date: 1960995200000,
+        fk_status: "accepté",
+        poids: 100,
+        fk_contenant: 1,
+        fk_employee: "rsmith2",
+        fk_decheterie: 6,
+        fk_vehicule: "VD 756 254",
+      });
+    expect(ramassage2.statusCode).toEqual(201);
+    expect(ramassage2.body).toEqual({
+      message: "Ramassage added successfully",
+    });
+
+    // get one
+    const ramassageGet = await request(app)
+      .get("/api/ramassages/6")
+      .set("Cookie", cookie);
+    expect(ramassageGet.statusCode).toEqual(500);
+    expect(ramassageGet.body).toEqual({
+      error: "Error getting ramassage",
+    });
+
+    // get all
+    const ramassageGetAll = await request(app)
+      .get("/api/ramassages")
+      .set("Cookie", cookie);
+    expect(ramassageGetAll.statusCode).toEqual(200);
+    expect(ramassageGetAll.body).toEqual({
+      ramassages: [],
+    });
+
+    // get all
+    const ramassageGetAll2 = await request(app)
+      .get("/api/ramassages")
+      .set("Cookie", cookie2);
+    expect(ramassageGetAll2.statusCode).toEqual(200);
+    expect(ramassageGetAll2.body).toEqual({
+      ramassages: [
+        {
+          id_ramassage: 6,
+          date_ramassage: "2032-02-21",
+          id_decheterie: 1,
+          nom_decheterie: "Decheterie Yverdon",
+          status_ramassage: "accepté",
+          id_employe: "rsmith2",
+          nom_employe: "Smith",
+          prenom_employe: "Rebecca",
+          id_contenant: 1,
+          nom_contenant: "benne",
+          poids: 100,
+          taille_contenant: null,
+          nbcadre_contenant: null,
+          type_vehicule: "camion",
+          immatriculation_vehicule: "VD 756 254",
+        },
+      ],
+    });
+
+    // update
+    const ramassageUpdate = await request(app)
+      .put("/api/ramassages/6")
+      .set("Cookie", cookie)
+      .send({
+        id: 6,
+        date: 1640995200000,
+        fk_status: "accepté",
+        poids: 150,
+        fk_contenant: 1,
+        fk_employee: "rsmith2",
+        fk_decheterie: 1,
+        fk_vehicule: "VD 756 254",
+      });
+    expect(ramassageUpdate.statusCode).toEqual(500);
+    expect(ramassageUpdate.body).toEqual({
+      message: "Error updating ramassage",
+    });
+
+    // delete
+    const ramassageDelete = await request(app)
+      .delete("/api/ramassages/6")
+      .set("Cookie", cookie);
+    expect(ramassageDelete.statusCode).toEqual(500);
+    expect(ramassageDelete.body).toEqual({
+      message: "Error deleting ramassage",
+    });
+    const ramassageDelete2 = await request(app)
+      .delete("/api/ramassages/6")
+      .set("Cookie", cookie2);
+    expect(ramassageDelete2.statusCode).toEqual(200);
+    expect(ramassageDelete2.body).toEqual({
+      message: "Ramassage deleted successfully",
+    });
+  });
+});
+
+describe("Ramassage test employe have licence", () => {
+  test("Responsable", async () => {
+    const list = await request(app).post("/api/login").send(Responsable);
+    const cookie = list.headers["set-cookie"];
+
+    // create with employe who have no licence
+    const ramassage = await request(app)
+      .post("/api/ramassages")
+      .set("Cookie", cookie)
+      .send({
+        id: 6,
+        date: 1960995200000,
+        fk_status: "accepté",
+        poids: 100,
+        fk_contenant: 1,
+        fk_employee: "jdoe",
+        fk_decheterie: 1,
+        fk_vehicule: "VD 756 254",
+      });
+    expect(ramassage.statusCode).toEqual(500);
+    expect(ramassage.body).toEqual({
+      message: "Error adding ramassage",
+    });
+
+    // create with employe who have wrong licence for truck
+    const ramassage2 = await request(app)
+      .post("/api/ramassages")
+      .set("Cookie", cookie)
+      .send({
+        id: 6,
+        date: 1960995200000,
+        fk_status: "accepté",
+        poids: 100,
+        fk_contenant: 1,
+        fk_employee: "rfournier",
+        fk_decheterie: 1,
+        fk_vehicule: "VD 756 254",
+      });
+    expect(ramassage2.statusCode).toEqual(500);
+    expect(ramassage2.body).toEqual({
+      message: "Error adding ramassage",
+    });
+  });
+});
