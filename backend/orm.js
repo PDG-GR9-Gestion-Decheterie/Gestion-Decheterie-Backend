@@ -142,6 +142,41 @@ const defineModels = (sequelize) => {
       schema: "gestion_decheterie",
     }
   );
+  models.Vehicule = sequelize.define(
+    "vehicule",
+    {
+      immatriculation: {
+        type: Sequelize.STRING(30),
+        primaryKey: true,
+      },
+      type: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
+      },
+      remorque: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
+      anneefabrication: {
+        type: Sequelize.STRING(10),
+      },
+      dateexpertise: {
+        type: Sequelize.DATEONLY,
+      },
+      consocarburant: {
+        type: Sequelize.DOUBLE,
+      },
+      fk_decheterie: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+    },
+    {
+      tableName: "vehicule",
+      timestamps: false,
+      schema: "gestion_decheterie",
+    }
+  );
 };
 
 export async function closeConnection() {
