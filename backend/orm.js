@@ -177,6 +177,43 @@ const defineModels = (sequelize) => {
       schema: "gestion_decheterie",
     }
   );
+  models.Contenant = sequelize.define(
+    "contenant",
+    {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+      },
+      nom: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
+      },
+      capacitemax: {
+        type: Sequelize.INTEGER,
+      },
+      nbcadre: {
+        type: Sequelize.INTEGER,
+      },
+      taille: {
+        type: Sequelize.STRING(10),
+      },
+      couleur: {
+        type: Sequelize.STRING(30),
+      },
+      fk_decheterie: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      fk_dechet: {
+        type: Sequelize.STRING(30),
+      },
+    },
+    {
+      tableName: "contenant",
+      timestamps: false,
+      schema: "gestion_decheterie",
+    }
+  );
 };
 
 export async function closeConnection() {
