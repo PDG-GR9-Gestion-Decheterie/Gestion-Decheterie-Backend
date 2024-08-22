@@ -256,6 +256,46 @@ const defineModels = (sequelize) => {
       schema: "gestion_decheterie",
     }
   );
+
+  models.Ramassage = sequelize.define(
+    "ramassage",
+    {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+      },
+      date: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
+      poids: {
+        type: Sequelize.DOUBLE,
+      },
+      fk_contenant: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      fk_employee: {
+        type: Sequelize.STRING(30),
+      },
+      fk_decheterie: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      fk_vehicule: {
+        type: Sequelize.STRING(30),
+      },
+      fk_status: {
+        type: Sequelize.STRING(10),
+        allowNull: false,
+      },
+    },
+    {
+      tableName: "ramassage",
+      timestamps: false,
+      schema: "gestion_decheterie",
+    }
+  );
 };
 
 export async function closeConnection() {
