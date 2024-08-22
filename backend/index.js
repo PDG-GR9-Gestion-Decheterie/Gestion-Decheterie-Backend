@@ -1,4 +1,5 @@
 import app from "./server.js";
+import { models, closeConnection } from "./orm.js";
 
 console.log("Starting server...");
 

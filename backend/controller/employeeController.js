@@ -1,5 +1,19 @@
+import { models } from "../orm";
+
 // Get tous les employes - /employes
-export async function getEmployees(req, res) {}
+export async function getEmployees(req, res) {
+  try {
+    let employes = null;
+    employes = await models.SecretaireDecheterieEmploye.findAll();
+    if (employes === null) {
+      throw new Error();
+    }
+    res.status(200).json({ employes });
+  } catch (err) {
+    console.error("Error fetching employes:", err);
+    res.status(404).json({ error: "Error" });
+  }
+}
 // Get un employe par id - /employes/:id
 export async function getEmployeeById(req, res) {}
 // Créer un employe - /employes
