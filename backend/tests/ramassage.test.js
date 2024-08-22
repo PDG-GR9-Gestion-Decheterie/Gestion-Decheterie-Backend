@@ -12,6 +12,8 @@ import {
   Chauffeur2,
 } from "./credentials.test.js";
 
+import { RamassageOK, RamassageKO } from "./message.test.js";
+
 describe("Ramassage CRUD", () => {
   test("Responsable", async () => {
     const list = await request(app).post("/api/login").send(Responsable);
@@ -33,7 +35,7 @@ describe("Ramassage CRUD", () => {
       });
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
-      message: "Ramassage added successfully",
+      message: RamassageOK.add,
     });
 
     // create in past
@@ -52,7 +54,7 @@ describe("Ramassage CRUD", () => {
       });
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
-      message: "Ramassage added successfully",
+      message: RamassageOK.add,
     });
 
     // get one
@@ -133,7 +135,7 @@ describe("Ramassage CRUD", () => {
       });
     expect(ramassageUpdate.statusCode).toEqual(200);
     expect(ramassageUpdate.body).toEqual({
-      message: "Ramassage updated successfully",
+      message: RamassageOK.update,
     });
 
     // delete
@@ -142,7 +144,7 @@ describe("Ramassage CRUD", () => {
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(200);
     expect(ramassageDelete.body).toEqual({
-      message: "Ramassage deleted successfully",
+      message: RamassageOK.delete,
     });
 
     const ramassageDelete2 = await request(app)
@@ -150,7 +152,7 @@ describe("Ramassage CRUD", () => {
       .set("Cookie", cookie);
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
-      message: "Ramassage deleted successfully",
+      message: RamassageOK.delete,
     });
   });
 
@@ -174,7 +176,7 @@ describe("Ramassage CRUD", () => {
       });
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
-      message: "Ramassage added successfully",
+      message: RamassageOK.add,
     });
 
     // create in past
@@ -193,7 +195,7 @@ describe("Ramassage CRUD", () => {
       });
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
-      message: "Ramassage added successfully",
+      message: RamassageOK.add,
     });
 
     // get one
@@ -274,7 +276,7 @@ describe("Ramassage CRUD", () => {
       });
     expect(ramassageUpdate.statusCode).toEqual(200);
     expect(ramassageUpdate.body).toEqual({
-      message: "Ramassage updated successfully",
+      message: RamassageOK.update,
     });
 
     // delete
@@ -283,7 +285,7 @@ describe("Ramassage CRUD", () => {
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(200);
     expect(ramassageDelete.body).toEqual({
-      message: "Ramassage deleted successfully",
+      message: RamassageOK.delete,
     });
 
     const ramassageDelete2 = await request(app)
@@ -291,7 +293,7 @@ describe("Ramassage CRUD", () => {
       .set("Cookie", cookie);
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
-      message: "Ramassage deleted successfully",
+      message: RamassageOK.delete,
     });
   });
 
@@ -315,7 +317,7 @@ describe("Ramassage CRUD", () => {
       });
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
-      message: "Ramassage added successfully",
+      message: RamassageOK.add,
     });
 
     // create in past
@@ -334,7 +336,7 @@ describe("Ramassage CRUD", () => {
       });
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
-      message: "Ramassage added successfully",
+      message: RamassageOK.add,
     });
 
     // get one
@@ -398,7 +400,7 @@ describe("Ramassage CRUD", () => {
       });
     expect(ramassageUpdate.statusCode).toEqual(500);
     expect(ramassageUpdate.body).toEqual({
-      error: "Error updating ramassage",
+      error: RamassageKO.update,
     });
 
     // delete
@@ -407,7 +409,7 @@ describe("Ramassage CRUD", () => {
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(500);
     expect(ramassageDelete.body).toEqual({
-      error: "Error deleting ramassage",
+      error: RamassageKO.delete,
     });
 
     // delete all with Responsable
@@ -419,14 +421,14 @@ describe("Ramassage CRUD", () => {
       .set("Cookie", cookieResp);
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
-      message: "Ramassage deleted successfully",
+      message: RamassageOK.delete,
     });
     const ramassageDelete3 = await request(app)
       .delete("/api/ramassages/10")
       .set("Cookie", cookie);
     expect(ramassageDelete3.statusCode).toEqual(200);
     expect(ramassageDelete3.body).toEqual({
-      message: "Ramassage deleted successfully",
+      message: RamassageOK.delete,
     });
   });
 
@@ -450,7 +452,7 @@ describe("Ramassage CRUD", () => {
       });
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
-      message: "Ramassage added successfully",
+      message: RamassageOK.add,
     });
 
     // create in past
@@ -469,7 +471,7 @@ describe("Ramassage CRUD", () => {
       });
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
-      message: "Ramassage added successfully",
+      message: RamassageOK.add,
     });
 
     // get one
@@ -533,7 +535,7 @@ describe("Ramassage CRUD", () => {
       });
     expect(ramassageUpdate.statusCode).toEqual(500);
     expect(ramassageUpdate.body).toEqual({
-      error: "Error updating ramassage",
+      error: RamassageKO.update,
     });
 
     // delete
@@ -542,7 +544,7 @@ describe("Ramassage CRUD", () => {
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(500);
     expect(ramassageDelete.body).toEqual({
-      error: "Error deleting ramassage",
+      error: RamassageKO.delete,
     });
 
     // delete all with Responsable
@@ -554,14 +556,14 @@ describe("Ramassage CRUD", () => {
       .set("Cookie", cookieResp);
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
-      message: "Ramassage deleted successfully",
+      message: RamassageOK.delete,
     });
     const ramassageDelete3 = await request(app)
       .delete("/api/ramassages/10")
       .set("Cookie", cookie);
     expect(ramassageDelete3.statusCode).toEqual(200);
     expect(ramassageDelete3.body).toEqual({
-      message: "Ramassage deleted successfully",
+      message: RamassageOK.delete,
     });
   });
 });
@@ -588,7 +590,7 @@ describe("Ramassage CRUD not working", () => {
       });
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
-      message: "Ramassage added successfully",
+      message: RamassageOK.add,
     });
 
     // create the same
@@ -607,7 +609,7 @@ describe("Ramassage CRUD not working", () => {
       });
     expect(ramassage2.statusCode).toEqual(500);
     expect(ramassage2.body).toEqual({
-      error: "Error adding ramassage",
+      error: RamassageKO.add,
     });
 
     // get one that does not exist
@@ -616,7 +618,7 @@ describe("Ramassage CRUD not working", () => {
       .set("Cookie", cookie);
     expect(ramassageGet.statusCode).toEqual(500);
     expect(ramassageGet.body).toEqual({
-      error: "Error getting ramassage",
+      error: RamassageKO.get,
     });
 
     // update one that does not exist
@@ -635,7 +637,7 @@ describe("Ramassage CRUD not working", () => {
       });
     expect(ramassageUpdate.statusCode).toEqual(500);
     expect(ramassageUpdate.body).toEqual({
-      error: "Error updating ramassage",
+      error: RamassageKO.update,
     });
 
     // delete one that does not exist
@@ -644,7 +646,7 @@ describe("Ramassage CRUD not working", () => {
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(500);
     expect(ramassageDelete.body).toEqual({
-      error: "Error deleting ramassage",
+      error: RamassageKO.delete,
     });
   });
 });
@@ -673,7 +675,7 @@ describe("Ramassage CRUD with different decheterie", () => {
       });
     expect(ramassage.statusCode).toEqual(500);
     expect(ramassage.body).toEqual({
-      error: "Error adding ramassage",
+      error: RamassageKO.add,
     });
 
     // create a ramassage with in the same primary decheterie
@@ -692,7 +694,7 @@ describe("Ramassage CRUD with different decheterie", () => {
       });
     expect(ramassage2.statusCode).toEqual(201);
     expect(ramassage2.body).toEqual({
-      message: "Ramassage added successfully",
+      message: RamassageOK.add,
     });
 
     // get one
@@ -701,7 +703,7 @@ describe("Ramassage CRUD with different decheterie", () => {
       .set("Cookie", cookie);
     expect(ramassageGet.statusCode).toEqual(500);
     expect(ramassageGet.body).toEqual({
-      error: "Error getting ramassage",
+      error: RamassageKO.get,
     });
 
     // get all
@@ -756,7 +758,7 @@ describe("Ramassage CRUD with different decheterie", () => {
       });
     expect(ramassageUpdate.statusCode).toEqual(500);
     expect(ramassageUpdate.body).toEqual({
-      message: "Error updating ramassage",
+      message: RamassageKO.update,
     });
 
     // delete
@@ -765,14 +767,14 @@ describe("Ramassage CRUD with different decheterie", () => {
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(500);
     expect(ramassageDelete.body).toEqual({
-      message: "Error deleting ramassage",
+      message: RamassageKO.delete,
     });
     const ramassageDelete2 = await request(app)
       .delete("/api/ramassages/6")
       .set("Cookie", cookie2);
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
-      message: "Ramassage deleted successfully",
+      message: RamassageOK.delete,
     });
   });
 });
@@ -798,7 +800,7 @@ describe("Ramassage test employe have licence", () => {
       });
     expect(ramassage.statusCode).toEqual(500);
     expect(ramassage.body).toEqual({
-      message: "Error adding ramassage",
+      message: RamassageKO.add,
     });
 
     // create with employe who have wrong licence for truck
@@ -817,7 +819,7 @@ describe("Ramassage test employe have licence", () => {
       });
     expect(ramassage2.statusCode).toEqual(500);
     expect(ramassage2.body).toEqual({
-      message: "Error adding ramassage",
+      message: RamassageKO.add,
     });
   });
 });
