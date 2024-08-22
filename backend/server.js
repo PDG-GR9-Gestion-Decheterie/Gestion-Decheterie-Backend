@@ -4,7 +4,7 @@ import LocalStrategy from "passport-local";
 import bcrypt from "bcrypt";
 import cookieParser from "cookie-parser";
 import { corsOptions, sessionOptions } from "./moduleOptions.js";
-import { models } from "./orm.js";
+import { modelsg } from "./orm.js";
 import {
   getEmployees,
   getEmployeeById,
