@@ -9,7 +9,7 @@ app.use("/api", (req, res, next) => {
 });
 
 app.get("/api", (req, res) => {
-  res.send("Hello World!");
+  res.send("API Gestion Déchèterie");
 });
 
 export default app;

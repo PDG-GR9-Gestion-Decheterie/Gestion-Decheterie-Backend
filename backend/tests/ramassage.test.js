@@ -2,16 +2,21 @@ import { describe, test, expect } from "@jest/globals";
 import app from "../server.js";
 import request from "supertest";
 
-const Responsable = { username: "jdoe", password: "123" };
-const Secretaire = { username: "jferrara", password: "123" };
-const Employe = { username: "asmith", password: "123" };
-const Chauffeur = { username: "rsmith2", password: "123" };
+const Responsable = { username: "jdoe", password: "123" }; // déchèterie 1
+const Secretaire = { username: "jferrara", password: "123" }; // déchèterie 1
+const Employe = { username: "asmith", password: "123" }; // déchèterie 1
+const Chauffeur = { username: "rsmith2", password: "123" }; // déchèterie 1
+
+const Responsable2 = { username: "jdurand", password: "123" }; // déchèterie 5
+const Secretaire2 = { username: "jdoe3", password: "123" }; // déchèterie 5
+const Employe2 = { username: "rlandry", password: "123" }; // déchèterie 6
+const Chauffeur2 = { username: "lchevalier", password: "123" }; // déchèterie 5
 
 describe("The API default route", () => {
   test("should receive Hello world!", async () => {
     const list = await request(app).get("/api");
     expect(list.statusCode).toEqual(200);
-    expect(list.text).toEqual("Hello World!");
+    expect(list.text).toEqual("API Gestion Déchèterie");
   });
 });
 
@@ -62,16 +67,6 @@ describe("Ramassage CRUD", () => {
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 6,
-        date: "2032-02-21",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // create in past
@@ -91,16 +86,6 @@ describe("Ramassage CRUD", () => {
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 10,
-        date: "2022-08-20",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // get one
@@ -222,16 +207,6 @@ describe("Ramassage CRUD", () => {
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 6,
-        date: "2032-02-21",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // create in past
@@ -251,16 +226,6 @@ describe("Ramassage CRUD", () => {
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 10,
-        date: "2022-08-20",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // get one
@@ -382,16 +347,6 @@ describe("Ramassage CRUD", () => {
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 6,
-        date: "2032-02-21",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // create in past
@@ -411,16 +366,6 @@ describe("Ramassage CRUD", () => {
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 10,
-        date: "2022-08-20",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // get one
@@ -537,16 +482,6 @@ describe("Ramassage CRUD", () => {
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 6,
-        date: "2032-02-21",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // create in past
@@ -566,16 +501,6 @@ describe("Ramassage CRUD", () => {
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 10,
-        date: "2022-08-20",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // get one
@@ -694,16 +619,6 @@ describe("Ramassage CRUD not working", () => {
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
       message: "Ramassage added successfully",
-      ramassage: {
-        id: 6,
-        date: "2032-02-21",
-        fk_status: "accepté",
-        poids: 100,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
-      },
     });
 
     // create the same
@@ -765,3 +680,112 @@ describe("Ramassage CRUD not working", () => {
 });
 
 // TODO: test si la déchèterie principale est la même que celle du ramassage qu'on veut ajouter
+describe("Ramassage CRUD with different decheterie", () => {
+  test("Responsable", async () => {
+    const list = await request(app).post("/api/login").send(Responsable);
+    const cookie = list.headers["set-cookie"];
+
+    const list2 = await request(app).post("/api/login").send(Responsable2);
+    const cookie2 = list2.headers["set-cookie"];
+
+    // create a ramassage with in a different primary decheterie
+    const ramassage = await request(app)
+      .post("/api/ramassage")
+      .set("Cookie", cookie)
+      .send({
+        id: 6,
+        date: 1960995200000,
+        fk_status: "accepté",
+        poids: 100,
+        fk_contenant: 1,
+        fk_employee: "rlandry",
+        fk_decheterie: 6,
+        fk_vehicule: "VD 756 254",
+      });
+    expect(ramassage.statusCode).toEqual(500);
+    expect(ramassage.body).toEqual({
+      error: "Error adding ramassage",
+    });
+
+    // create a ramassage with in the same primary decheterie
+    const ramassage2 = await request(app)
+      .post("/api/ramassage")
+      .set("Cookie", cookie2)
+      .send({
+        id: 6,
+        date: 1960995200000,
+        fk_status: "accepté",
+        poids: 100,
+        fk_contenant: 1,
+        fk_employee: "rsmith2",
+        fk_decheterie: 6,
+        fk_vehicule: "VD 756 254",
+      });
+    expect(ramassage2.statusCode).toEqual(201);
+    expect(ramassage2.body).toEqual({
+      message: "Ramassage added successfully",
+    });
+
+    // get one
+    const ramassageGet = await request(app)
+      .get("/api/ramassage/6")
+      .set("Cookie", cookie);
+    expect(ramassageGet.statusCode).toEqual(500);
+    expect(ramassageGet.body).toEqual({
+      error: "Error getting ramassage",
+    });
+
+    // get all
+    const ramassageGetAll = await request(app)
+      .get("/api/ramassage")
+      .set("Cookie", cookie);
+    expect(ramassageGetAll.statusCode).toEqual(200);
+    expect(ramassageGetAll.body).toEqual({
+      ramassages: [],
+    });
+
+    // get all
+    const ramassageGetAll2 = await request(app)
+      .get("/api/ramassage")
+      .set("Cookie", cookie2);
+    expect(ramassageGetAll2.statusCode).toEqual(200);
+    expect(ramassageGetAll2.body).toEqual({
+      ramassages: [],
+    });
+
+    // update
+    const ramassageUpdate = await request(app)
+      .put("/api/ramassage/6")
+      .set("Cookie", cookie)
+      .send({
+        id: 6,
+        date: 1640995200000,
+        fk_status: "accepté",
+        poids: 150,
+        fk_contenant: 1,
+        fk_employee: "rsmith2",
+        fk_decheterie: 1,
+        fk_vehicule: "VD 756 254",
+      });
+    expect(ramassageUpdate.statusCode).toEqual(200);
+    expect(ramassageUpdate.body).toEqual({
+      message: "Ramassage updated successfully",
+    });
+
+    // delete
+    const ramassageDelete = await request(app)
+      .delete("/api/ramassage/6")
+      .set("Cookie", cookie);
+    expect(ramassageDelete.statusCode).toEqual(200);
+    expect(ramassageDelete.body).toEqual({
+      message: "Ramassage deleted successfully",
+    });
+    const ramassageDelete2 = await request(app)
+      .delete("/api/ramassage/10")
+      .set("Cookie", cookie);
+    expect(ramassageDelete2.statusCode).toEqual(200);
+    expect(ramassageDelete2.body).toEqual({
+      message: "Ramassage deleted successfully",
+    });
+  });
+});
