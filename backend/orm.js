@@ -452,6 +452,64 @@ const defineModels = (sequelize) => {
       schema: "gestion_decheterie",
     }
   );
+  models.EmployeDecheterie = sequelize.define(
+    "employe_decheterie",
+    {
+      id_ramassage: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+      },
+      date_ramassage: {
+        type: Sequelize.DATEONLY,
+      },
+      id_decheterie: {
+        type: Sequelize.INTEGER,
+      },
+      nom_decheterie: {
+        type: Sequelize.STRING(30),
+      },
+      status_ramassage: {
+        type: Sequelize.STRING(10),
+      },
+      id_employe: {
+        type: Sequelize.STRING(30),
+      },
+      nom_employe: {
+        type: Sequelize.STRING(30),
+      },
+      prenom_employe: {
+        type: Sequelize.STRING(30),
+      },
+      id_contenant: {
+        type: Sequelize.INTEGER,
+      },
+      nom_contenant: {
+        type: Sequelize.STRING(30),
+      },
+      poids: {
+        type: Sequelize.DOUBLE,
+      },
+      taille_contenant: {
+        type: Sequelize.STRING(10),
+      },
+      nbcadre_contenant: {
+        type: Sequelize.INTEGER,
+      },
+      type_vehicule: {
+        type: Sequelize.STRING(30),
+      },
+      immatriculation_vehicule: {
+        type: Sequelize.STRING(30),
+      },
+    },
+    {
+      tableName: "employe_decheterie",
+      timestamps: false,
+      schema: "gestion_decheterie",
+    }
+  );
+
+  return models;
 };
 
 export async function closeConnection() {
