@@ -46,3 +46,17 @@ const VehiculeKO = {
   delete: "Error deleting vehicule",
   get: "Error getting vehicule",
 };
+
+const LoginOK = {
+  login: "Login successful",
+  logout: "Logged out successfully",
+};
+
+const LoginKO = {
+  login: "Login failed",
+  logout: "Logout failed",
+};
+
+const Forbidden = {
+  message: "Forbidden",
+};

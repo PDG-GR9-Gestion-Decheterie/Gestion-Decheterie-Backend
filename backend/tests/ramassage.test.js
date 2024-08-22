@@ -12,7 +12,64 @@ import {
   Chauffeur2,
 } from "./credentials.test.js";
 
-import { RamassageOK, RamassageKO } from "./message.test.js";
+import { RamassageOK, RamassageKO, Forbidden } from "./message.test.js";
+
+describe("Ramassage not logged in", () => {
+  test("CRUD", async () => {
+    // create in futur
+    const ramassage = await request(app).post("/api/ramassages").send({
+      id: 6,
+      date: 1960995200000,
+      fk_status: "accepté",
+      poids: 100,
+      fk_contenant: 1,
+      fk_employee: "rsmith2",
+      fk_decheterie: 1,
+      fk_vehicule: "VD 756 254",
+    });
+    expect(ramassage.statusCode).toEqual(403);
+    expect(ramassage.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // get one
+    const ramassageGet = await request(app).get("/api/ramassages/6");
+    expect(ramassageGet.statusCode).toEqual(403);
+    expect(ramassageGet.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // get all
+    const ramassageGetAll = await request(app).get("/api/ramassages");
+    expect(ramassageGetAll.statusCode).toEqual(403);
+    expect(ramassageGetAll.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // update
+    const ramassageUpdate = await request(app).put("/api/ramassages/6").send({
+      id: 6,
+      date: 1640995200000,
+      fk_status: "accepté",
+      poids: 150,
+      fk_contenant: 1,
+      fk_employee: "rsmith2",
+      fk_decheterie: 1,
+      fk_vehicule: "VD 756 254",
+    });
+    expect(ramassageUpdate.statusCode).toEqual(403);
+    expect(ramassageUpdate.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // delete
+    const ramassageDelete = await request(app).delete("/api/ramassages/6");
+    expect(ramassageDelete.statusCode).toEqual(403);
+    expect(ramassageDelete.body).toEqual({
+      error: Forbidden.message,
+    });
+  });
+});
 
 describe("Ramassage CRUD", () => {
   test("Responsable", async () => {
@@ -758,7 +815,7 @@ describe("Ramassage CRUD with different decheterie", () => {
       });
     expect(ramassageUpdate.statusCode).toEqual(500);
     expect(ramassageUpdate.body).toEqual({
-      message: RamassageKO.update,
+      error: RamassageKO.update,
     });
 
     // delete
@@ -767,7 +824,7 @@ describe("Ramassage CRUD with different decheterie", () => {
       .set("Cookie", cookie);
     expect(ramassageDelete.statusCode).toEqual(500);
     expect(ramassageDelete.body).toEqual({
-      message: RamassageKO.delete,
+      error: RamassageKO.delete,
     });
     const ramassageDelete2 = await request(app)
       .delete("/api/ramassages/6")
@@ -800,7 +857,7 @@ describe("Ramassage test employe have licence", () => {
       });
     expect(ramassage.statusCode).toEqual(500);
     expect(ramassage.body).toEqual({
-      message: RamassageKO.add,
+      error: RamassageKO.add,
     });
 
     // create with employe who have wrong licence for truck
@@ -819,7 +876,7 @@ describe("Ramassage test employe have licence", () => {
       });
     expect(ramassage2.statusCode).toEqual(500);
     expect(ramassage2.body).toEqual({
-      message: RamassageKO.add,
+      error: RamassageKO.add,
     });
   });
 });
