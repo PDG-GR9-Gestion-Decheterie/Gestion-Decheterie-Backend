@@ -314,6 +314,24 @@ const defineModels = (sequelize) => {
       schema: "gestion_decheterie",
     }
   );
+  models.Superviseur = sequelize.define(
+    "superviseur",
+    {
+      fk_employee: {
+        type: Sequelize.STRING(30),
+        primaryKey: true,
+      },
+      fk_superviseur: {
+        type: Sequelize.STRING(30),
+        primaryKey: true,
+      },
+    },
+    {
+      tableName: "superviseur",
+      timestamps: false,
+      schema: "gestion_decheterie",
+    }
+  );
 };
 
 export async function closeConnection() {
