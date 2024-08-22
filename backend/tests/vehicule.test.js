@@ -241,7 +241,7 @@ describe("Vehicule CRUD", () => {
     const vehiculeGetAll = await request(app)
       .get("/api/vehicules")
       .set("Cookie", cookie);
-    expect(vehiculeGetAll.statusCode).toEqual(500);
+    expect(vehiculeGetAll.statusCode).toEqual(200);
     expect(vehiculeGetAll.body).toEqual({
       vehicules: [],
     });
@@ -339,7 +339,7 @@ describe("Vehicule CRUD", () => {
     const vehiculeGetAll = await request(app)
       .get("/api/vehicules")
       .set("Cookie", cookie);
-    expect(vehiculeGetAll.statusCode).toEqual(500);
+    expect(vehiculeGetAll.statusCode).toEqual(200);
     expect(vehiculeGetAll.body).toEqual({
       vehicules: [],
     });
@@ -470,6 +470,8 @@ describe("Vehicule CRUD on a diffrent decheterie", () => {
     expect(vehiculeDelete.body).toEqual({
       message: "Error deleting vehicule",
     });
+
+    // delete
     const vehiculeDelete2 = await request(app)
       .delete("/api/vehicules/VD999999")
       .set("Cookie", cookie2);

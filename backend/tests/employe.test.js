@@ -131,6 +131,9 @@ describe("Employe CRUD", () => {
     const list = await request(app).post("/api/login").send(Secretaire);
     const cookie = list.headers["set-cookie"];
 
+    const list2 = await request(app).post("/api/login").send(Responsable);
+    const cookie2 = list2.headers["set-cookie"];
+
     // create
     const employe = await request(app)
       .post("/api/employes")
@@ -149,9 +152,30 @@ describe("Employe CRUD", () => {
         fk_decheterie: 1,
       });
     expect(employe.statusCode).toEqual(500);
-    employe.body.employe.mdplogin = "";
     expect(employe.body).toEqual({
       error: "Error adding employe",
+    });
+
+    // create with Responsable
+    const employe2 = await request(app)
+      .post("/api/employes")
+      .set("Cookie", cookie)
+      .send({
+        idlogin: "tdoumas",
+        mdplogin: "123",
+        nom: "Doumas",
+        prenom: "Tristan",
+        datenaissance: "1990-01-01",
+        datedebutcontrat: "2022-01-01",
+        fk_fonction: "Chauffeur",
+        numtelephone: "1234567890",
+        typepermis: "C",
+        fk_adresse: 1,
+        fk_decheterie: 1,
+      });
+    expect(employe2.statusCode).toEqual(201);
+    expect(employe2.body).toEqual({
+      message: "Employe added successfully",
     });
 
     // get one
@@ -167,7 +191,7 @@ describe("Employe CRUD", () => {
     const employeGetAll = await request(app)
       .get("/api/employes")
       .set("Cookie", cookie);
-    expect(employeGetAll.statusCode).toEqual(500);
+    expect(employeGetAll.statusCode).toEqual(200);
     expect(employeGetAll.body).toEqual({
       employes: [],
     });
@@ -201,6 +225,15 @@ describe("Employe CRUD", () => {
     expect(employeDelete.statusCode).toEqual(500);
     expect(employeDelete.body).toEqual({
       error: "Error deleting employe",
+    });
+
+    // delete with Responsable
+    const employeDelete2 = await request(app)
+      .delete("/api/employes/tdoumas")
+      .set("Cookie", cookie2);
+    expect(employeDelete2.statusCode).toEqual(200);
+    expect(employeDelete2.body).toEqual({
+      message: "Employe deleted successfully",
     });
   });
 
@@ -208,6 +241,9 @@ describe("Employe CRUD", () => {
     const list = await request(app).post("/api/login").send(Employe);
     const cookie = list.headers["set-cookie"];
 
+    const list2 = await request(app).post("/api/login").send(Responsable);
+    const cookie2 = list2.headers["set-cookie"];
+
     // create
     const employe = await request(app)
       .post("/api/employes")
@@ -229,6 +265,28 @@ describe("Employe CRUD", () => {
     employe.body.employe.mdplogin = "";
     expect(employe.body).toEqual({
       error: "Error adding employe",
+    });
+
+    // create with Responsable
+    const employe2 = await request(app)
+      .post("/api/employes")
+      .set("Cookie", cookie)
+      .send({
+        idlogin: "tdoumas",
+        mdplogin: "123",
+        nom: "Doumas",
+        prenom: "Tristan",
+        datenaissance: "1990-01-01",
+        datedebutcontrat: "2022-01-01",
+        fk_fonction: "Chauffeur",
+        numtelephone: "1234567890",
+        typepermis: "C",
+        fk_adresse: 1,
+        fk_decheterie: 1,
+      });
+    expect(employe2.statusCode).toEqual(201);
+    expect(employe2.body).toEqual({
+      message: "Employe added successfully",
     });
 
     // get one
@@ -278,6 +336,15 @@ describe("Employe CRUD", () => {
     expect(employeDelete.statusCode).toEqual(500);
     expect(employeDelete.body).toEqual({
       error: "Error deleting employe",
+    });
+
+    // delete with Responsable
+    const employeDelete2 = await request(app)
+      .delete("/api/employes/tdoumas")
+      .set("Cookie", cookie2);
+    expect(employeDelete2.statusCode).toEqual(200);
+    expect(employeDelete2.body).toEqual({
+      message: "Employe deleted successfully",
     });
   });
 
@@ -285,6 +352,9 @@ describe("Employe CRUD", () => {
     const list = await request(app).post("/api/login").send(Chauffeur);
     const cookie = list.headers["set-cookie"];
 
+    const list2 = await request(app).post("/api/login").send(Responsable);
+    const cookie2 = list2.headers["set-cookie"];
+
     // create
     const employe = await request(app)
       .post("/api/employes")
@@ -306,6 +376,28 @@ describe("Employe CRUD", () => {
     employe.body.employe.mdplogin = "";
     expect(employe.body).toEqual({
       error: "Error adding employe",
+    });
+
+    // create with Responsable
+    const employe2 = await request(app)
+      .post("/api/employes")
+      .set("Cookie", cookie)
+      .send({
+        idlogin: "tdoumas",
+        mdplogin: "123",
+        nom: "Doumas",
+        prenom: "Tristan",
+        datenaissance: "1990-01-01",
+        datedebutcontrat: "2022-01-01",
+        fk_fonction: "Chauffeur",
+        numtelephone: "1234567890",
+        typepermis: "C",
+        fk_adresse: 1,
+        fk_decheterie: 1,
+      });
+    expect(employe2.statusCode).toEqual(201);
+    expect(employe2.body).toEqual({
+      message: "Employe added successfully",
     });
 
     // get one
@@ -355,6 +447,15 @@ describe("Employe CRUD", () => {
     expect(employeDelete.statusCode).toEqual(500);
     expect(employeDelete.body).toEqual({
       error: "Error deleting employe",
+    });
+
+    // delete with Responsable
+    const employeDelete2 = await request(app)
+      .delete("/api/employes/tdoumas")
+      .set("Cookie", cookie2);
+    expect(employeDelete2.statusCode).toEqual(200);
+    expect(employeDelete2.body).toEqual({
+      message: "Employe deleted successfully",
     });
   });
 });
@@ -413,7 +514,7 @@ describe("Employe CRUD with different decheterie", () => {
 
     // get one
     const employeGet = await request(app)
-      .get("/api/employes/6")
+      .get("/api/employes/tdoumas")
       .set("Cookie", cookie);
     expect(employeGet.statusCode).toEqual(500);
     expect(employeGet.body).toEqual({
@@ -453,7 +554,7 @@ describe("Employe CRUD with different decheterie", () => {
 
     // update
     const employeUpdate = await request(app)
-      .put("/api/employes/6")
+      .put("/api/employes/tdoumas")
       .set("Cookie", cookie)
       .send({
         idlogin: "tdoumas",
@@ -475,14 +576,14 @@ describe("Employe CRUD with different decheterie", () => {
 
     // delete
     const employeDelete = await request(app)
-      .delete("/api/employes/6")
+      .delete("/api/employes/tdoumas")
       .set("Cookie", cookie);
     expect(employeDelete.statusCode).toEqual(500);
     expect(employeDelete.body).toEqual({
       message: "Error deleting employe",
     });
     const employeDelete2 = await request(app)
-      .delete("/api/employes/6")
+      .delete("/api/employes/tdoumas")
       .set("Cookie", cookie2);
     expect(employeDelete2.statusCode).toEqual(200);
     expect(employeDelete2.body).toEqual({

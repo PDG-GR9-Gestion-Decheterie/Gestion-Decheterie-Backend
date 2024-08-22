@@ -5,45 +5,12 @@ import request from "supertest";
 const Responsable = { username: "jdoe", password: "123" }; // déchèterie 1
 const Secretaire = { username: "jferrara", password: "123" }; // déchèterie 1
 const Employe = { username: "asmith", password: "123" }; // déchèterie 1
-const Chauffeur = { username: "rsmith2", password: "123" }; // déchèterie 1
+const Chauffeur = { username: "rsmith2", password: "123" }; // déchèterie 1 licence C
 
 const Responsable2 = { username: "jdurand", password: "123" }; // déchèterie 5
 const Secretaire2 = { username: "jdoe3", password: "123" }; // déchèterie 5
 const Employe2 = { username: "rlandry", password: "123" }; // déchèterie 6
 const Chauffeur2 = { username: "lchevalier", password: "123" }; // déchèterie 5
-
-describe("The API default route", () => {
-  test("should receive Hello world!", async () => {
-    const list = await request(app).get("/api");
-    expect(list.statusCode).toEqual(200);
-    expect(list.text).toEqual("API Gestion Déchèterie");
-  });
-});
-
-describe("Login/Logout", () => {
-  test("should login", async () => {
-    const list = await request(app).post("/api/login").send(Responsable);
-    expect(list.statusCode).toEqual(200);
-    expect(list.body).toEqual({
-      idlogin: responsable.username,
-      fonction: "Responsable",
-    });
-  });
-
-  test("should not login", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send({ username: "admin", password: "admin1" });
-    expect(list.statusCode).toEqual(401);
-    expect(list.body).toEqual({ message: "Login failed." });
-  });
-
-  test("should logout", async () => {
-    const list = await request(app).get("/api/logout");
-    expect(list.statusCode).toEqual(200);
-    expect(list.text).toEqual({ message: "Logged out successfully." });
-  });
-});
 
 describe("Ramassage CRUD", () => {
   test("Responsable", async () => {
@@ -177,6 +144,7 @@ describe("Ramassage CRUD", () => {
     expect(ramassageDelete.body).toEqual({
       message: "Ramassage deleted successfully",
     });
+
     const ramassageDelete2 = await request(app)
       .delete("/api/ramassages/10")
       .set("Cookie", cookie);
@@ -317,6 +285,7 @@ describe("Ramassage CRUD", () => {
     expect(ramassageDelete.body).toEqual({
       message: "Ramassage deleted successfully",
     });
+
     const ramassageDelete2 = await request(app)
       .delete("/api/ramassages/10")
       .set("Cookie", cookie);
@@ -597,6 +566,7 @@ describe("Ramassage CRUD", () => {
   });
 });
 
+// TODO check if necessary
 describe("Ramassage CRUD not working", () => {
   test("Responsable not working", async () => {
     const list = await request(app).post("/api/login").send(Responsable);
@@ -679,7 +649,6 @@ describe("Ramassage CRUD not working", () => {
   });
 });
 
-// TODO: test si la déchèterie principale est la même que celle du ramassage qu'on veut ajouter
 describe("Ramassage CRUD with different decheterie", () => {
   test("Responsable", async () => {
     const list = await request(app).post("/api/login").send(Responsable);
@@ -804,6 +773,51 @@ describe("Ramassage CRUD with different decheterie", () => {
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
       message: "Ramassage deleted successfully",
+    });
+  });
+});
+
+describe("Ramassage test employe have licence", () => {
+  test("Responsable", async () => {
+    const list = await request(app).post("/api/login").send(Responsable);
+    const cookie = list.headers["set-cookie"];
+
+    // create with employe who have no licence
+    const ramassage = await request(app)
+      .post("/api/ramassages")
+      .set("Cookie", cookie)
+      .send({
+        id: 6,
+        date: 1960995200000,
+        fk_status: "accepté",
+        poids: 100,
+        fk_contenant: 1,
+        fk_employee: "jdoe",
+        fk_decheterie: 1,
+        fk_vehicule: "VD 756 254",
+      });
+    expect(ramassage.statusCode).toEqual(500);
+    expect(ramassage.body).toEqual({
+      message: "Error adding ramassage",
+    });
+
+    // create with employe who have wrong licence for truck
+    const ramassage2 = await request(app)
+      .post("/api/ramassages")
+      .set("Cookie", cookie)
+      .send({
+        id: 6,
+        date: 1960995200000,
+        fk_status: "accepté",
+        poids: 100,
+        fk_contenant: 1,
+        fk_employee: "rfournier",
+        fk_decheterie: 1,
+        fk_vehicule: "VD 756 254",
+      });
+    expect(ramassage2.statusCode).toEqual(500);
+    expect(ramassage2.body).toEqual({
+      message: "Error adding ramassage",
     });
   });
 });
