@@ -24,10 +24,69 @@ export async function initializeDB() {
     console.log("Connection has been established successfully.");
 
     models = defineModels(sequelize);
-
     await sequelize.sync({ schema: "gestion_decheterie" });
     console.log("Models have been synchronized successfully.");
   } catch (error) {
     console.error("An error occurred:", error);
   }
+}
+
+const defineModels = (sequelize) => {
+  const models = {};
+
+  models.Employe = sequelize.define(
+    "employe",
+    {
+      idlogin: {
+        type: Sequelize.STRING(30),
+        primaryKey: true,
+      },
+      mdplogin: {
+        type: Sequelize.STRING(60),
+        allowNull: false,
+      },
+      nom: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
+      },
+      prenom: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
+      },
+      datenaissance: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
+      datedebutcontrat: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
+      numtelephone: {
+        type: Sequelize.STRING(30),
+      },
+      typepermis: {
+        type: Sequelize.STRING(30),
+      },
+      fk_adresse: {
+        type: Sequelize.INTEGER,
+      },
+      fk_decheterie: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      fk_fonction: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
+      },
+    },
+    {
+      tableName: "employe",
+      timestamps: false,
+      schema: "gestion_decheterie",
+    }
+  );
+};
+
+export async function closeConnection() {
+  sequelize.close();
 }
