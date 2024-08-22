@@ -355,6 +355,47 @@ const defineModels = (sequelize) => {
       schema: "gestion_decheterie",
     }
   );
+  models.SecretaireDecheterieEmploye = sequelize.define(
+    "secretaire_decheterie_employe",
+    {
+      id_decheterie: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+      },
+      nom_decheterie: {
+        type: Sequelize.STRING(30),
+      },
+      id_employe: {
+        type: Sequelize.STRING(30),
+      },
+      nom_employe: {
+        type: Sequelize.STRING(30),
+      },
+      prenom_employe: {
+        type: Sequelize.STRING(30),
+      },
+      fonction_employe: {
+        type: Sequelize.STRING(30),
+      },
+      date_naissance: {
+        type: Sequelize.DATEONLY,
+      },
+      date_debut_contrat: {
+        type: Sequelize.DATEONLY,
+      },
+      numero_telephone: {
+        type: Sequelize.STRING(30),
+      },
+      type_permis: {
+        type: Sequelize.STRING(10),
+      },
+    },
+    {
+      tableName: "secretaire_decheterie_employe",
+      timestamps: false,
+      schema: "gestion_decheterie",
+    }
+  );
 };
 
 export async function closeConnection() {
