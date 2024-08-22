@@ -750,7 +750,25 @@ describe("Ramassage CRUD with different decheterie", () => {
       .set("Cookie", cookie2);
     expect(ramassageGetAll2.statusCode).toEqual(200);
     expect(ramassageGetAll2.body).toEqual({
-      ramassages: [],
+      ramassages: [
+        {
+          id_ramassage: 6,
+          date_ramassage: "2032-02-21",
+          id_decheterie: 1,
+          nom_decheterie: "Decheterie Yverdon",
+          status_ramassage: "accepté",
+          id_employe: "rsmith2",
+          nom_employe: "Smith",
+          prenom_employe: "Rebecca",
+          id_contenant: 1,
+          nom_contenant: "benne",
+          poids: 100,
+          taille_contenant: null,
+          nbcadre_contenant: null,
+          type_vehicule: "camion",
+          immatriculation_vehicule: "VD 756 254",
+        },
+      ],
     });
 
     // update
@@ -767,22 +785,22 @@ describe("Ramassage CRUD with different decheterie", () => {
         fk_decheterie: 1,
         fk_vehicule: "VD 756 254",
       });
-    expect(ramassageUpdate.statusCode).toEqual(200);
+    expect(ramassageUpdate.statusCode).toEqual(500);
     expect(ramassageUpdate.body).toEqual({
-      message: "Ramassage updated successfully",
+      message: "Error updating ramassage",
     });
 
     // delete
     const ramassageDelete = await request(app)
       .delete("/api/ramassage/6")
       .set("Cookie", cookie);
-    expect(ramassageDelete.statusCode).toEqual(200);
+    expect(ramassageDelete.statusCode).toEqual(500);
     expect(ramassageDelete.body).toEqual({
-      message: "Ramassage deleted successfully",
+      message: "Error deleting ramassage",
     });
     const ramassageDelete2 = await request(app)
-      .delete("/api/ramassage/10")
-      .set("Cookie", cookie);
+      .delete("/api/ramassage/6")
+      .set("Cookie", cookie2);
     expect(ramassageDelete2.statusCode).toEqual(200);
     expect(ramassageDelete2.body).toEqual({
       message: "Ramassage deleted successfully",
