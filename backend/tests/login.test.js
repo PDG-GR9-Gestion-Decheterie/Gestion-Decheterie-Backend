@@ -13,7 +13,7 @@ import {
   Chauffeur2,
 } from "./credentials.test.js";
 
-import { LoginOK, LoginKO } from "./messages.test.js";
+import { LoginOK, LoginKO } from "./message.test.js";
 
 describe("The API default route", () => {
   test("should receive Hello world!", async () => {
