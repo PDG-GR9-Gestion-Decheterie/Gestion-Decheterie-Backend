@@ -95,6 +95,23 @@ app.post("/api/login", loginLimiter, (req, res, next) => {
     res.status(500).json({ message: "Login failed." });
   }
 });
+
+// Logout endpoint
+app.post("/api/logout", (req, res) => {
+  req.logout(function (err) {
+    if (err) {
+      res.status(500).send({ message: "Logged out failed." });
+    }
+    // Destroy the session data
+    req.session.destroy(() => {
+      // Clear the cookie associated with the session
+      res.clearCookie("connect.sid", { path: "/" });
+      res.status(200).send({ message: "Logged out successfully." }); // Confirmation message
+    });
+  });
+});
+
+
 //-------------------------------------------------------------------//
 //-------------------------- API Endpoints --------------------------//
 //-------------------------------------------------------------------//
