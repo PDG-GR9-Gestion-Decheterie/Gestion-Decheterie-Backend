@@ -296,6 +296,24 @@ const defineModels = (sequelize) => {
       schema: "gestion_decheterie",
     }
   );
+  models.Principale = sequelize.define(
+    "principale",
+    {
+      fk_principale: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+      },
+      fk_decheterie: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+      },
+    },
+    {
+      tableName: "principale",
+      timestamps: false,
+      schema: "gestion_decheterie",
+    }
+  );
 };
 
 export async function closeConnection() {
