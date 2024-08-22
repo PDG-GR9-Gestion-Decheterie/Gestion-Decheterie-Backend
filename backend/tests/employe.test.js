@@ -59,7 +59,7 @@ describe("Employe CRUD", () => {
       .set("Cookie", cookie);
     expect(employeGet.statusCode).toEqual(200);
     expect(employeGet.body).toEqual({
-      employeData: {
+      employes: {
         idlogin: "tdoumas",
         nom: "Doumas",
         prenom: "Tristan",
@@ -169,7 +169,7 @@ describe("Employe CRUD", () => {
       .set("Cookie", cookie);
     expect(employeGetAll.statusCode).toEqual(500);
     expect(employeGetAll.body).toEqual({
-      error: "Error getting employe",
+      employes: [],
     });
 
     // update
@@ -246,7 +246,7 @@ describe("Employe CRUD", () => {
       .set("Cookie", cookie);
     expect(employeGetAll.statusCode).toEqual(500);
     expect(employeGetAll.body).toEqual({
-      error: "Error getting employe",
+      employes: [],
     });
 
     // update
@@ -323,7 +323,7 @@ describe("Employe CRUD", () => {
       .set("Cookie", cookie);
     expect(employeGetAll.statusCode).toEqual(500);
     expect(employeGetAll.body).toEqual({
-      error: "Error getting employe",
+      employes: [],
     });
 
     // update
