@@ -1,5 +1,11 @@
 import express from "express";
-
+import {
+  getEmployees,
+  getEmployeeById,
+  deleteEmployee,
+  updateEmployee,
+  createEmployee,
+} from "./controller/employeeController.js";
 const app = express();
 
 // Log all requests to console
@@ -20,10 +26,10 @@ app.get("/api/favicon.ico", (req, res) => res.status(204));
 
 //-------------------------------------------------------------------//
 // ---------------------- Endpoints Employes ----------------------- //
-app.get("/api/employes", ensureAuthenticated, getEmployees);
-app.get("/api/employes/:id", ensureAuthenticated, getEmployeeById);
-app.put("/api/employes/:id", ensureAuthenticated, updateEmployee);
-app.delete("/api/employes/:id", ensureAuthenticated, deleteEmployee);
-app.post("/api/employes", ensureAuthenticated, createEmployee);
+app.get("/api/employes", getEmployees);
+app.get("/api/employes/:id", getEmployeeById);
+app.put("/api/employes/:id", updateEmployee);
+app.delete("/api/employes/:id", deleteEmployee);
+app.post("/api/employes", createEmployee);
 
 export default app;

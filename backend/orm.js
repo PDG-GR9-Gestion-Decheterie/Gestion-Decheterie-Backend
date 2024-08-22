@@ -1,5 +1,4 @@
 import { Sequelize } from "sequelize";
-
 let sequelize;
 export let models;
 

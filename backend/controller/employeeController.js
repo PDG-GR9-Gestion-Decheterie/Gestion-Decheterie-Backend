@@ -1,10 +1,10 @@
-import { models } from "../orm";
+import { models } from "../orm.js";
 
 // Get tous les employes - /employes
 export async function getEmployees(req, res) {
   try {
     let employes = null;
-    employes = await models.SecretaireDecheterieEmploye.findAll();
+    employes = await models.Employe.findAll();
     if (employes === null) {
       throw new Error();
     }
