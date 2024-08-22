@@ -214,6 +214,20 @@ const defineModels = (sequelize) => {
       schema: "gestion_decheterie",
     }
   );
+  models.Dechet = sequelize.define(
+    "dechet",
+    {
+      type: {
+        type: Sequelize.STRING(30),
+        primaryKey: true,
+      },
+    },
+    {
+      tableName: "dechet",
+      timestamps: false,
+      schema: "gestion_decheterie",
+    }
+  );
 };
 
 export async function closeConnection() {
