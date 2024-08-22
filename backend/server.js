@@ -1,4 +1,5 @@
 import express from "express";
+import { corsOptions } from "cors";
 import {
   getEmployees,
   getEmployeeById,
@@ -7,6 +8,8 @@ import {
   createEmployee,
 } from "./controller/employeeController.js";
 const app = express();
+
+app.use(corsOption);
 
 // Log all requests to console
 app.use("/api", (req, res, next) => {
