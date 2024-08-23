@@ -4,6 +4,7 @@ import request from "supertest";
 
 import {
   Responsable,
+  ResponsableWrong,
   Secretaire,
   Employe,
   Chauffeur,
@@ -38,7 +39,7 @@ describe("Login/Logout", () => {
   test("should not login", async () => {
     const list = await request(app)
       .post("/api/login")
-      .send({ username: "admin", password: "admin1" });
+      .send(JSON.stringify(ResponsableWrong));
     expect(list.statusCode).toEqual(401);
     expect(list.body).toEqual({ error: LoginKO.login });
   });

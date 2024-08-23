@@ -1,4 +1,5 @@
 const Responsable = { username: "admin", password: "jesuisicietpasla" }; // déchèterie 1
+const ResponsableWrong = { username: "admin", password: "123" };
 const Secretaire = { username: "jferrara", password: "123" }; // déchèterie 1
 const Employe = { username: "asmith", password: "123" }; // déchèterie 1
 const Chauffeur = { username: "rsmith2", password: "123" }; // déchèterie 1
