@@ -1,0 +1,23 @@
+meta {
+  name: VehiculeCreate
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://localhost/api/vehicules
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "immatriculation": "VD999999",
+    "type": "camion",
+    "remorque": false,
+    "anneefabrication": "2010",
+    "dateexpertise": "2022-01-01",
+    "consocarburant": 10.5,
+    "fk_decheterie": 1
+  }
+}

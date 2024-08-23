@@ -1,0 +1,18 @@
+meta {
+  name: Login - Employe
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://localhost/api/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username":"asmith",
+    "password":"123"
+  }
+}
