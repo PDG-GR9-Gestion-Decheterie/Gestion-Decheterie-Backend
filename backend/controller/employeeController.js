@@ -7,6 +7,8 @@ async function test() {
   console.log(empl);
 }
 
+test();
+
 // Get tous les employes - /employes
 export async function getEmployees(req, res) {
   try {
