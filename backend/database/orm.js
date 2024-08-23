@@ -1,5 +1,7 @@
 import { Sequelize } from "sequelize";
-let sequelize;
+import { CreateView } from "./vueSQL.js";
+
+export let sequelize;
 export let models;
 
 export async function initializeDB() {
@@ -24,6 +26,8 @@ export async function initializeDB() {
 
     await sequelize.sync({ schema: "gestion_decheterie" });
     console.log("Models have been synchronized successfully.");
+
+    await CreateView();
   } catch (error) {
     console.error("An error occurred:", error);
   }

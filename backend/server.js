@@ -125,5 +125,6 @@ app.get("/api/employes/:id", getEmployeeById);
 app.put("/api/employes/:id", updateEmployee);
 app.delete("/api/employes/:id", deleteEmployee);
 app.post("/api/employes", createEmployee);
+app.get("/api/employes/profil", getEmployees);
 
 export default app;

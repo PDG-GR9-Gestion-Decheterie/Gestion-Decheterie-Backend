@@ -1,4 +1,4 @@
-import { sequelize } from "sequelize";
+import { sequelize } from "./orm.js";
 
 export const CreateView = async () => {
   createDecheteriePrincipaleView()
@@ -24,6 +24,7 @@ export const CreateView = async () => {
     .then(() => console.log("View profil_employe created successfully"))
     .catch((err) => console.error("Error creating view profil_employe:", err));
 };
+
 const createDecheteriePrincipaleView = async () => {
   await sequelize.query(`
     CREATE OR REPLACE VIEW decheterie_principale AS
