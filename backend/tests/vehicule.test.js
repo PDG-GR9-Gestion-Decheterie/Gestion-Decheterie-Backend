@@ -11,7 +11,7 @@ import {
   Secretaire2,
   Employe2,
   Chauffeur2,
-} from "./credentials.test.js";
+} from "./credentials.js";
 
 import { VehiculeOK, VehiculeKO, Forbidden } from "./message.test.js";
 
