@@ -26,8 +26,6 @@ jobs:
         ports:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
-        volumes:
-          - ./db:/docker-entrypoint-initdb.d
 
     steps:
       - uses: actions/checkout@v4
@@ -64,7 +62,7 @@ jobs:
 
       - name: Initialize Database
         run: |
-          psql -h localhost -U bdr -d bdr -f sql-repo/path/to/your-script.sql
+          psql -h localhost -U bdr -d bdr -f ./db/GestionDecheterie.sql
         env:
           PGPASSWORD: bdr
 
