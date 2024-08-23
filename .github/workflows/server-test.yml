@@ -57,13 +57,3 @@ jobs:
 
       - run: npm test
         working-directory: ./backend
-
-      - name: Drop the database after tests
-        run: |
-          PGPASSWORD=$POSTGRESQL_PASSWORD psql -U $POSTGRESQL_USERNAME -h localhost -c "DROP DATABASE IF EXISTS $POSTGRESQL_DATABASE;"
-        env:
-          POSTGRESQL_USERNAME: bdr
-          POSTGRESQL_PASSWORD: bdr
-
-      - name: Clean up database volume
-        run: rm -rf ./db
