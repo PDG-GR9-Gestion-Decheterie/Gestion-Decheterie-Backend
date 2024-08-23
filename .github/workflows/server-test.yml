@@ -22,8 +22,6 @@ jobs:
         options: >-
           --health-cmd="pg_isready -U postgres" --health-interval=10s
           --health-timeout=5s --health-retries=10
-        volumes:
-          - ./db:/docker-entrypoint-initdb.d
         ports:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
@@ -53,6 +51,19 @@ jobs:
 
       - run: npm run build --if-present
         working-directory: ./backend
+
+      - name: Wait for Postgres to be ready
+        run: |
+          while ! pg_isready -h localhost -p 5432 -U bdr; do
+            echo "Waiting for postgres..."
+            sleep 2
+          done
+
+      - name: Initialize Database
+        run: |
+          psql -h localhost -U bdr -d bdr -f ./db/GestionDecheterie.sql
+        env:
+          PGPASSWORD: bdr
 
       - name: List tables
         run: |
