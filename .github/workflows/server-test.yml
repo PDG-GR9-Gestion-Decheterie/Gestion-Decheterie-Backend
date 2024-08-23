@@ -77,5 +77,8 @@ jobs:
         env:
           PGPASSWORD: bdr
 
+      - name: Capture backend logs
+        run: docker logs release-backend-1
+
       - run: npm test
         working-directory: ./backend
