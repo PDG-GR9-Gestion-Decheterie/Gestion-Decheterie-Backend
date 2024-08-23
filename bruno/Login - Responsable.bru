@@ -1,0 +1,18 @@
+meta {
+  name: Login - Responsable
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://localhost/api/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username":"jdoe",
+    "password":"123"
+  }
+}
