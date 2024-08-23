@@ -1,5 +1,5 @@
 import app from "./server.js";
-import { initializeDB } from "./orm.js";
+import { initializeDB } from "./database/orm.js";
 
 console.log("Starting server...");
 await initializeDB();
