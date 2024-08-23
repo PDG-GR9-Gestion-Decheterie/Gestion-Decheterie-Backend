@@ -1,4 +1,5 @@
 import { models } from "../database/orm.js";
+import bcrypt from "bcrypt";
 
 async function test() {
   console.log("Test db ok");
