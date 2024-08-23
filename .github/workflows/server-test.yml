@@ -55,14 +55,5 @@ jobs:
       - run: npm run build --if-present
         working-directory: ./backend
 
-      - name: Display the contents of the database
-        run: |
-          echo "Displaying contents of the 'bdr' database:"
-          PGPASSWORD=$POSTGRESQL_PASSWORD psql -U $POSTGRESQL_USERNAME -h localhost -d $POSTGRESQL_DATABASE -c "\dt"  # List tables
-          PGPASSWORD=$POSTGRESQL_PASSWORD psql -U $POSTGRESQL_USERNAME -h localhost -d $POSTGRESQL_DATABASE -c "SELECT * FROM gestion_decheterie;"  # Replace <your_table_name> with the actual table name
-        env:
-          POSTGRESQL_USERNAME: bdr
-          POSTGRESQL_PASSWORD: bdr
-
       - run: npm test
         working-directory: ./backend
