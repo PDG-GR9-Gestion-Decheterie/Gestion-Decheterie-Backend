@@ -54,35 +54,17 @@ jobs:
       - run: npm run build --if-present
         working-directory: ./backend
 
-      - name: Wait for Postgres to be ready
-        run: |
-          while ! pg_isready -h localhost -p 5432 -U bdr; do
-            echo "Waiting for postgres..."
-            sleep 2
-          done
-
-      - name: Initialize Database
-        run: |
-          psql -h localhost -U bdr -d bdr -f ./db/GestionDecheterie.sql
-        env:
-          PGPASSWORD: bdr
-
       - name: List tables
         run: |
           psql -h localhost -U bdr -d bdr -c "\dt gestion_decheterie.*"
         env:
           PGPASSWORD: bdr
+
       - name: List content of the employe table
         run: |
           psql -h localhost -U bdr -d bdr -c "SELECT * FROM gestion_decheterie.employe;"
         env:
           PGPASSWORD: bdr
-
-      - name: Display SQL file contents
-        run: cat ./db/GestionDecheterie.sql
-
-      - name: Check Postgres logs
-        run: docker logs postgres
 
       - run: npm test
         working-directory: ./backend
