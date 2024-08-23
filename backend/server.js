@@ -31,9 +31,6 @@ app.use(sessionOptions);
 app.use(passport.initialize());
 app.use(passport.session());
 
-console.log("Test db ok");
-console.log(models.Employe.findAll());
-
 // Log all requests to console
 app.use("/api", (req, res, next) => {
   console.log("Request for " + req.originalUrl);
@@ -145,5 +142,8 @@ app.get("/api/ramassages/:id", getRamassageById);
 app.put("/api/ramassages/:id", updateRamassage);
 app.delete("/api/ramassages/:id", deleteRamassage);
 app.post("/api/ramassages", createRamassage);
+
+console.log("Test db ok");
+console.log(models.Employe.findAll());
 
 export default app;
