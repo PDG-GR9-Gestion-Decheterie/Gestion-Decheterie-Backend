@@ -11,6 +11,7 @@ import {
   deleteEmployee,
   updateEmployee,
   createEmployee,
+  getEmployeeProfile,
 } from "./controller/employeeController.js";
 const app = express();
 
@@ -133,7 +134,7 @@ app.get("/api/employes/:id", getEmployeeById);
 app.put("/api/employes/:id", updateEmployee);
 app.delete("/api/employes/:id", deleteEmployee);
 app.post("/api/employes", createEmployee);
-app.get("/api/employes/profil", getEmployees);
+app.get("/api/profile", getEmployeeProfile);
 
 app.get("/api/ramassages", getRamassages);
 app.get("/api/ramassages/:id", getRamassageById);

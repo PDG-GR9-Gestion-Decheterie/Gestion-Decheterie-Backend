@@ -4,16 +4,47 @@ import { models } from "../database/orm.js";
 export async function getEmployees(req, res) {
   try {
     let employes = null;
-    employes = await models.SecretaireDecheterieEmploye.findAll();
+    let employesData = [];
+    employes = await models.Employe.findAll();
     if (employes === null) {
       throw new Error();
     }
-    res.status(200).json({ employes });
+    for (let employe of employes) {
+      let decheterie = await models.Decheterie.findByPk(
+        employe.dataValues.fk_decheterie
+      );
+      let adresse = await models.Adresse.findByPk(
+        employe.dataValues.fk_adresse
+      );
+      let employeData = { ...employe.dataValues };
+      if (decheterie) {
+        employeData = {
+          ...employeData,
+          ...flattenObject(decheterie.dataValues, "decheterie_"),
+        };
+      }
+      if (adresse) {
+        employeData = {
+          ...employeData,
+          ...flattenObject(adresse.dataValues, "adresse_"),
+        };
+      }
+
+      delete employeData.mdplogin;
+      delete employeData.fk_adresse;
+      delete employeData.fk_decheterie;
+      delete employeData.decheterie_id;
+      delete employeData.decheterie_fk_adresse;
+      delete employeData.adresse_id;
+      employesData.push(employeData);
+    }
+    res.status(200).json(employesData);
   } catch (err) {
     console.error("Error fetching employes:", err);
     res.status(404).json({ error: "Error" });
   }
 }
+
 // Get un employe par id - /employes/:id
 export async function getEmployeeById(req, res) {
   try {
@@ -97,17 +128,58 @@ export async function deleteEmployee(req, res) {
 export async function getEmployeeProfile(req, res) {
   try {
     let employe = null;
-    if (req.user.idlogin === req.params.id) {
-      employe = await models.ProfilEmploye.findByPk(req.params.id).dataValues;
-    }
+    employe = await models.Employe.findByPk(req.user.idlogin);
 
     if (employe === null) {
       throw new Error();
     }
 
+    let decheterie = await models.Decheterie.findByPk(
+      employe.dataValues.fk_decheterie
+    );
+
+    let adresse = await models.Adresse.findByPk(employe.dataValues.fk_adresse);
+    let employeData = { ...employe.dataValues };
+    if (decheterie) {
+      employeData = {
+        ...employeData,
+        ...flattenObject(decheterie.dataValues, "decheterie_"),
+      };
+    }
+    if (adresse) {
+      employeData = {
+        ...employeData,
+        ...flattenObject(adresse.dataValues, "adresse_"),
+      };
+    }
+
+    delete employeData.mdplogin;
+    delete employeData.fk_adresse;
+    delete employeData.fk_decheterie;
+    delete employeData.decheterie_id;
+    delete employeData.decheterie_fk_adresse;
+    delete employeData.adresse_id;
     res.status(200).json({ employe });
   } catch (err) {
     console.error("Error fetching employe:", err);
     res.status(404).json({ error: "Error" });
   }
+}
+
+function flattenObject(obj, prefix = "") {
+  const flattened = {};
+
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      if (typeof obj[key] === "object" && obj[key] !== null) {
+        // Récursivité pour aplatir les objets imbriqués
+        Object.assign(flattened, flattenObject(obj[key], `${prefix}${key}_`));
+      } else {
+        // Ajoute la propriété avec le préfixe
+        flattened[`${prefix}${key}`] = obj[key];
+      }
+    }
+  }
+
+  return flattened;
 }
