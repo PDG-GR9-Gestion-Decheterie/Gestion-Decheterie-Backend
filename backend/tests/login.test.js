@@ -11,9 +11,9 @@ import {
   Secretaire2,
   Employe2,
   Chauffeur2,
-} from "./credentials.test.js";
+} from "./credentials.js";
 
-import { LoginOK, LoginKO } from "./message.test.js";
+import { LoginOK, LoginKO } from "./message.js";
 
 describe("The API default route", () => {
   test("should receive Hello world!", async () => {
