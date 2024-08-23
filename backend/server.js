@@ -31,6 +31,7 @@ app.use(sessionOptions);
 app.use(passport.initialize());
 app.use(passport.session());
 
+import { models } from "../database/orm.js";
 console.log("Test db ok");
 console.log(models.Employe.findAll());
 
