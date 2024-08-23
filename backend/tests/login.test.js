@@ -43,6 +43,8 @@ describe("Login/Logout", () => {
 
   test("should logout", async () => {
     const list = await request(app).post("/api/logout");
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    console.log(LoginOK.logout);
     expect(list.statusCode).toEqual(200);
     expect(list.body).toEqual({ message: LoginOK.logout });
   });
