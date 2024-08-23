@@ -60,3 +60,17 @@ const LoginKO = {
 const Forbidden = {
   message: "Forbidden",
 };
+
+export {
+  RamassageOK,
+  RamassageKO,
+  EmployeOK,
+  EmployeKO,
+  ContenantOK,
+  ContenantKO,
+  VehiculeOK,
+  VehiculeKO,
+  LoginOK,
+  LoginKO,
+  Forbidden,
+};

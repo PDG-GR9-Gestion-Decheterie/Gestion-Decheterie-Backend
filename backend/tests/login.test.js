@@ -11,9 +11,9 @@ import {
   Secretaire2,
   Employe2,
   Chauffeur2,
-} from "./credentials.test.js";
+} from "./credentials.js";
 
-import { LoginOK, LoginKO } from "./message.test.js";
+import { LoginOK, LoginKO } from "./message.js";
 
 describe("The API default route", () => {
   test("should receive Hello world!", async () => {
@@ -42,8 +42,8 @@ describe("Login/Logout", () => {
   });
 
   test("should logout", async () => {
-    const list = await request(app).get("/api/logout");
+    const list = await request(app).post("/api/logout");
     expect(list.statusCode).toEqual(200);
-    expect(list.text).toEqual({ message: LoginOK.logout });
+    expect(list.body).toEqual({ message: LoginOK.logout });
   });
 });
