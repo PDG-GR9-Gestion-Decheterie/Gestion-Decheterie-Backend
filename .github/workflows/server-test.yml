@@ -72,6 +72,11 @@ jobs:
           psql -h localhost -U bdr -d bdr -c "\dt gestion_decheterie.*"
         env:
           PGPASSWORD: bdr
+      - name: List content of the employe table
+        run: |
+          psql -h localhost -U bdr -d bdr -c "SELECT * FROM gestion_decheterie.employe;"
+        env:
+          PGPASSWORD: bdr
 
       - name: Display SQL file contents
         run: cat ./db/GestionDecheterie.sql
