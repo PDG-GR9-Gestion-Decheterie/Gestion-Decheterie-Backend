@@ -67,12 +67,17 @@ jobs:
         env:
           PGPASSWORD: bdr
 
-        # list the database tables in shema gestion_decheterie
       - name: List tables
         run: |
           psql -h localhost -U bdr -d bdr -c "\dt"
         env:
           PGPASSWORD: bdr
+
+      - name: Display SQL file contents
+        run: cat ./db/GestionDecheterie.sql
+
+      - name: Check Postgres logs
+        run: docker logs <container-id>
 
       - run: npm test
         working-directory: ./backend
