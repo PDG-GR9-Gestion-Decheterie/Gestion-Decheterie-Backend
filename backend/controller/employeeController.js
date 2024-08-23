@@ -1,8 +1,10 @@
 import { models } from "../database/orm.js";
 
-console.log("Test db ok");
-let empl = await models.Employe.findAll();
-console.log(empl);
+async function test() {
+  console.log("Test db ok");
+  let empl = await models.Employe.findAll();
+  console.log(empl);
+}
 
 // Get tous les employes - /employes
 export async function getEmployees(req, res) {
