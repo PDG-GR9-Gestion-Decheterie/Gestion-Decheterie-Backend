@@ -14,6 +14,14 @@ import {
 } from "./controller/employeeController.js";
 const app = express();
 
+import {
+  getRamassages,
+  getRamassageById,
+  deleteRamassage,
+  updateRamassage,
+  createRamassage,
+} from "./controller/ramassageController.js";
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
@@ -126,5 +134,11 @@ app.put("/api/employes/:id", updateEmployee);
 app.delete("/api/employes/:id", deleteEmployee);
 app.post("/api/employes", createEmployee);
 app.get("/api/employes/profil", getEmployees);
+
+app.get("/api/ramassages", getRamassages);
+app.get("/api/ramassages/:id", getRamassageById);
+app.put("/api/ramassages/:id", updateRamassage);
+app.delete("/api/ramassages/:id", deleteRamassage);
+app.post("/api/ramassages", createRamassage);
 
 export default app;
