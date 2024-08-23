@@ -128,9 +128,7 @@ export async function deleteEmployee(req, res) {
 export async function getEmployeeProfile(req, res) {
   try {
     let employe = null;
-    if (req.user.idlogin === req.params.id) {
-      employe = await models.ProfilEmploye.findByPk(req.params.id).dataValues;
-    }
+    employe = await models.Employe.findByPk(req.user.idlogin);
 
     if (employe === null) {
       throw new Error();
