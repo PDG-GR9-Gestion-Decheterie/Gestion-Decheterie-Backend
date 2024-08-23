@@ -66,5 +66,12 @@ jobs:
         env:
           PGPASSWORD: bdr
 
+        # list the database tables
+      - name: List tables
+        run: |
+          psql -h localhost -U bdr -d bdr -c "\dt"
+        env:
+          PGPASSWORD: bdr
+
       - run: npm test
         working-directory: ./backend
