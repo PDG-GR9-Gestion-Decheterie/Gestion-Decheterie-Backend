@@ -143,7 +143,4 @@ app.put("/api/ramassages/:id", updateRamassage);
 app.delete("/api/ramassages/:id", deleteRamassage);
 app.post("/api/ramassages", createRamassage);
 
-console.log("Test db ok");
-console.log(models.Employe.findAll());
-
 export default app;

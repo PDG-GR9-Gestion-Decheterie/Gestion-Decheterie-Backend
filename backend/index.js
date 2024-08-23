@@ -9,4 +9,4 @@ app.listen(80, () => {
 });
 
 console.log("Test db ok");
-console.log(models.Employe.findAll());
+console.log(models);
