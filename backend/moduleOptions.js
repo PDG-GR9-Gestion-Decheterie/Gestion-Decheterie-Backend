@@ -1,8 +1,10 @@
 import cors from "cors";
 import session from "express-session";
 
+const apiUrl = process.env.BACKEND_APP_API_URL;
+
 export const corsOptions = cors({
-  origin: "https://localhost",
+  origin: apiUrl,
   credentials: true,
 });
 
