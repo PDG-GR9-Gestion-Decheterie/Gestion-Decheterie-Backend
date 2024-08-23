@@ -1,7 +1,7 @@
 import { models } from "../database/orm.js";
 
 console.log("Test db ok");
-console.log(models);
+console.log(models.Employe.findAll());
 
 // Get tous les employes - /employes
 export async function getEmployees(req, res) {
