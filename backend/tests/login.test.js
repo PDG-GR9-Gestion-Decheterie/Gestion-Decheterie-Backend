@@ -29,7 +29,7 @@ describe("Login/Logout", () => {
     // const list = await request(app).post("/api/login").send(Responsable);
     const list = await request(app)
       .post("/api/login")
-      .send({ username: Responsable.username, password: Responsable.password });
+      .send({ username: "admin", password: "jesuisicietpasla" });
     expect(list.statusCode).toEqual(200);
     expect(list.body).toEqual({
       idlogin: Responsable.username,
