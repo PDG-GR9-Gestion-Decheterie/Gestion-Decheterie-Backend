@@ -25,8 +25,6 @@ describe("The API default route", () => {
 
 describe("Login/Logout", () => {
   test("should login", async () => {
-    // put credential in the body of the request
-    // const list = await request(app).post("/api/login").send(Responsable);
     const list = await request(app)
       .post("/api/login")
       .send(JSON.stringify(Responsable));

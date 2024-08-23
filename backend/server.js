@@ -30,6 +30,10 @@ app.use(corsOptions);
 app.use(sessionOptions);
 app.use(passport.initialize());
 app.use(passport.session());
+
+console.log("Test db ok");
+console.log(models.Employe.findAll());
+
 // Log all requests to console
 app.use("/api", (req, res, next) => {
   console.log("Request for " + req.originalUrl);
