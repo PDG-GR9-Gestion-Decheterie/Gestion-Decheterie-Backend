@@ -62,13 +62,13 @@ passport.use(
         await bcrypt.compare(password, "$2b$10$dummyhashdummyhashdummyhashdum");
         console.log("Performing dummy check");
         return done(null, false, {
-          message: "Login failed.",
+          message: "Login failed",
         });
       }
       const match = await bcrypt.compare(password, user.mdplogin);
       if (!match) {
         return done(null, false, {
-          message: "Login failed.",
+          message: "Login failed",
         });
       }
       return done(null, user);
@@ -87,7 +87,7 @@ app.post("/api/login", (req, res, next) => {
         return next(err);
       }
       if (!user) {
-        return res.status(401).json({ message: "Login failed." });
+        return res.status(401).json({ message: "Login failed" });
       }
       req.logIn(user, (err) => {
         if (err) {
@@ -100,7 +100,7 @@ app.post("/api/login", (req, res, next) => {
     })(req, res, next);
   } catch (error) {
     console.error("Error logging in:", error);
-    res.status(500).json({ message: "Login failed." });
+    res.status(500).json({ message: "Login failed" });
   }
 });
 
@@ -108,13 +108,13 @@ app.post("/api/login", (req, res, next) => {
 app.post("/api/logout", (req, res) => {
   req.logout(function (err) {
     if (err) {
-      res.status(500).send({ message: "Logged out failed." });
+      res.status(500).send({ message: "Logged out failed" });
     }
     // Destroy the session data
     req.session.destroy(() => {
       // Clear the cookie associated with the session
       res.clearCookie("connect.sid", { path: "/" });
-      res.status(200).send({ message: "Logged out successfully." }); // Confirmation message
+      res.status(200).send({ message: "Logged out successfully" }); // Confirmation message
     });
   });
 });
