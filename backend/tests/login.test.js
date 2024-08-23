@@ -25,10 +25,14 @@ describe("The API default route", () => {
 
 describe("Login/Logout", () => {
   test("should login", async () => {
-    const list = await request(app).post("/api/login").send(Responsable);
+    // put credential in the body of the request
+    // const list = await request(app).post("/api/login").send(Responsable);
+    const list = await request(app)
+      .post("/api/login")
+      .send({ username: Responsable.username, password: Responsable.password });
     expect(list.statusCode).toEqual(200);
     expect(list.body).toEqual({
-      idlogin: responsable.username,
+      idlogin: Responsable.username,
       fonction: "Responsable",
     });
   });
