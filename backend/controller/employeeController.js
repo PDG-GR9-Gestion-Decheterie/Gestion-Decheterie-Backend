@@ -159,7 +159,7 @@ export async function getEmployeeProfile(req, res) {
     delete employeData.decheterie_id;
     delete employeData.decheterie_fk_adresse;
     delete employeData.adresse_id;
-    res.status(200).json({ employe });
+    res.status(200).json({ employeData });
   } catch (err) {
     console.error("Error fetching employe:", err);
     res.status(404).json({ error: "Error" });
