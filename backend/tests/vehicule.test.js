@@ -2,15 +2,75 @@ import { describe, test, expect } from "@jest/globals";
 import app from "../server.js";
 import request from "supertest";
 
-const Responsable = { username: "jdoe", password: "123" }; // déchèterie 1
-const Secretaire = { username: "jferrara", password: "123" }; // déchèterie 1
-const Employe = { username: "asmith", password: "123" }; // déchèterie 1
-const Chauffeur = { username: "rsmith2", password: "123" }; // déchèterie 1
+import {
+  Responsable,
+  Secretaire,
+  Employe,
+  Chauffeur,
+  Responsable2,
+  Secretaire2,
+  Employe2,
+  Chauffeur2,
+} from "./credentials.test.js";
 
-const Responsable2 = { username: "jdurand", password: "123" }; // déchèterie 5
-const Secretaire2 = { username: "jdoe3", password: "123" }; // déchèterie 5
-const Employe2 = { username: "rlandry", password: "123" }; // déchèterie 6
-const Chauffeur2 = { username: "lchevalier", password: "123" }; // déchèterie 5
+import { VehiculeOK, VehiculeKO, Forbidden } from "./message.test.js";
+
+describe("Vehicule not logged in", () => {
+  test("CRUD", async () => {
+    // create
+    const vehicule = await request(app).post("/api/vehicules").send({
+      immatriculation: "VD999999",
+      type: "camion",
+      remorque: false,
+      anneefabrication: "2010",
+      dateexpertise: "2022-01-01",
+      consocarburant: 10.5,
+      fk_decheterie: 1,
+    });
+    expect(vehicule.statusCode).toEqual(403);
+    expect(vehicule.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // get one
+    const vehiculeGet = await request(app).get("/api/vehicules/VD999999");
+    expect(vehiculeGet.statusCode).toEqual(403);
+    expect(vehiculeGet.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // get all
+    const vehiculeGetAll = await request(app).get("/api/vehicules");
+    expect(vehiculeGetAll.statusCode).toEqual(403);
+    expect(vehiculeGetAll.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // update
+    const vehiculeUpdate = await request(app)
+      .put("/api/vehicules/VD999999")
+      .send({
+        immatriculation: "VD999999",
+        type: "camion",
+        remorque: true,
+        anneefabrication: "2011",
+        dateexpertise: "2022-01-01",
+        consocarburant: 10.5,
+        fk_decheterie: 1,
+      });
+    expect(vehiculeUpdate.statusCode).toEqual(403);
+    expect(vehiculeUpdate.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // delete
+    const vehiculeDelete = await request(app).delete("/api/vehicules/VD999999");
+    expect(vehiculeDelete.statusCode).toEqual(403);
+    expect(vehiculeDelete.body).toEqual({
+      error: Forbidden.message,
+    });
+  });
+});
 
 describe("Vehicule CRUD", () => {
   test("Responsable", async () => {
@@ -32,7 +92,7 @@ describe("Vehicule CRUD", () => {
       });
     expect(vehicule.statusCode).toEqual(201);
     expect(vehicule.body).toEqual({
-      message: "Vehicule added successfully",
+      message: VehiculeOK.add,
     });
 
     // get one
@@ -86,7 +146,7 @@ describe("Vehicule CRUD", () => {
       });
     expect(vehiculeUpdate.statusCode).toEqual(200);
     expect(vehiculeUpdate.body).toEqual({
-      message: "Vehicule updated successfully",
+      message: VehiculeOK.update,
     });
 
     // delete
@@ -95,7 +155,7 @@ describe("Vehicule CRUD", () => {
       .set("Cookie", cookie);
     expect(vehiculeDelete.statusCode).toEqual(200);
     expect(vehiculeDelete.body).toEqual({
-      message: "Vehicule deleted successfully",
+      message: VehiculeOK.delete,
     });
   });
 
@@ -118,7 +178,7 @@ describe("Vehicule CRUD", () => {
       });
     expect(vehicule.statusCode).toEqual(201);
     expect(vehicule.body).toEqual({
-      message: "Vehicule added successfully",
+      message: VehiculeOK.add,
     });
 
     // get one
@@ -172,7 +232,7 @@ describe("Vehicule CRUD", () => {
       });
     expect(vehiculeUpdate.statusCode).toEqual(200);
     expect(vehiculeUpdate.body).toEqual({
-      message: "Vehicule updated successfully",
+      message: VehiculeOK.update,
     });
 
     // delete
@@ -181,7 +241,7 @@ describe("Vehicule CRUD", () => {
       .set("Cookie", cookie);
     expect(vehiculeDelete.statusCode).toEqual(200);
     expect(vehiculeDelete.body).toEqual({
-      message: "Vehicule deleted successfully",
+      message: VehiculeOK.delete,
     });
   });
 
@@ -207,7 +267,7 @@ describe("Vehicule CRUD", () => {
       });
     expect(vehicule.statusCode).toEqual(500);
     expect(vehicule.body).toEqual({
-      message: "Error adding vehicule",
+      error: VehiculeKO.add,
     });
 
     // create with Responsable rights
@@ -225,7 +285,7 @@ describe("Vehicule CRUD", () => {
       });
     expect(vehicule2.statusCode).toEqual(201);
     expect(vehicule2.body).toEqual({
-      message: "Vehicule added successfully",
+      message: VehiculeOK.add,
     });
 
     // get one
@@ -234,7 +294,7 @@ describe("Vehicule CRUD", () => {
       .set("Cookie", cookie);
     expect(vehiculeGet.statusCode).toEqual(500);
     expect(vehiculeGet.body).toEqual({
-      message: "Error getting vehicule",
+      error: VehiculeKO.get,
     });
 
     // get all
@@ -261,7 +321,7 @@ describe("Vehicule CRUD", () => {
       });
     expect(vehiculeUpdate.statusCode).toEqual(500);
     expect(vehiculeUpdate.body).toEqual({
-      message: "Error updating vehicule",
+      error: VehiculeKO.update,
     });
 
     // delete
@@ -270,7 +330,7 @@ describe("Vehicule CRUD", () => {
       .set("Cookie", cookie);
     expect(vehiculeDelete.statusCode).toEqual(500);
     expect(vehiculeDelete.body).toEqual({
-      message: "Error deleting vehicule",
+      error: VehiculeKO.delete,
     });
 
     // delete with Responsable rights
@@ -279,7 +339,7 @@ describe("Vehicule CRUD", () => {
       .set("Cookie", cookie2);
     expect(vehiculeDelete2.statusCode).toEqual(200);
     expect(vehiculeDelete2.body).toEqual({
-      message: "Vehicule deleted successfully",
+      message: VehiculeOK.delete,
     });
   });
 
@@ -305,7 +365,7 @@ describe("Vehicule CRUD", () => {
       });
     expect(vehicule.statusCode).toEqual(500);
     expect(vehicule.body).toEqual({
-      message: "Error adding vehicule",
+      error: VehiculeKO.add,
     });
 
     // create with Responsable rights
@@ -323,7 +383,7 @@ describe("Vehicule CRUD", () => {
       });
     expect(vehicule2.statusCode).toEqual(201);
     expect(vehicule2.body).toEqual({
-      message: "Vehicule added successfully",
+      message: VehiculeOK.add,
     });
 
     // get one
@@ -332,7 +392,7 @@ describe("Vehicule CRUD", () => {
       .set("Cookie", cookie);
     expect(vehiculeGet.statusCode).toEqual(500);
     expect(vehiculeGet.body).toEqual({
-      message: "Error getting vehicule",
+      error: VehiculeKO.get,
     });
 
     // get all
@@ -359,7 +419,7 @@ describe("Vehicule CRUD", () => {
       });
     expect(vehiculeUpdate.statusCode).toEqual(500);
     expect(vehiculeUpdate.body).toEqual({
-      message: "Error updating vehicule",
+      error: VehiculeKO.update,
     });
 
     // delete
@@ -368,7 +428,7 @@ describe("Vehicule CRUD", () => {
       .set("Cookie", cookie);
     expect(vehiculeDelete.statusCode).toEqual(500);
     expect(vehiculeDelete.body).toEqual({
-      message: "Error deleting vehicule",
+      error: VehiculeKO.delete,
     });
 
     // delete with Responsable rights
@@ -377,7 +437,7 @@ describe("Vehicule CRUD", () => {
       .set("Cookie", cookie2);
     expect(vehiculeDelete2.statusCode).toEqual(200);
     expect(vehiculeDelete2.body).toEqual({
-      message: "Vehicule deleted successfully",
+      message: VehiculeOK.delete,
     });
   });
 });
@@ -405,7 +465,7 @@ describe("Vehicule CRUD on a diffrent decheterie", () => {
       });
     expect(vehicule.statusCode).toEqual(500);
     expect(vehicule.body).toEqual({
-      message: "Error adding vehicule",
+      error: VehiculeKO.add,
     });
 
     // create a employe with in the same primary decheterie
@@ -423,7 +483,7 @@ describe("Vehicule CRUD on a diffrent decheterie", () => {
       });
     expect(vehicule2.statusCode).toEqual(201);
     expect(vehicule2.body).toEqual({
-      message: "Vehicule added successfully",
+      message: VehiculeOK.add,
     });
 
     // get one
@@ -432,7 +492,7 @@ describe("Vehicule CRUD on a diffrent decheterie", () => {
       .set("Cookie", cookie);
     expect(vehiculeGet.statusCode).toEqual(500);
     expect(vehiculeGet.body).toEqual({
-      message: "Error getting vehicule",
+      error: VehiculeKO.get,
     });
 
     // get all
@@ -459,7 +519,7 @@ describe("Vehicule CRUD on a diffrent decheterie", () => {
       });
     expect(vehiculeUpdate.statusCode).toEqual(500);
     expect(vehiculeUpdate.body).toEqual({
-      message: "Error updating vehicule",
+      error: VehiculeKO.update,
     });
 
     // delete
@@ -468,7 +528,7 @@ describe("Vehicule CRUD on a diffrent decheterie", () => {
       .set("Cookie", cookie);
     expect(vehiculeDelete.statusCode).toEqual(500);
     expect(vehiculeDelete.body).toEqual({
-      message: "Error deleting vehicule",
+      error: VehiculeKO.delete,
     });
 
     // delete
@@ -477,7 +537,7 @@ describe("Vehicule CRUD on a diffrent decheterie", () => {
       .set("Cookie", cookie2);
     expect(vehiculeDelete2.statusCode).toEqual(200);
     expect(vehiculeDelete2.body).toEqual({
-      message: "Vehicule deleted successfully",
+      message: VehiculeOK.delete,
     });
   });
 });

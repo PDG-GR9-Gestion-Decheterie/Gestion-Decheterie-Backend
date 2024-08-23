@@ -2,15 +2,18 @@ import { describe, test, expect } from "@jest/globals";
 import app from "../server.js";
 import request from "supertest";
 
-const Responsable = { username: "jdoe", password: "123" }; // déchèterie 1
-const Secretaire = { username: "jferrara", password: "123" }; // déchèterie 1
-const Employe = { username: "asmith", password: "123" }; // déchèterie 1
-const Chauffeur = { username: "rsmith2", password: "123" }; // déchèterie 1
+import {
+  Responsable,
+  Secretaire,
+  Employe,
+  Chauffeur,
+  Responsable2,
+  Secretaire2,
+  Employe2,
+  Chauffeur2,
+} from "./credentials.test.js";
 
-const Responsable2 = { username: "jdurand", password: "123" }; // déchèterie 5
-const Secretaire2 = { username: "jdoe3", password: "123" }; // déchèterie 5
-const Employe2 = { username: "rlandry", password: "123" }; // déchèterie 6
-const Chauffeur2 = { username: "lchevalier", password: "123" }; // déchèterie 5
+import { LoginOK, LoginKO } from "./message.test.js";
 
 describe("The API default route", () => {
   test("should receive Hello world!", async () => {
@@ -35,12 +38,12 @@ describe("Login/Logout", () => {
       .post("/api/login")
       .send({ username: "admin", password: "admin1" });
     expect(list.statusCode).toEqual(401);
-    expect(list.body).toEqual({ message: "Login failed." });
+    expect(list.body).toEqual({ error: LoginKO.login });
   });
 
   test("should logout", async () => {
     const list = await request(app).get("/api/logout");
     expect(list.statusCode).toEqual(200);
-    expect(list.text).toEqual({ message: "Logged out successfully." });
+    expect(list.text).toEqual({ message: LoginOK.logout });
   });
 });
