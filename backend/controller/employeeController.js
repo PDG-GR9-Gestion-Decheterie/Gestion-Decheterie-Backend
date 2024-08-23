@@ -3,7 +3,8 @@ import bcrypt from "bcrypt";
 
 async function test() {
   console.log("Test db ok");
-  let empl = await models.Employe.findAll();
+  let empl = null;
+  empl = await models.Employe.findAll();
   console.log(empl);
 }
 
