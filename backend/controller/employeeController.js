@@ -2,10 +2,14 @@ import { models } from "../database/orm.js";
 import bcrypt from "bcrypt";
 
 async function test() {
-  console.log("Test db ok");
-  let empl = null;
-  empl = await models.Employe.findAll();
-  console.log(empl);
+  try {
+    console.log("Test db ok");
+    let empl = null;
+    empl = await models.Employe.findAll();
+    console.log(empl);
+  } catch (err) {
+    console.error("Error test db employes:", err);
+  }
 }
 
 test();
