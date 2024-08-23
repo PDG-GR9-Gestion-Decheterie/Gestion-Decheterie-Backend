@@ -505,6 +505,59 @@ const defineModels = (sequelize) => {
       schema: "gestion_decheterie",
     }
   );
+  models.ProfilEmploye = sequelize.define(
+    "profil_employe",
+    {
+      id_employe: {
+        type: Sequelize.STRING(30),
+        primaryKey: true,
+      },
+      nom_employe: {
+        type: Sequelize.STRING(30),
+      },
+      prenom_employe: {
+        type: Sequelize.STRING(30),
+      },
+      date_naissance: {
+        type: Sequelize.DATEONLY,
+      },
+      date_debut_contrat: {
+        type: Sequelize.DATEONLY,
+      },
+      numero_telephone: {
+        type: Sequelize.STRING(30),
+      },
+      type_permis: {
+        type: Sequelize.STRING(10),
+      },
+      rue_adresse: {
+        type: Sequelize.STRING(30),
+      },
+      numero_adresse: {
+        type: Sequelize.STRING(10),
+      },
+      npa_adresse: {
+        type: Sequelize.STRING(10),
+      },
+      ville_adresse: {
+        type: Sequelize.STRING(30),
+      },
+      pays_adresse: {
+        type: Sequelize.STRING(30),
+      },
+      nom_decheterie: {
+        type: Sequelize.STRING(30),
+      },
+      nom_fonction: {
+        type: Sequelize.STRING(30),
+      },
+    },
+    {
+      tableName: "profil_employe",
+      timestamps: false,
+      schema: "gestion_decheterie",
+    }
+  );
 
   return models;
 };

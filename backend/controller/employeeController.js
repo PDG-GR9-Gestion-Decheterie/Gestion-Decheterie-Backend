@@ -98,17 +98,14 @@ export async function getEmployeeProfile(req, res) {
   try {
     let employe = null;
     if (req.user.idlogin === req.params.id) {
-      employe = await models.Employe.findByPk(req.params.id);
+      employe = await models.ProfilEmploye.findByPk(req.params.id).dataValues;
     }
 
     if (employe === null) {
       throw new Error();
     }
 
-    let employeData = employe.dataValues;
-    delete employeData.mdplogin;
-
-    res.status(200).json({ employeData });
+    res.status(200).json({ employe });
   } catch (err) {
     console.error("Error fetching employe:", err);
     res.status(404).json({ error: "Error" });
