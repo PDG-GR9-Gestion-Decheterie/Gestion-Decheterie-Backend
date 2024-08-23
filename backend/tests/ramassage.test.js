@@ -12,7 +12,7 @@ import {
   Chauffeur2,
 } from "./credentials.js";
 
-import { RamassageOK, RamassageKO, Forbidden } from "./message.test.js";
+import { RamassageOK, RamassageKO, Forbidden } from "./message.js";
 
 describe("Ramassage not logged in", () => {
   test("CRUD", async () => {

@@ -13,7 +13,7 @@ import {
   Chauffeur2,
 } from "./credentials.js";
 
-import { EmployeOK, EmployeKO, Forbidden } from "./message.test.js";
+import { EmployeOK, EmployeKO, Forbidden } from "./message.js";
 
 describe("Employe not logged in", () => {
   test("CRUD", async () => {
