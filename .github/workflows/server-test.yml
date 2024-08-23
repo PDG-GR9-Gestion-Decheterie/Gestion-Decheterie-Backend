@@ -78,7 +78,10 @@ jobs:
           PGPASSWORD: bdr
 
       - name: Capture backend logs
-        run: docker logs release-backend-1
+        run: docker logs $(docker ps -q -f "name=backend")
 
       - run: npm test
         working-directory: ./backend
+
+      - name: Capture backend logs
+        run: docker logs $(docker ps -q -f "name=backend")
