@@ -2,15 +2,75 @@ import { describe, test, expect } from "@jest/globals";
 import app from "../server.js";
 import request from "supertest";
 
-const Responsable = { username: "jdoe", password: "123" }; // déchèterie 1
-const Secretaire = { username: "jferrara", password: "123" }; // déchèterie 1
-const Employe = { username: "asmith", password: "123" }; // déchèterie 1
-const Chauffeur = { username: "rsmith2", password: "123" }; // déchèterie 1
+import {
+  Responsable,
+  Secretaire,
+  Employe,
+  Chauffeur,
+  Responsable2,
+  Secretaire2,
+  Employe2,
+  Chauffeur2,
+} from "./credentials.test.js";
 
-const Responsable2 = { username: "jdurand", password: "123" }; // déchèterie 5
-const Secretaire2 = { username: "jdoe3", password: "123" }; // déchèterie 5
-const Employe2 = { username: "rlandry", password: "123" }; // déchèterie 6
-const Chauffeur2 = { username: "lchevalier", password: "123" }; // déchèterie 5
+import { ContenantOK, ContenantKO, Forbidden } from "./message.test.js";
+
+describe("Contenant not logged in", () => {
+  test("CRUD", async () => {
+    // create
+    const contenant = await request(app).post("/api/contenants").send({
+      id: 100,
+      nom: "benne",
+      capacitemax: 40,
+      nbcadre: null,
+      taille: null,
+      couleur: "blue",
+      fk_decheterie: 1,
+      fk_dechet: "papier",
+    });
+    expect(contenant.statusCode).toEqual(403);
+    expect(contenant.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // get one
+    const contenantGet = await request(app).get("/api/contenants/100");
+    expect(contenantGet.statusCode).toEqual(403);
+    expect(contenantGet.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // get all
+    const contenantGetAll = await request(app).get("/api/contenants");
+    expect(contenantGetAll.statusCode).toEqual(403);
+    expect(contenantGetAll.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // update
+    const contenantUpdate = await request(app).put("/api/contenants/100").send({
+      id: 100,
+      nom: "benne",
+      capacitemax: 40,
+      nbcadre: null,
+      taille: null,
+      couleur: "red",
+      fk_decheterie: 1,
+      fk_dechet: "carton",
+    });
+    expect(contenantUpdate.statusCode).toEqual(403);
+    expect(contenantUpdate.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // delete
+    const contenantDelete = await request(app).delete("/api/contenants/100");
+    expect(contenantDelete.statusCode).toEqual(403);
+    expect(contenantDelete.body).toEqual({
+      error: Forbidden.message,
+    });
+  });
+});
 
 describe("Contenant CRUD", () => {
   test("Responsable", async () => {
@@ -33,7 +93,7 @@ describe("Contenant CRUD", () => {
       });
     expect(contenant.statusCode).toEqual(201);
     expect(contenant.body).toEqual({
-      message: "Contenant added successfully",
+      message: ContenantOK.add,
     });
 
     // get one
@@ -90,7 +150,7 @@ describe("Contenant CRUD", () => {
       });
     expect(contenantUpdate.statusCode).toEqual(200);
     expect(contenantUpdate.body).toEqual({
-      message: "Contenant updated successfully",
+      message: ContenantOK.update,
     });
 
     // delete
@@ -99,7 +159,7 @@ describe("Contenant CRUD", () => {
       .set("Cookie", cookie);
     expect(contenantDelete.statusCode).toEqual(200);
     expect(contenantDelete.body).toEqual({
-      message: "Contenant deleted successfully",
+      message: ContenantOK.delete,
     });
   });
 
@@ -123,7 +183,7 @@ describe("Contenant CRUD", () => {
       });
     expect(contenant.statusCode).toEqual(201);
     expect(contenant.body).toEqual({
-      message: "Contenant added successfully",
+      message: ContenantOK.add,
     });
 
     // get one
@@ -180,7 +240,7 @@ describe("Contenant CRUD", () => {
       });
     expect(contenantUpdate.statusCode).toEqual(200);
     expect(contenantUpdate.body).toEqual({
-      message: "Contenant updated successfully",
+      message: ContenantOK.update,
     });
 
     // delete
@@ -189,7 +249,7 @@ describe("Contenant CRUD", () => {
       .set("Cookie", cookie);
     expect(contenantDelete.statusCode).toEqual(200);
     expect(contenantDelete.body).toEqual({
-      message: "Contenant deleted successfully",
+      message: ContenantOK.delete,
     });
   });
 
@@ -216,7 +276,7 @@ describe("Contenant CRUD", () => {
       });
     expect(contenant.statusCode).toEqual(500);
     expect(contenant.body).toEqual({
-      message: "Error adding contenant",
+      error: ContenantKO.add,
     });
 
     // create with Responsable rights
@@ -235,7 +295,7 @@ describe("Contenant CRUD", () => {
       });
     expect(contenant2.statusCode).toEqual(201);
     expect(contenant2.body).toEqual({
-      message: "Contenant added successfully",
+      message: ContenantOK.add,
     });
 
     // get one
@@ -244,14 +304,14 @@ describe("Contenant CRUD", () => {
       .set("Cookie", cookie);
     expect(contenantGet.statusCode).toEqual(500);
     expect(contenantGet.body).toEqual({
-      message: "Error getting contenant",
+      error: ContenantKO.get,
     });
 
     // get all
     const contenantGetAll = await request(app)
       .get("/api/contenants")
       .set("Cookie", cookie);
-    expect(contenantGetAll.statusCode).toEqual(500);
+    expect(contenantGetAll.statusCode).toEqual(200);
     expect(contenantGetAll.body).toEqual({
       contenants: [],
     });
@@ -272,7 +332,7 @@ describe("Contenant CRUD", () => {
       });
     expect(contenantUpdate.statusCode).toEqual(500);
     expect(contenantUpdate.body).toEqual({
-      message: "Error updating contenant",
+      error: ContenantKO.update,
     });
 
     // delete
@@ -281,7 +341,7 @@ describe("Contenant CRUD", () => {
       .set("Cookie", cookie);
     expect(contenantDelete.statusCode).toEqual(500);
     expect(contenantDelete.body).toEqual({
-      message: "Error deleting contenant",
+      error: ContenantKO.delete,
     });
 
     // delete with Responsable rights
@@ -290,7 +350,7 @@ describe("Contenant CRUD", () => {
       .set("Cookie", cookie2);
     expect(contenantDelete2.statusCode).toEqual(200);
     expect(contenantDelete2.body).toEqual({
-      message: "contenant deleted successfully",
+      message: ContenantOK.delete,
     });
   });
 
@@ -317,7 +377,7 @@ describe("Contenant CRUD", () => {
       });
     expect(contenant.statusCode).toEqual(500);
     expect(contenant.body).toEqual({
-      message: "Error adding contenant",
+      error: ContenantKO.add,
     });
 
     // create with Responsable rights
@@ -336,7 +396,7 @@ describe("Contenant CRUD", () => {
       });
     expect(contenant2.statusCode).toEqual(201);
     expect(contenant2.body).toEqual({
-      message: "Contenant added successfully",
+      message: ContenantOK.add,
     });
 
     // get one
@@ -345,109 +405,7 @@ describe("Contenant CRUD", () => {
       .set("Cookie", cookie);
     expect(contenantGet.statusCode).toEqual(500);
     expect(contenantGet.body).toEqual({
-      message: "Error getting contenant",
-    });
-
-    // get all
-    const contenantGetAll = await request(app)
-      .get("/api/contenants")
-      .set("Cookie", cookie);
-    expect(contenantGetAll.statusCode).toEqual(500);
-    expect(contenantGetAll.body).toEqual({
-      contenants: [],
-    });
-
-    // update
-    const contenantUpdate = await request(app)
-      .put("/api/contenants/100")
-      .set("Cookie", cookie)
-      .send({
-        id: 100,
-        nom: "benne",
-        capacitemax: 40,
-        nbcadre: null,
-        taille: null,
-        couleur: "red",
-        fk_decheterie: 1,
-        fk_dechet: "carton",
-      });
-    expect(contenantUpdate.statusCode).toEqual(500);
-    expect(contenantUpdate.body).toEqual({
-      message: "Error updating contenant",
-    });
-
-    // delete
-    const contenantDelete = await request(app)
-      .delete("/api/contenants/100")
-      .set("Cookie", cookie);
-    expect(contenantDelete.statusCode).toEqual(500);
-    expect(contenantDelete.body).toEqual({
-      message: "Error deleting contenant",
-    });
-
-    // delete with Responsable rights
-    const contenantDelete2 = await request(app)
-      .delete("/api/contenants/100")
-      .set("Cookie", cookie2);
-    expect(contenantDelete2.statusCode).toEqual(200);
-    expect(contenantDelete2.body).toEqual({
-      message: "contenant deleted successfully",
-    });
-  });
-});
-
-describe("Contenant CRUD with different decheterie", () => {
-  test("Responsable", async () => {
-    const list = await request(app).post("/api/login").send(Responsable);
-    const cookie = list.headers["set-cookie"];
-
-    const list2 = await request(app).post("/api/login").send(Responsable2);
-    const cookie2 = list2.headers["set-cookie"];
-
-    // create
-    const contenant = await request(app)
-      .post("/api/contenants")
-      .set("Cookie", cookie)
-      .send({
-        id: 100,
-        nom: "benne",
-        capacitemax: 40,
-        nbcadre: null,
-        taille: null,
-        couleur: "blue",
-        fk_decheterie: 1,
-        fk_dechet: "papier",
-      });
-    expect(contenant.statusCode).toEqual(500);
-    expect(contenant.body).toEqual({
-      message: "Error adding contenant",
-    });
-
-    const contenant2 = await request(app)
-      .post("/api/contenants")
-      .set("Cookie", cookie2)
-      .send({
-        id: 100,
-        nom: "benne",
-        capacitemax: 40,
-        nbcadre: null,
-        taille: null,
-        couleur: "blue",
-        fk_decheterie: 1,
-        fk_dechet: "papier",
-      });
-    expect(contenant2.statusCode).toEqual(201);
-    expect(contenant2.body).toEqual({
-      message: "Contenant added successfully",
-    });
-
-    // get one
-    const contenantGet = await request(app)
-      .get("/api/contenants/100")
-      .set("Cookie", cookie);
-    expect(contenantGet.statusCode).toEqual(200);
-    expect(contenantGet.body).toEqual({
-      message: "Error getting contenant",
+      error: ContenantKO.get,
     });
 
     // get all
@@ -473,9 +431,9 @@ describe("Contenant CRUD with different decheterie", () => {
         fk_decheterie: 1,
         fk_dechet: "carton",
       });
-    expect(contenantUpdate.statusCode).toEqual(200);
+    expect(contenantUpdate.statusCode).toEqual(500);
     expect(contenantUpdate.body).toEqual({
-      message: "Error updating contenant",
+      error: ContenantKO.update,
     });
 
     // delete
@@ -484,14 +442,118 @@ describe("Contenant CRUD with different decheterie", () => {
       .set("Cookie", cookie);
     expect(contenantDelete.statusCode).toEqual(500);
     expect(contenantDelete.body).toEqual({
-      message: "Error deleting contenant",
+      error: ContenantKO.delete,
     });
+
+    // delete with Responsable rights
     const contenantDelete2 = await request(app)
       .delete("/api/contenants/100")
       .set("Cookie", cookie2);
     expect(contenantDelete2.statusCode).toEqual(200);
     expect(contenantDelete2.body).toEqual({
-      message: "Contenant deleted successfully",
+      message: ContenantOK.delete,
+    });
+  });
+});
+
+describe("Contenant CRUD with different decheterie", () => {
+  test("Responsable", async () => {
+    const list = await request(app).post("/api/login").send(Responsable);
+    const cookie = list.headers["set-cookie"];
+
+    const list2 = await request(app).post("/api/login").send(Responsable2);
+    const cookie2 = list2.headers["set-cookie"];
+
+    // create
+    const contenant = await request(app)
+      .post("/api/contenants")
+      .set("Cookie", cookie)
+      .send({
+        id: 100,
+        nom: "benne",
+        capacitemax: 40,
+        nbcadre: null,
+        taille: null,
+        couleur: "blue",
+        fk_decheterie: 6,
+        fk_dechet: "papier",
+      });
+    expect(contenant.statusCode).toEqual(500);
+    expect(contenant.body).toEqual({
+      error: ContenantKO.add,
+    });
+
+    const contenant2 = await request(app)
+      .post("/api/contenants")
+      .set("Cookie", cookie2)
+      .send({
+        id: 100,
+        nom: "benne",
+        capacitemax: 40,
+        nbcadre: null,
+        taille: null,
+        couleur: "blue",
+        fk_decheterie: 6,
+        fk_dechet: "papier",
+      });
+    expect(contenant2.statusCode).toEqual(201);
+    expect(contenant2.body).toEqual({
+      message: ContenantOK.add,
+    });
+
+    // get one
+    const contenantGet = await request(app)
+      .get("/api/contenants/100")
+      .set("Cookie", cookie);
+    expect(contenantGet.statusCode).toEqual(500);
+    expect(contenantGet.body).toEqual({
+      error: ContenantKO.get,
+    });
+
+    // get all
+    const contenantGetAll = await request(app)
+      .get("/api/contenants")
+      .set("Cookie", cookie);
+    expect(contenantGetAll.statusCode).toEqual(200);
+    expect(contenantGetAll.body).toEqual({
+      contenants: [],
+    });
+
+    // update
+    const contenantUpdate = await request(app)
+      .put("/api/contenants/100")
+      .set("Cookie", cookie)
+      .send({
+        id: 100,
+        nom: "benne",
+        capacitemax: 40,
+        nbcadre: null,
+        taille: null,
+        couleur: "red",
+        fk_decheterie: 6,
+        fk_dechet: "carton",
+      });
+    expect(contenantUpdate.statusCode).toEqual(200);
+    expect(contenantUpdate.body).toEqual({
+      error: ContenantKO.update,
+    });
+
+    // delete
+    const contenantDelete = await request(app)
+      .delete("/api/contenants/100")
+      .set("Cookie", cookie);
+    expect(contenantDelete.statusCode).toEqual(500);
+    expect(contenantDelete.body).toEqual({
+      error: ContenantKO.delete,
+    });
+
+    // delete
+    const contenantDelete2 = await request(app)
+      .delete("/api/contenants/100")
+      .set("Cookie", cookie2);
+    expect(contenantDelete2.statusCode).toEqual(200);
+    expect(contenantDelete2.body).toEqual({
+      message: ContenantOK.delete,
     });
   });
 });
@@ -517,17 +579,17 @@ describe("Contenant CRUD check integrity", () => {
       });
     expect(contenant.statusCode).toEqual(201);
     expect(contenant.body).toEqual({
-      message: "Contenant added successfully",
+      message: ContenantOK.add,
     });
 
     // update test for:
-    // Les bennes et les grandes caisses possèdent une capacité maximale (en litre).
+    // les big bag ont une taille : petite, moyenne ou grande.
     const contenantUpdate = await request(app)
       .put("/api/contenants/100")
       .set("Cookie", cookie)
       .send({
         id: 100,
-        nom: "benne",
+        nom: "big bag",
         capacitemax: null,
         nbcadre: null,
         taille: null,
@@ -537,7 +599,7 @@ describe("Contenant CRUD check integrity", () => {
       });
     expect(contenantUpdate.statusCode).toEqual(500);
     expect(contenantUpdate.body).toEqual({
-      message: "Error updating contenant",
+      error: ContenantKO.update,
     });
 
     const contenantUpdate2 = await request(app)
@@ -545,17 +607,17 @@ describe("Contenant CRUD check integrity", () => {
       .set("Cookie", cookie)
       .send({
         id: 100,
-        nom: "grande caisse",
+        nom: "big bag",
         capacitemax: null,
         nbcadre: null,
-        taille: null,
+        taille: "test",
         couleur: "red",
         fk_decheterie: 1,
         fk_dechet: "carton",
       });
     expect(contenantUpdate2.statusCode).toEqual(500);
     expect(contenantUpdate2.body).toEqual({
-      message: "Error updating contenant",
+      error: ContenantKO.update,
     });
 
     const contenantUpdate3 = await request(app)
@@ -563,17 +625,17 @@ describe("Contenant CRUD check integrity", () => {
       .set("Cookie", cookie)
       .send({
         id: 100,
-        nom: "big bag",
+        nom: "grande caisse",
         capacitemax: null,
         nbcadre: null,
-        taille: null,
+        taille: "petite",
         couleur: "red",
         fk_decheterie: 1,
         fk_dechet: "carton",
       });
     expect(contenantUpdate3.statusCode).toEqual(500);
     expect(contenantUpdate3.body).toEqual({
-      message: "Error updating contenant",
+      error: ContenantKO.update,
     });
 
     const contenantUpdate4 = await request(app)
@@ -581,27 +643,45 @@ describe("Contenant CRUD check integrity", () => {
       .set("Cookie", cookie)
       .send({
         id: 100,
-        nom: "palette",
+        nom: "benne",
         capacitemax: null,
         nbcadre: null,
-        taille: null,
+        taille: "petite",
         couleur: "red",
         fk_decheterie: 1,
         fk_dechet: "carton",
       });
     expect(contenantUpdate4.statusCode).toEqual(500);
     expect(contenantUpdate4.body).toEqual({
-      message: "Error updating contenant",
+      error: ContenantKO.update,
     });
 
-    // update test for:
-    // Les bennes possèdent une couleur
     const contenantUpdate5 = await request(app)
       .put("/api/contenants/100")
       .set("Cookie", cookie)
       .send({
         id: 100,
-        nom: "benne",
+        nom: "palette",
+        capacitemax: null,
+        nbcadre: null,
+        taille: "petite",
+        couleur: "red",
+        fk_decheterie: 1,
+        fk_dechet: "carton",
+      });
+    expect(contenantUpdate5.statusCode).toEqual(500);
+    expect(contenantUpdate5.body).toEqual({
+      error: ContenantKO.update,
+    });
+
+    // update test for:
+    // les palettes possèdent un nombre de cadres (entre 0 et 4).
+    const contenantUpdate6 = await request(app)
+      .put("/api/contenants/100")
+      .set("Cookie", cookie)
+      .send({
+        id: 100,
+        nom: "palette",
         capacitemax: 40,
         nbcadre: null,
         taille: null,
@@ -609,27 +689,9 @@ describe("Contenant CRUD check integrity", () => {
         fk_decheterie: 1,
         fk_dechet: "carton",
       });
-    expect(contenantUpdate5.statusCode).toEqual(500);
-    expect(contenantUpdate5.body).toEqual({
-      message: "Error updating contenant",
-    });
-
-    const contenantUpdate6 = await request(app)
-      .put("/api/contenants/100")
-      .set("Cookie", cookie)
-      .send({
-        id: 100,
-        nom: "big bag",
-        capacitemax: 40,
-        nbcadre: null,
-        taille: null,
-        couleur: "red",
-        fk_decheterie: 1,
-        fk_dechet: "carton",
-      });
     expect(contenantUpdate6.statusCode).toEqual(500);
     expect(contenantUpdate6.body).toEqual({
-      message: "Error updating contenant",
+      error: ContenantKO.update,
     });
 
     const contenantUpdate7 = await request(app)
@@ -639,19 +701,17 @@ describe("Contenant CRUD check integrity", () => {
         id: 100,
         nom: "palette",
         capacitemax: 40,
-        nbcadre: null,
+        nbcadre: 5,
         taille: null,
-        couleur: "red",
+        couleur: null,
         fk_decheterie: 1,
         fk_dechet: "carton",
       });
     expect(contenantUpdate7.statusCode).toEqual(500);
     expect(contenantUpdate7.body).toEqual({
-      message: "Error updating contenant",
+      error: ContenantKO.update,
     });
 
-    // update test for:
-    // Les big bag ont une taille : petite, moyenne ou grande.
     const contenantUpdate8 = await request(app)
       .put("/api/contenants/100")
       .set("Cookie", cookie)
@@ -659,15 +719,15 @@ describe("Contenant CRUD check integrity", () => {
         id: 100,
         nom: "big bag",
         capacitemax: 40,
-        nbcadre: null,
+        nbcadre: 1,
         taille: null,
-        couleur: null,
+        couleur: "red",
         fk_decheterie: 1,
         fk_dechet: "carton",
       });
     expect(contenantUpdate8.statusCode).toEqual(500);
     expect(contenantUpdate8.body).toEqual({
-      message: "Error updating contenant",
+      error: ContenantKO.update,
     });
 
     const contenantUpdate9 = await request(app)
@@ -677,15 +737,15 @@ describe("Contenant CRUD check integrity", () => {
         id: 100,
         nom: "benne",
         capacitemax: 40,
-        nbcadre: null,
-        taille: "petite",
-        couleur: null,
+        nbcadre: 1,
+        taille: null,
+        couleur: "red",
         fk_decheterie: 1,
         fk_dechet: "carton",
       });
     expect(contenantUpdate9.statusCode).toEqual(500);
     expect(contenantUpdate9.body).toEqual({
-      message: "Error updating contenant",
+      error: ContenantKO.update,
     });
 
     const contenantUpdate10 = await request(app)
@@ -693,20 +753,18 @@ describe("Contenant CRUD check integrity", () => {
       .set("Cookie", cookie)
       .send({
         id: 100,
-        nom: "palette",
+        nom: "grande caisse",
         capacitemax: 40,
-        nbcadre: null,
-        taille: "petite",
+        nbcadre: 1,
+        taille: null,
         couleur: null,
         fk_decheterie: 1,
         fk_dechet: "carton",
       });
     expect(contenantUpdate10.statusCode).toEqual(500);
     expect(contenantUpdate10.body).toEqual({
-      message: "Error updating contenant",
+      error: ContenantKO.update,
     });
-
-    // Les palettes possèdent un nombre de cadres (entre 0 et 4).
 
     // delete
     const contenantDelete = await request(app)
@@ -714,7 +772,7 @@ describe("Contenant CRUD check integrity", () => {
       .set("Cookie", cookie);
     expect(contenantDelete.statusCode).toEqual(200);
     expect(contenantDelete.body).toEqual({
-      message: "Contenant deleted successfully",
+      message: ContenantOK.delete,
     });
   });
 });

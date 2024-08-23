@@ -2,15 +2,81 @@ import { describe, test, expect } from "@jest/globals";
 import app from "../server.js";
 import request from "supertest";
 
-const Responsable = { username: "jdoe", password: "123" }; // déchèterie 1
-const Secretaire = { username: "jferrara", password: "123" }; // déchèterie 1
-const Employe = { username: "asmith", password: "123" }; // déchèterie 1
-const Chauffeur = { username: "rsmith2", password: "123" }; // déchèterie 1
+import {
+  Responsable,
+  Secretaire,
+  Employe,
+  Chauffeur,
+  Responsable2,
+  Secretaire2,
+  Employe2,
+  Chauffeur2,
+} from "./credentials.test.js";
 
-const Responsable2 = { username: "jdurand", password: "123" }; // déchèterie 5
-const Secretaire2 = { username: "jdoe3", password: "123" }; // déchèterie 5
-const Employe2 = { username: "rlandry", password: "123" }; // déchèterie 6
-const Chauffeur2 = { username: "lchevalier", password: "123" }; // déchèterie 5
+import { EmployeOK, EmployeKO, Forbidden } from "./message.test.js";
+
+describe("Employe not logged in", () => {
+  test("CRUD", async () => {
+    // create
+    const employe = await request(app).post("/api/employes").send({
+      idlogin: "tdoumas",
+      mdplogin: "123",
+      nom: "Doumas",
+      prenom: "Tristan",
+      datenaissance: "1990-01-01",
+      datedebutcontrat: "2022-01-01",
+      fk_fonction: "Chauffeur",
+      numtelephone: "1234567890",
+      typepermis: "C",
+      fk_adresse: 1,
+      fk_decheterie: 1,
+    });
+    expect(employe.statusCode).toEqual(403);
+    expect(employe.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // get one
+    const employeGet = await request(app).get("/api/employes/tdoumas");
+    expect(employeGet.statusCode).toEqual(403);
+    expect(employeGet.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // get all
+    const employeGetAll = await request(app).get("/api/employes");
+    expect(employeGetAll.statusCode).toEqual(403);
+    expect(employeGetAll.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // update
+    const employeUpdate = await request(app).put("/api/employes/tdoumas").send({
+      idlogin: "tdoumas",
+      mdplogin: "password",
+      nom: "TriTri",
+      prenom: "TriTri",
+      datenaissance: "1990-01-01",
+      datedebutcontrat: "2022-01-01",
+      fk_fonction: "Chauffeur",
+      numtelephone: "1234567890",
+      typepermis: "C",
+      fk_adresse: 1,
+      fk_decheterie: 1,
+    });
+    expect(employeUpdate.statusCode).toEqual(403);
+    expect(employeUpdate.body).toEqual({
+      error: Forbidden.message,
+    });
+
+    // delete
+    const employeDelete = await request(app).delete("/api/employes/tdoumas");
+    expect(employeDelete.statusCode).toEqual(403);
+    expect(employeDelete.body).toEqual({
+      error: Forbidden.message,
+    });
+  });
+});
 
 describe("Employe CRUD", () => {
   test("Responsable", async () => {
@@ -37,20 +103,7 @@ describe("Employe CRUD", () => {
     expect(employe.statusCode).toEqual(201);
     employe.body.employe.mdplogin = "";
     expect(employe.body).toEqual({
-      message: "Employe added successfully",
-      employe: {
-        idlogin: "tdoumas",
-        mdplogin: "",
-        nom: "Doumas",
-        prenom: "Tristan",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        fk_fonction: "Chauffeur",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 1,
-      },
+      message: EmployeOK.add,
     });
 
     // get one
@@ -114,7 +167,7 @@ describe("Employe CRUD", () => {
       });
     expect(employeUpdate.statusCode).toEqual(200);
     expect(employeUpdate.body).toEqual({
-      message: "Employe updated successfully",
+      message: EmployeOK.update,
     });
 
     // delete
@@ -123,7 +176,7 @@ describe("Employe CRUD", () => {
       .set("Cookie", cookie);
     expect(employeDelete.statusCode).toEqual(200);
     expect(employeDelete.body).toEqual({
-      message: "Employe deleted successfully",
+      message: EmployeOK.delete,
     });
   });
 
@@ -131,6 +184,9 @@ describe("Employe CRUD", () => {
     const list = await request(app).post("/api/login").send(Secretaire);
     const cookie = list.headers["set-cookie"];
 
+    const list2 = await request(app).post("/api/login").send(Responsable);
+    const cookie2 = list2.headers["set-cookie"];
+
     // create
     const employe = await request(app)
       .post("/api/employes")
@@ -149,9 +205,30 @@ describe("Employe CRUD", () => {
         fk_decheterie: 1,
       });
     expect(employe.statusCode).toEqual(500);
-    employe.body.employe.mdplogin = "";
     expect(employe.body).toEqual({
-      error: "Error adding employe",
+      error: EmployeKO.add,
+    });
+
+    // create with Responsable
+    const employe2 = await request(app)
+      .post("/api/employes")
+      .set("Cookie", cookie)
+      .send({
+        idlogin: "tdoumas",
+        mdplogin: "123",
+        nom: "Doumas",
+        prenom: "Tristan",
+        datenaissance: "1990-01-01",
+        datedebutcontrat: "2022-01-01",
+        fk_fonction: "Chauffeur",
+        numtelephone: "1234567890",
+        typepermis: "C",
+        fk_adresse: 1,
+        fk_decheterie: 1,
+      });
+    expect(employe2.statusCode).toEqual(201);
+    expect(employe2.body).toEqual({
+      message: EmployeOK.add,
     });
 
     // get one
@@ -160,14 +237,14 @@ describe("Employe CRUD", () => {
       .set("Cookie", cookie);
     expect(employeGet.statusCode).toEqual(500);
     expect(employeGet.body).toEqual({
-      error: "Error getting employe",
+      error: EmployeKO.get,
     });
 
     // get all
     const employeGetAll = await request(app)
       .get("/api/employes")
       .set("Cookie", cookie);
-    expect(employeGetAll.statusCode).toEqual(500);
+    expect(employeGetAll.statusCode).toEqual(200);
     expect(employeGetAll.body).toEqual({
       employes: [],
     });
@@ -191,7 +268,7 @@ describe("Employe CRUD", () => {
       });
     expect(employeUpdate.statusCode).toEqual(500);
     expect(employeUpdate.body).toEqual({
-      error: "Error updating employe",
+      error: EmployeKO.update,
     });
 
     // delete
@@ -200,7 +277,16 @@ describe("Employe CRUD", () => {
       .set("Cookie", cookie);
     expect(employeDelete.statusCode).toEqual(500);
     expect(employeDelete.body).toEqual({
-      error: "Error deleting employe",
+      error: EmployeKO.delete,
+    });
+
+    // delete with Responsable
+    const employeDelete2 = await request(app)
+      .delete("/api/employes/tdoumas")
+      .set("Cookie", cookie2);
+    expect(employeDelete2.statusCode).toEqual(200);
+    expect(employeDelete2.body).toEqual({
+      message: EmployeOK.delete,
     });
   });
 
@@ -208,6 +294,9 @@ describe("Employe CRUD", () => {
     const list = await request(app).post("/api/login").send(Employe);
     const cookie = list.headers["set-cookie"];
 
+    const list2 = await request(app).post("/api/login").send(Responsable);
+    const cookie2 = list2.headers["set-cookie"];
+
     // create
     const employe = await request(app)
       .post("/api/employes")
@@ -228,7 +317,29 @@ describe("Employe CRUD", () => {
     expect(employe.statusCode).toEqual(500);
     employe.body.employe.mdplogin = "";
     expect(employe.body).toEqual({
-      error: "Error adding employe",
+      error: EmployeKO.add,
+    });
+
+    // create with Responsable
+    const employe2 = await request(app)
+      .post("/api/employes")
+      .set("Cookie", cookie)
+      .send({
+        idlogin: "tdoumas",
+        mdplogin: "123",
+        nom: "Doumas",
+        prenom: "Tristan",
+        datenaissance: "1990-01-01",
+        datedebutcontrat: "2022-01-01",
+        fk_fonction: "Chauffeur",
+        numtelephone: "1234567890",
+        typepermis: "C",
+        fk_adresse: 1,
+        fk_decheterie: 1,
+      });
+    expect(employe2.statusCode).toEqual(201);
+    expect(employe2.body).toEqual({
+      message: EmployeOK.add,
     });
 
     // get one
@@ -237,7 +348,7 @@ describe("Employe CRUD", () => {
       .set("Cookie", cookie);
     expect(employeGet.statusCode).toEqual(500);
     expect(employeGet.body).toEqual({
-      error: "Error getting employe",
+      error: EmployeKO.get,
     });
 
     // get all
@@ -268,7 +379,7 @@ describe("Employe CRUD", () => {
       });
     expect(employeUpdate.statusCode).toEqual(500);
     expect(employeUpdate.body).toEqual({
-      error: "Error updating employe",
+      error: EmployeKO.update,
     });
 
     // delete
@@ -277,7 +388,16 @@ describe("Employe CRUD", () => {
       .set("Cookie", cookie);
     expect(employeDelete.statusCode).toEqual(500);
     expect(employeDelete.body).toEqual({
-      error: "Error deleting employe",
+      error: EmployeKO.delete,
+    });
+
+    // delete with Responsable
+    const employeDelete2 = await request(app)
+      .delete("/api/employes/tdoumas")
+      .set("Cookie", cookie2);
+    expect(employeDelete2.statusCode).toEqual(200);
+    expect(employeDelete2.body).toEqual({
+      message: EmployeOK.delete,
     });
   });
 
@@ -285,6 +405,9 @@ describe("Employe CRUD", () => {
     const list = await request(app).post("/api/login").send(Chauffeur);
     const cookie = list.headers["set-cookie"];
 
+    const list2 = await request(app).post("/api/login").send(Responsable);
+    const cookie2 = list2.headers["set-cookie"];
+
     // create
     const employe = await request(app)
       .post("/api/employes")
@@ -305,7 +428,29 @@ describe("Employe CRUD", () => {
     expect(employe.statusCode).toEqual(500);
     employe.body.employe.mdplogin = "";
     expect(employe.body).toEqual({
-      error: "Error adding employe",
+      error: EmployeKO.add,
+    });
+
+    // create with Responsable
+    const employe2 = await request(app)
+      .post("/api/employes")
+      .set("Cookie", cookie)
+      .send({
+        idlogin: "tdoumas",
+        mdplogin: "123",
+        nom: "Doumas",
+        prenom: "Tristan",
+        datenaissance: "1990-01-01",
+        datedebutcontrat: "2022-01-01",
+        fk_fonction: "Chauffeur",
+        numtelephone: "1234567890",
+        typepermis: "C",
+        fk_adresse: 1,
+        fk_decheterie: 1,
+      });
+    expect(employe2.statusCode).toEqual(201);
+    expect(employe2.body).toEqual({
+      message: EmployeOK.add,
     });
 
     // get one
@@ -314,7 +459,7 @@ describe("Employe CRUD", () => {
       .set("Cookie", cookie);
     expect(employeGet.statusCode).toEqual(500);
     expect(employeGet.body).toEqual({
-      error: "Error getting employe",
+      error: EmployeKO.get,
     });
 
     // get all
@@ -345,7 +490,7 @@ describe("Employe CRUD", () => {
       });
     expect(employeUpdate.statusCode).toEqual(500);
     expect(employeUpdate.body).toEqual({
-      error: "Error updating employe",
+      error: EmployeKO.update,
     });
 
     // delete
@@ -354,7 +499,16 @@ describe("Employe CRUD", () => {
       .set("Cookie", cookie);
     expect(employeDelete.statusCode).toEqual(500);
     expect(employeDelete.body).toEqual({
-      error: "Error deleting employe",
+      error: EmployeKO.delete,
+    });
+
+    // delete with Responsable
+    const employeDelete2 = await request(app)
+      .delete("/api/employes/tdoumas")
+      .set("Cookie", cookie2);
+    expect(employeDelete2.statusCode).toEqual(200);
+    expect(employeDelete2.body).toEqual({
+      message: EmployeOK.delete,
     });
   });
 });
@@ -386,7 +540,7 @@ describe("Employe CRUD with different decheterie", () => {
       });
     expect(employe.statusCode).toEqual(500);
     expect(employe.body).toEqual({
-      error: "Error adding employe",
+      error: EmployeKO.add,
     });
 
     // create a employe with in the same primary decheterie
@@ -408,16 +562,16 @@ describe("Employe CRUD with different decheterie", () => {
       });
     expect(employe2.statusCode).toEqual(201);
     expect(employe2.body).toEqual({
-      message: "Employe added successfully",
+      message: EmployeOK.add,
     });
 
     // get one
     const employeGet = await request(app)
-      .get("/api/employes/6")
+      .get("/api/employes/tdoumas")
       .set("Cookie", cookie);
     expect(employeGet.statusCode).toEqual(500);
     expect(employeGet.body).toEqual({
-      error: "Error getting employe",
+      error: EmployeKO.get,
     });
 
     // get all
@@ -453,7 +607,7 @@ describe("Employe CRUD with different decheterie", () => {
 
     // update
     const employeUpdate = await request(app)
-      .put("/api/employes/6")
+      .put("/api/employes/tdoumas")
       .set("Cookie", cookie)
       .send({
         idlogin: "tdoumas",
@@ -470,23 +624,23 @@ describe("Employe CRUD with different decheterie", () => {
       });
     expect(employeUpdate.statusCode).toEqual(500);
     expect(employeUpdate.body).toEqual({
-      message: "Error updating employe",
+      error: EmployeKO.update,
     });
 
     // delete
     const employeDelete = await request(app)
-      .delete("/api/employes/6")
+      .delete("/api/employes/tdoumas")
       .set("Cookie", cookie);
     expect(employeDelete.statusCode).toEqual(500);
     expect(employeDelete.body).toEqual({
-      message: "Error deleting employe",
+      error: EmployeKO.delete,
     });
     const employeDelete2 = await request(app)
-      .delete("/api/employes/6")
+      .delete("/api/employes/tdoumas")
       .set("Cookie", cookie2);
     expect(employeDelete2.statusCode).toEqual(200);
     expect(employeDelete2.body).toEqual({
-      message: "Employe deleted successfully",
+      message: EmployeOK.delete,
     });
   });
 });
