@@ -59,7 +59,6 @@ passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
       const user = await models.Employe.findByPk(username);
-      console.log("User found:", user);
       if (user === null) {
         // User not found, perform a dummy bcrypt check to mitigate timing attacks
         await bcrypt.compare(password, "$2b$10$dummyhashdummyhashdummyhashdum");
