@@ -25,7 +25,7 @@ describe("Ramassage not logged in", () => {
       fk_contenant: 1,
       fk_employee: "rsmith2",
       fk_decheterie: 1,
-      fk_vehicule: "VD 756 254",
+      fk_vehicule: "VD756254",
     });
     expect(ramassage.statusCode).toEqual(403);
     expect(ramassage.body).toEqual({
@@ -55,7 +55,7 @@ describe("Ramassage not logged in", () => {
       fk_contenant: 1,
       fk_employee: "rsmith2",
       fk_decheterie: 1,
-      fk_vehicule: "VD 756 254",
+      fk_vehicule: "VD756254",
     });
     expect(ramassageUpdate.statusCode).toEqual(403);
     expect(ramassageUpdate.body).toEqual({
@@ -90,7 +90,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
@@ -109,7 +109,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
@@ -129,7 +129,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
         fk_status: "accepté",
       },
     });
@@ -156,7 +156,7 @@ describe("Ramassage CRUD", () => {
           taille_contenant: null,
           nbcadre_contenant: null,
           type_vehicule: "camion",
-          immatriculation_vehicule: "VD 756 254",
+          immatriculation_vehicule: "VD756254",
         },
         {
           id_ramassage: 10,
@@ -173,7 +173,7 @@ describe("Ramassage CRUD", () => {
           taille_contenant: null,
           nbcadre_contenant: null,
           type_vehicule: "camion",
-          immatriculation_vehicule: "VD 756 254",
+          immatriculation_vehicule: "VD756254",
         },
       ],
     });
@@ -190,7 +190,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassageUpdate.statusCode).toEqual(200);
     expect(ramassageUpdate.body).toEqual({
@@ -233,7 +233,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
@@ -252,7 +252,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
@@ -272,7 +272,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
         fk_status: "accepté",
       },
     });
@@ -299,7 +299,7 @@ describe("Ramassage CRUD", () => {
           taille_contenant: null,
           nbcadre_contenant: null,
           type_vehicule: "camion",
-          immatriculation_vehicule: "VD 756 254",
+          immatriculation_vehicule: "VD756254",
         },
         {
           id_ramassage: 10,
@@ -316,7 +316,7 @@ describe("Ramassage CRUD", () => {
           taille_contenant: null,
           nbcadre_contenant: null,
           type_vehicule: "camion",
-          immatriculation_vehicule: "VD 756 254",
+          immatriculation_vehicule: "VD756254",
         },
       ],
     });
@@ -333,7 +333,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassageUpdate.statusCode).toEqual(200);
     expect(ramassageUpdate.body).toEqual({
@@ -376,7 +376,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
@@ -395,7 +395,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
@@ -415,7 +415,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
         fk_status: "accepté",
       },
     });
@@ -442,7 +442,7 @@ describe("Ramassage CRUD", () => {
           taille_contenant: null,
           nbcadre_contenant: null,
           type_vehicule: "camion",
-          immatriculation_vehicule: "VD 756 254",
+          immatriculation_vehicule: "VD756254",
         },
       ],
     });
@@ -459,7 +459,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassageUpdate.statusCode).toEqual(500);
     expect(ramassageUpdate.body).toEqual({
@@ -515,7 +515,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
@@ -534,7 +534,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassagePast.statusCode).toEqual(201);
     expect(ramassagePast.body).toEqual({
@@ -554,7 +554,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
         fk_status: "accepté",
       },
     });
@@ -581,7 +581,7 @@ describe("Ramassage CRUD", () => {
           taille_contenant: null,
           nbcadre_contenant: null,
           type_vehicule: "camion",
-          immatriculation_vehicule: "VD 756 254",
+          immatriculation_vehicule: "VD756254",
         },
       ],
     });
@@ -598,7 +598,7 @@ describe("Ramassage CRUD", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassageUpdate.statusCode).toEqual(500);
     expect(ramassageUpdate.body).toEqual({
@@ -657,7 +657,7 @@ describe("Ramassage CRUD not working", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassage.statusCode).toEqual(201);
     expect(ramassage.body).toEqual({
@@ -676,7 +676,7 @@ describe("Ramassage CRUD not working", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassage2.statusCode).toEqual(500);
     expect(ramassage2.body).toEqual({
@@ -704,7 +704,7 @@ describe("Ramassage CRUD not working", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassageUpdate.statusCode).toEqual(500);
     expect(ramassageUpdate.body).toEqual({
@@ -746,7 +746,7 @@ describe("Ramassage CRUD with different decheterie", () => {
         fk_contenant: 1,
         fk_employee: "rlandry",
         fk_decheterie: 6,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassage.statusCode).toEqual(500);
     expect(ramassage.body).toEqual({
@@ -765,7 +765,7 @@ describe("Ramassage CRUD with different decheterie", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 6,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassage2.statusCode).toEqual(201);
     expect(ramassage2.body).toEqual({
@@ -812,7 +812,7 @@ describe("Ramassage CRUD with different decheterie", () => {
           taille_contenant: null,
           nbcadre_contenant: null,
           type_vehicule: "camion",
-          immatriculation_vehicule: "VD 756 254",
+          immatriculation_vehicule: "VD756254",
         },
       ],
     });
@@ -829,7 +829,7 @@ describe("Ramassage CRUD with different decheterie", () => {
         fk_contenant: 1,
         fk_employee: "rsmith2",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassageUpdate.statusCode).toEqual(500);
     expect(ramassageUpdate.body).toEqual({
@@ -873,7 +873,7 @@ describe("Ramassage test employe have licence", () => {
         fk_contenant: 1,
         fk_employee: "jdoe",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassage.statusCode).toEqual(500);
     expect(ramassage.body).toEqual({
@@ -892,7 +892,7 @@ describe("Ramassage test employe have licence", () => {
         fk_contenant: 1,
         fk_employee: "rfournier",
         fk_decheterie: 1,
-        fk_vehicule: "VD 756 254",
+        fk_vehicule: "VD756254",
       });
     expect(ramassage2.statusCode).toEqual(500);
     expect(ramassage2.body).toEqual({
