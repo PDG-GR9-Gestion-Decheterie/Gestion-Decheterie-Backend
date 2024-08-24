@@ -3,9 +3,11 @@ import { Sequelize } from "sequelize";
 let sequelize;
 export let models;
 
+const DB_URL = process.env.DATABASE_URL;
+
 export async function initializeDB() {
   try {
-    sequelize = new Sequelize(`postgres://bdr:bdr@postgresql:5432/bdr`);
+    sequelize = new Sequelize(DB_URL);
 
     console.log("Connection string:", sequelize.config);
 
