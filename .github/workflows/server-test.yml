@@ -73,8 +73,8 @@ jobs:
         env:
           PGPASSWORD: bdr
 
-      - name: Run tests
-        run: docker exec backend-container npm test
-
       - name: Capture backend logs
         run: docker logs backend-container
+
+      - name: Run tests
+        run: docker exec backend-container npm test
