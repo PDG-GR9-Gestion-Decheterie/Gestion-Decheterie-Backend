@@ -5,8 +5,7 @@ export let models;
 
 export async function initializeDB() {
   try {
-    // sequelize = new Sequelize(`postgres://bdr:bdr@postgresql:5432/bdr`);
-    sequelize = new Sequelize(`postgres://bdr:bdr@127.0.0.1:5432/bdr`);
+    sequelize = new Sequelize(`postgres://bdr:bdr@postgresql:5432/bdr`);
 
     console.log("Connection string:", sequelize.config);
 
