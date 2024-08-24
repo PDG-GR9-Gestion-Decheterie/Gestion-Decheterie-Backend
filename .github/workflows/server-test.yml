@@ -50,14 +50,14 @@ jobs:
 
       - name: Wait for Postgres to be ready
         run: |
-          while ! pg_isready -h localhost -p 5432 -U bdr; do
+          while ! pg_isready -h postgresql -p 5432 -U bdr; do
             echo "Waiting for postgres..."
             sleep 2
           done
 
       - name: Initialize Database
         run: |
-          psql -h localhost -U bdr -d bdr -f ./db/GestionDecheterie.sql
+          psql -h postgresql -U bdr -d bdr -f ./db/GestionDecheterie.sql
         env:
           PGPASSWORD: bdr
 
