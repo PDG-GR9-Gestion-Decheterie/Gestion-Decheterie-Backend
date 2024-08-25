@@ -4,12 +4,15 @@ on: [push]
 
 jobs:
   build:
+    env:
+      DATABASE_URL: postgres://bdr:bdr@localhost:5432/bdr
+
     runs-on: ubuntu-latest
 
     # Service containers to run with `container-job`
     services:
       # Label used to access the service container
-      postgres:
+      postgresql:
         # Docker Hub image
         image: bitnami/postgresql:16
         # Provide the password for postgres
@@ -22,12 +25,9 @@ jobs:
         options: >-
           --health-cmd="pg_isready -U postgres" --health-interval=10s
           --health-timeout=5s --health-retries=10
-
         ports:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
-        volumes:
-          - ./db:/docker-entrypoint-initdb.d
 
     steps:
       - uses: actions/checkout@v4
@@ -54,6 +54,25 @@ jobs:
 
       - run: npm run build --if-present
         working-directory: ./backend
+
+      - name: Wait for Postgres to be ready
+        run: |
+          while ! pg_isready -h localhost -p 5432 -U bdr; do
+            echo "Waiting for postgres..."
+            sleep 2
+          done
+
+      - name: Initialize Database
+        run: |
+          psql -h localhost -U bdr -d bdr -f ./db/GestionDecheterie.sql
+        env:
+          PGPASSWORD: bdr
+
+      - name: List tables
+        run: |
+          psql -h localhost -U bdr -d bdr -c "\dt gestion_decheterie.*"
+        env:
+          PGPASSWORD: bdr
 
       - run: npm test
         working-directory: ./backend

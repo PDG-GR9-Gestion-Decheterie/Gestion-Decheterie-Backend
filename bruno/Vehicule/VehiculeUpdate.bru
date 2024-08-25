@@ -1,0 +1,23 @@
+meta {
+  name: VehiculeUpdate
+  type: http
+  seq: 4
+}
+
+put {
+  url: https://localhost/api/vehicules/VD999999
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "immatriculation": "VD999999",
+    "type": "camion",
+    "remorque": false,
+    "anneefabrication": "1950",
+    "dateexpertise": "2022-01-01",
+    "consocarburant": 10.5,
+    "fk_decheterie": 1
+  }
+}

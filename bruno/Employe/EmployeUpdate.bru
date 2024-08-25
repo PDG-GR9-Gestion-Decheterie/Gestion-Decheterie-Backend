@@ -1,0 +1,27 @@
+meta {
+  name: EmployeUpdate
+  type: http
+  seq: 4
+}
+
+put {
+  url: https://localhost/api/employes/agraf
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "idlogin": "agraf",
+    "mdplogin": "password",
+    "nom": "Doumas",
+    "prenom": "TriTri",
+    "datenaissance": "1990-01-01",
+    "datedebutcontrat": "2022-01-01",
+    "fk_fonction": "Chauffeur",
+    "numtelephone": "1234567890",
+    "typepermis": "C",
+    "fk_adresse": 1,
+    "fk_decheterie": 1
+  }
+}

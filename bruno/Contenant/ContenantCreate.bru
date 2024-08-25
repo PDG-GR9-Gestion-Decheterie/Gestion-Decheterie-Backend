@@ -1,0 +1,24 @@
+meta {
+  name: ContenantCreate
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://localhost/api/contenants
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": 100,
+    "nom": "benne",
+    "capacitemax": 40,
+    "nbcadre": null,
+    "taille": null,
+    "couleur": "blue",
+    "fk_decheterie": 1,
+    "fk_dechet": "papier"
+  }
+}

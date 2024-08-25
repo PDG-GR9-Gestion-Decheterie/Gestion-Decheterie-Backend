@@ -4,6 +4,7 @@ import request from "supertest";
 
 import {
   Responsable,
+  ResponsableWrong,
   Secretaire,
   Employe,
   Chauffeur,
@@ -11,9 +12,9 @@ import {
   Secretaire2,
   Employe2,
   Chauffeur2,
-} from "./credentials.test.js";
+} from "./credentials.js";
 
-import { LoginOK, LoginKO } from "./message.test.js";
+import { LoginOK, LoginKO } from "./message.js";
 
 describe("The API default route", () => {
   test("should receive Hello world!", async () => {
@@ -25,10 +26,12 @@ describe("The API default route", () => {
 
 describe("Login/Logout", () => {
   test("should login", async () => {
-    const list = await request(app).post("/api/login").send(Responsable);
+    const list = await request(app)
+      .post("/api/login")
+      .send(JSON.stringify(Responsable));
     expect(list.statusCode).toEqual(200);
     expect(list.body).toEqual({
-      idlogin: responsable.username,
+      idlogin: Responsable.username,
       fonction: "Responsable",
     });
   });
@@ -36,14 +39,14 @@ describe("Login/Logout", () => {
   test("should not login", async () => {
     const list = await request(app)
       .post("/api/login")
-      .send({ username: "admin", password: "admin1" });
+      .send(JSON.stringify(ResponsableWrong));
     expect(list.statusCode).toEqual(401);
     expect(list.body).toEqual({ error: LoginKO.login });
   });
 
   test("should logout", async () => {
-    const list = await request(app).get("/api/logout");
+    const list = await request(app).post("/api/logout");
     expect(list.statusCode).toEqual(200);
-    expect(list.text).toEqual({ message: LoginOK.logout });
+    expect(list.body).toEqual({ message: LoginOK.logout });
   });
 });

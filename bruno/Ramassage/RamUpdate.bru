@@ -1,0 +1,24 @@
+meta {
+  name: RamUpdate
+  type: http
+  seq: 6
+}
+
+put {
+  url: https://localhost/api/ramassages/6
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": 6,
+    "date": 1640995200000,
+    "fk_status": "accepté",
+    "poids": 150,
+    "fk_contenant": 1,
+    "fk_employee": "rsmith2",
+    "fk_decheterie": 1,
+    "fk_vehicule": "VD 756 254"
+  }
+}

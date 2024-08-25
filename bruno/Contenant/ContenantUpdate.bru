@@ -1,0 +1,24 @@
+meta {
+  name: ContenantUpdate
+  type: http
+  seq: 4
+}
+
+put {
+  url: https://localhost/api/contenants/100
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": 100,
+    "nom": "benne",
+    "capacitemax": 40,
+    "nbcadre": null,
+    "taille": null,
+    "couleur": "blue",
+    "fk_decheterie": 1,
+    "fk_dechet": "papier"
+  }
+}
