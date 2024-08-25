@@ -57,6 +57,8 @@ passport.deserializeUser(async (username, done) => {
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
+    console.log("Username:", username);
+    console.log("Password:", password);
     try {
       const user = await models.Employe.findByPk(username);
       if (user === null) {
