@@ -13,67 +13,59 @@ import {
   Chauffeur2,
 } from "./credentials.js";
 
-import { EmployeOK, EmployeKO, Forbidden } from "./message.js";
+import { EmployeOK, EmployeKO, Forbidden, Unauthorized } from "./message.js";
+
+import {
+  tdoumasCreateRequest,
+  tdoumasUpdateRequest,
+  tdoumasGetOneResponse,
+  tdoumasGetAllResponse,
+  jdoeCreateRequest,
+  jdoeUpdateRequest,
+  jdoeGetOneResponse,
+  jdoeGetAllResponse,
+  dech1getAllResponse,
+} from "./employeMessage.js";
 
 describe("Employe not logged in", () => {
   test("CRUD", async () => {
     // create
-    const employe = await request(app).post("/api/employes").send({
-      idlogin: "tdoumas",
-      mdplogin: "123",
-      nom: "Doumas",
-      prenom: "Tristan",
-      datenaissance: "1990-01-01",
-      datedebutcontrat: "2022-01-01",
-      fk_fonction: "Chauffeur",
-      numtelephone: "1234567890",
-      typepermis: "C",
-      fk_adresse: 1,
-      fk_decheterie: 1,
-    });
-    expect(employe.statusCode).toEqual(403);
+    const employe = await request(app)
+      .post("/api/employes")
+      .send(JSON.stringify(tdoumasCreateRequest));
+    expect(employe.statusCode).toEqual(401);
     expect(employe.body).toEqual({
-      error: Forbidden.message,
+      error: Unauthorized.error,
     });
 
     // get one
     const employeGet = await request(app).get("/api/employes/tdoumas");
-    expect(employeGet.statusCode).toEqual(403);
+    expect(employeGet.statusCode).toEqual(401);
     expect(employeGet.body).toEqual({
-      error: Forbidden.message,
+      error: Unauthorized.error,
     });
 
     // get all
     const employeGetAll = await request(app).get("/api/employes");
-    expect(employeGetAll.statusCode).toEqual(403);
+    expect(employeGetAll.statusCode).toEqual(401);
     expect(employeGetAll.body).toEqual({
-      error: Forbidden.message,
+      error: Unauthorized.error,
     });
 
     // update
-    const employeUpdate = await request(app).put("/api/employes/tdoumas").send({
-      idlogin: "tdoumas",
-      mdplogin: "password",
-      nom: "TriTri",
-      prenom: "TriTri",
-      datenaissance: "1990-01-01",
-      datedebutcontrat: "2022-01-01",
-      fk_fonction: "Chauffeur",
-      numtelephone: "1234567890",
-      typepermis: "C",
-      fk_adresse: 1,
-      fk_decheterie: 1,
-    });
-    expect(employeUpdate.statusCode).toEqual(403);
+    const employeUpdate = await request(app)
+      .put("/api/employes/tdoumas")
+      .send(JSON.stringify(tdoumasUpdateRequest));
+    expect(employeUpdate.statusCode).toEqual(401);
     expect(employeUpdate.body).toEqual({
-      error: Forbidden.message,
+      error: Unauthorized.error,
     });
 
     // delete
     const employeDelete = await request(app).delete("/api/employes/tdoumas");
-    expect(employeDelete.statusCode).toEqual(403);
+    expect(employeDelete.statusCode).toEqual(401);
     expect(employeDelete.body).toEqual({
-      error: Forbidden.message,
+      error: Unauthorized.error,
     });
   });
 });
@@ -89,19 +81,7 @@ describe("Employe CRUD", () => {
     const employe = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie)
-      .send({
-        idlogin: "tdoumas",
-        mdplogin: "123",
-        nom: "Doumas",
-        prenom: "Tristan",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        fk_fonction: "Chauffeur",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 1,
-      });
+      .send(JSON.stringify(tdoumasCreateRequest));
     expect(employe.statusCode).toEqual(201);
     employe.body.employe.mdplogin = "";
     expect(employe.body).toEqual({
@@ -113,60 +93,20 @@ describe("Employe CRUD", () => {
       .get("/api/employes/tdoumas")
       .set("Cookie", cookie);
     expect(employeGet.statusCode).toEqual(200);
-    expect(employeGet.body).toEqual({
-      employes: {
-        idlogin: "tdoumas",
-        nom: "Doumas",
-        prenom: "Tristan",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 1,
-        fk_fonction: "Chauffeur",
-      },
-    });
+    expect(employeGet.body).toEqual(JSON.stringify(tdoumasGetOneResponse));
 
     // get all
     const employeGetAll = await request(app)
       .get("/api/employes")
       .set("Cookie", cookie);
     expect(employeGetAll.statusCode).toEqual(200);
-    expect(employeGetAll.body).toEqual({
-      employes: [
-        {
-          id_decheterie: 1,
-          nom_decheterie: "Decheterie Yverdon",
-          id_employe: "tdoumas",
-          nom_employe: "Doumas",
-          prenom_employe: "Tristan",
-          fonction_employe: "Chauffeur",
-          date_naissance: "1990-01-01",
-          date_debut_contrat: "2022-01-01",
-          numero_telephone: "1234567890",
-          type_permis: "C",
-        },
-      ],
-    });
+    expect(employeGetAll.body).toEqual(JSON.stringify(tdoumasGetAllResponse));
 
     // update
     const employeUpdate = await request(app)
       .put("/api/employes/tdoumas")
       .set("Cookie", cookie)
-      .send({
-        idlogin: "tdoumas",
-        mdplogin: "password",
-        nom: "TriTri",
-        prenom: "TriTri",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        fk_fonction: "Chauffeur",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 1,
-      });
+      .send(JSON.stringify(tdoumasUpdateRequest));
     expect(employeUpdate.statusCode).toEqual(200);
     expect(employeUpdate.body).toEqual({
       message: EmployeOK.update,
@@ -197,41 +137,17 @@ describe("Employe CRUD", () => {
     const employe = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie)
-      .send({
-        idlogin: "tdoumas",
-        mdplogin: "123",
-        nom: "Doumas",
-        prenom: "Tristan",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        fk_fonction: "Chauffeur",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 1,
-      });
-    expect(employe.statusCode).toEqual(500);
+      .send(JSON.stringify(tdoumasCreateRequest));
+    expect(employe.statusCode).toEqual(403);
     expect(employe.body).toEqual({
-      error: EmployeKO.add,
+      error: Forbidden.error,
     });
 
     // create with Responsable
     const employe2 = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie)
-      .send({
-        idlogin: "tdoumas",
-        mdplogin: "123",
-        nom: "Doumas",
-        prenom: "Tristan",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        fk_fonction: "Chauffeur",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 1,
-      });
+      .send(JSON.stringify(tdoumasCreateRequest));
     expect(employe2.statusCode).toEqual(201);
     expect(employe2.body).toEqual({
       message: EmployeOK.add,
@@ -241,49 +157,37 @@ describe("Employe CRUD", () => {
     const employeGet = await request(app)
       .get("/api/employes/tdoumas")
       .set("Cookie", cookie);
-    expect(employeGet.statusCode).toEqual(500);
+    expect(employeGet.statusCode).toEqual(403);
     expect(employeGet.body).toEqual({
-      error: EmployeKO.get,
+      error: Forbidden.error,
     });
 
     // get all
     const employeGetAll = await request(app)
       .get("/api/employes")
       .set("Cookie", cookie);
-    expect(employeGetAll.statusCode).toEqual(200);
+    expect(employeGetAll.statusCode).toEqual(403);
     expect(employeGetAll.body).toEqual({
-      employes: [],
+      error: Forbidden.error,
     });
 
     // update
     const employeUpdate = await request(app)
       .put("/api/employes/tdoumas")
       .set("Cookie", cookie)
-      .send({
-        idlogin: "tdoumas",
-        mdplogin: "password",
-        nom: "TriTri",
-        prenom: "TriTri",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        fk_fonction: "Chauffeur",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 1,
-      });
-    expect(employeUpdate.statusCode).toEqual(500);
+      .send(JSON.stringify(tdoumasUpdateRequest));
+    expect(employeUpdate.statusCode).toEqual(403);
     expect(employeUpdate.body).toEqual({
-      error: EmployeKO.update,
+      error: Forbidden.error,
     });
 
     // delete
     const employeDelete = await request(app)
       .delete("/api/employes/tdoumas")
       .set("Cookie", cookie);
-    expect(employeDelete.statusCode).toEqual(500);
+    expect(employeDelete.statusCode).toEqual(403);
     expect(employeDelete.body).toEqual({
-      error: EmployeKO.delete,
+      error: Forbidden.error,
     });
 
     // delete with Responsable
@@ -311,42 +215,17 @@ describe("Employe CRUD", () => {
     const employe = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie)
-      .send({
-        idlogin: "tdoumas",
-        mdplogin: "123",
-        nom: "Doumas",
-        prenom: "Tristan",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        fk_fonction: "Chauffeur",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 1,
-      });
-    expect(employe.statusCode).toEqual(500);
-    employe.body.employe.mdplogin = "";
+      .send(JSON.stringify(tdoumasCreateRequest));
+    expect(employe.statusCode).toEqual(403);
     expect(employe.body).toEqual({
-      error: EmployeKO.add,
+      error: Forbidden.error,
     });
 
     // create with Responsable
     const employe2 = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie)
-      .send({
-        idlogin: "tdoumas",
-        mdplogin: "123",
-        nom: "Doumas",
-        prenom: "Tristan",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        fk_fonction: "Chauffeur",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 1,
-      });
+      .send(JSON.stringify(tdoumasCreateRequest));
     expect(employe2.statusCode).toEqual(201);
     expect(employe2.body).toEqual({
       message: EmployeOK.add,
@@ -356,49 +235,37 @@ describe("Employe CRUD", () => {
     const employeGet = await request(app)
       .get("/api/employes/tdoumas")
       .set("Cookie", cookie);
-    expect(employeGet.statusCode).toEqual(500);
+    expect(employeGet.statusCode).toEqual(403);
     expect(employeGet.body).toEqual({
-      error: EmployeKO.get,
+      error: Forbidden.error,
     });
 
     // get all
     const employeGetAll = await request(app)
       .get("/api/employes")
       .set("Cookie", cookie);
-    expect(employeGetAll.statusCode).toEqual(500);
+    expect(employeGetAll.statusCode).toEqual(403);
     expect(employeGetAll.body).toEqual({
-      employes: [],
+      error: Forbidden.error,
     });
 
     // update
     const employeUpdate = await request(app)
       .put("/api/employes/tdoumas")
       .set("Cookie", cookie)
-      .send({
-        idlogin: "tdoumas",
-        mdplogin: "password",
-        nom: "TriTri",
-        prenom: "TriTri",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        fk_fonction: "Chauffeur",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 1,
-      });
-    expect(employeUpdate.statusCode).toEqual(500);
+      .send(JSON.stringify(tdoumasUpdateRequest));
+    expect(employeUpdate.statusCode).toEqual(403);
     expect(employeUpdate.body).toEqual({
-      error: EmployeKO.update,
+      error: Forbidden.error,
     });
 
     // delete
     const employeDelete = await request(app)
       .delete("/api/employes/tdoumas")
       .set("Cookie", cookie);
-    expect(employeDelete.statusCode).toEqual(500);
+    expect(employeDelete.statusCode).toEqual(403);
     expect(employeDelete.body).toEqual({
-      error: EmployeKO.delete,
+      error: Forbidden.error,
     });
 
     // delete with Responsable
@@ -426,19 +293,7 @@ describe("Employe CRUD", () => {
     const employe = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie)
-      .send({
-        idlogin: "tdoumas",
-        mdplogin: "123",
-        nom: "Doumas",
-        prenom: "Tristan",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        fk_fonction: "Chauffeur",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 1,
-      });
+      .send(JSON.stringify(tdoumasCreateRequest));
     expect(employe.statusCode).toEqual(500);
     employe.body.employe.mdplogin = "";
     expect(employe.body).toEqual({
@@ -449,19 +304,7 @@ describe("Employe CRUD", () => {
     const employe2 = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie)
-      .send({
-        idlogin: "tdoumas",
-        mdplogin: "123",
-        nom: "Doumas",
-        prenom: "Tristan",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        fk_fonction: "Chauffeur",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 1,
-      });
+      .send(JSON.stringify(tdoumasCreateRequest));
     expect(employe2.statusCode).toEqual(201);
     expect(employe2.body).toEqual({
       message: EmployeOK.add,
@@ -471,49 +314,37 @@ describe("Employe CRUD", () => {
     const employeGet = await request(app)
       .get("/api/employes/tdoumas")
       .set("Cookie", cookie);
-    expect(employeGet.statusCode).toEqual(500);
+    expect(employeGet.statusCode).toEqual(403);
     expect(employeGet.body).toEqual({
-      error: EmployeKO.get,
+      error: Forbidden.error,
     });
 
     // get all
     const employeGetAll = await request(app)
       .get("/api/employes")
       .set("Cookie", cookie);
-    expect(employeGetAll.statusCode).toEqual(500);
+    expect(employeGetAll.statusCode).toEqual(403);
     expect(employeGetAll.body).toEqual({
-      employes: [],
+      error: Forbidden.error,
     });
 
     // update
     const employeUpdate = await request(app)
       .put("/api/employes/tdoumas")
       .set("Cookie", cookie)
-      .send({
-        idlogin: "tdoumas",
-        mdplogin: "password",
-        nom: "TriTri",
-        prenom: "TriTri",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        fk_fonction: "Chauffeur",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 1,
-      });
-    expect(employeUpdate.statusCode).toEqual(500);
+      .send(JSON.stringify(tdoumasUpdateRequest));
+    expect(employeUpdate.statusCode).toEqual(403);
     expect(employeUpdate.body).toEqual({
-      error: EmployeKO.update,
+      error: Forbidden.error,
     });
 
     // delete
     const employeDelete = await request(app)
       .delete("/api/employes/tdoumas")
       .set("Cookie", cookie);
-    expect(employeDelete.statusCode).toEqual(500);
+    expect(employeDelete.statusCode).toEqual(403);
     expect(employeDelete.body).toEqual({
-      error: EmployeKO.delete,
+      error: Forbidden.error,
     });
 
     // delete with Responsable
@@ -543,41 +374,17 @@ describe("Employe CRUD with different decheterie", () => {
     const employe = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie)
-      .send({
-        idlogin: "tdoumas",
-        mdplogin: "123",
-        nom: "Doumas",
-        prenom: "Tristan",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        fk_fonction: "Chauffeur",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 6,
-      });
-    expect(employe.statusCode).toEqual(500);
+      .send(JSON.stringify(jdoeCreateRequest));
+    expect(employe.statusCode).toEqual(403);
     expect(employe.body).toEqual({
-      error: EmployeKO.add,
+      error: Forbidden.error,
     });
 
     // create a employe with in the same primary decheterie
     const employe2 = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie2)
-      .send({
-        idlogin: "tdoumas",
-        mdplogin: "123",
-        nom: "Doumas",
-        prenom: "Tristan",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        fk_fonction: "Chauffeur",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 6,
-      });
+      .send(JSON.stringify(jdoeCreateRequest));
     expect(employe2.statusCode).toEqual(201);
     expect(employe2.body).toEqual({
       message: EmployeOK.add,
@@ -585,11 +392,11 @@ describe("Employe CRUD with different decheterie", () => {
 
     // get one
     const employeGet = await request(app)
-      .get("/api/employes/tdoumas")
+      .get("/api/employes/jdoe")
       .set("Cookie", cookie);
-    expect(employeGet.statusCode).toEqual(500);
+    expect(employeGet.statusCode).toEqual(403);
     expect(employeGet.body).toEqual({
-      error: EmployeKO.get,
+      error: Forbidden.error,
     });
 
     // get all
@@ -597,61 +404,32 @@ describe("Employe CRUD with different decheterie", () => {
       .get("/api/employes")
       .set("Cookie", cookie);
     expect(employeGetAll.statusCode).toEqual(200);
-    expect(employeGetAll.body).toEqual({
-      employes: [],
-    });
+    expect(employeGetAll.body).toEqual(JSON.stringify(dech1getAllResponse));
 
     // get all
     const employeGetAll2 = await request(app)
       .get("/api/employes")
       .set("Cookie", cookie2);
     expect(employeGetAll2.statusCode).toEqual(200);
-    expect(employeGetAll2.body).toEqual({
-      employes: [
-        {
-          id_decheterie: 1,
-          nom_decheterie: "Decheterie Yverdon",
-          id_employe: "tdoumas",
-          nom_employe: "Doumas",
-          prenom_employe: "Tristan",
-          fonction_employe: "Chauffeur",
-          date_naissance: "1990-01-01",
-          date_debut_contrat: "2022-01-01",
-          numero_telephone: "1234567890",
-          type_permis: "C",
-        },
-      ],
-    });
+    expect(employeGetAll2.body).toEqual(JSON.stringify(jdoeGetAllResponse));
 
     // update
     const employeUpdate = await request(app)
       .put("/api/employes/tdoumas")
       .set("Cookie", cookie)
-      .send({
-        idlogin: "tdoumas",
-        mdplogin: "123",
-        nom: "Doumas",
-        prenom: "Tristan",
-        datenaissance: "1990-01-01",
-        datedebutcontrat: "2022-01-01",
-        fk_fonction: "Chauffeur",
-        numtelephone: "1234567890",
-        typepermis: "C",
-        fk_adresse: 1,
-        fk_decheterie: 6,
-      });
-    expect(employeUpdate.statusCode).toEqual(500);
+      .send(JSON.stringify(jdoeUpdateRequest));
+    expect(employeUpdate.statusCode).toEqual(403);
     expect(employeUpdate.body).toEqual({
-      error: EmployeKO.update,
+      error: Forbidden.error,
     });
 
     // delete
     const employeDelete = await request(app)
       .delete("/api/employes/tdoumas")
       .set("Cookie", cookie);
-    expect(employeDelete.statusCode).toEqual(500);
+    expect(employeDelete.statusCode).toEqual(403);
     expect(employeDelete.body).toEqual({
-      error: EmployeKO.delete,
+      error: Forbidden.error,
     });
     const employeDelete2 = await request(app)
       .delete("/api/employes/tdoumas")

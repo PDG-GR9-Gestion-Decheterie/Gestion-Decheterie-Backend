@@ -58,7 +58,11 @@ const LoginKO = {
 };
 
 const Forbidden = {
-  message: "Forbidden",
+  error: "Forbidden",
+};
+
+const Unauthorized = {
+  error: "Unauthorized",
 };
 
 export {
@@ -73,4 +77,5 @@ export {
   LoginOK,
   LoginKO,
   Forbidden,
+  Unauthorized,
 };

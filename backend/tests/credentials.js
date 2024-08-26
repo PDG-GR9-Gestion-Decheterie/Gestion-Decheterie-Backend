@@ -1,13 +1,13 @@
-const Responsable = { username: "admin", password: "jesuisicietpasla" }; // déchèterie 1
-const ResponsableWrong = { username: "admin", password: "123" };
-const Secretaire = { username: "jferrara", password: "123" }; // déchèterie 1
-const Employe = { username: "asmith", password: "123" }; // déchèterie 1
-const Chauffeur = { username: "rsmith2", password: "123" }; // déchèterie 1
+const Responsable = { username: "Resp1", password: "123" }; // déchèterie 1
+const ResponsableWrong = { username: "Resp1", password: "123" };
+const Secretaire = { username: "Secr1", password: "123" }; // déchèterie 1
+const Employe = { username: "Empl1", password: "123" }; // déchèterie 1
+const Chauffeur = { username: "Chauff1", password: "123" }; // déchèterie 1
 
-const Responsable2 = { username: "jdurand", password: "123" }; // déchèterie 5
-const Secretaire2 = { username: "jdoe3", password: "123" }; // déchèterie 5
-const Employe2 = { username: "rlandry", password: "123" }; // déchèterie 6
-const Chauffeur2 = { username: "lchevalier", password: "123" }; // déchèterie 5
+const Responsable2 = { username: "Resp2", password: "123" }; // déchèterie 2
+const Secretaire2 = { username: "Secr2", password: "123" }; // déchèterie 2
+const Employe2 = { username: "Empl2", password: "123" }; // déchèterie 2
+const Chauffeur2 = { username: "Chauff2", password: "123" }; // déchèterie 2
 
 export {
   Responsable,
