@@ -1,0 +1,21 @@
+meta {
+  name: DecheterieCreate
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://localhost/api/decheteries
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+  
+      "id": 7,
+      "nom": "Decheterie Create",
+      "fk_adresse": 1
+    
+  }
+}

@@ -29,6 +29,13 @@ import {
   updateVehicule,
   createVehicule,
 } from "./controller/vehiculeController.js";
+import {
+  getDecheteries,
+  getDecheterieById,
+  createDecheterie,
+  updateDecheterie,
+  deleteDecheterie,
+} from "./controller/decheterieController.js";
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -184,6 +191,25 @@ app.post(
   "/api/vehicules",
   checkRole(["Responsable", "Secrétaire"]),
   createVehicule
+);
+//-------------------------------------------------------------------//
+// ---------------------- Endpoints Vehicule ----------------------- //
+app.get("/api/decheteries", checkRole(["All"]), getDecheteries);
+app.get("/api/decheteries/:id", checkRole(["All"]), getDecheterieById);
+app.put(
+  "/api/decheteries/:id",
+  checkRole(["Responsable", "Secrétaire"]),
+  updateDecheterie
+);
+app.post(
+  "/api/decheteries",
+  checkRole(["Responsable", "Secrétaire"]),
+  createDecheterie
+);
+app.delete(
+  "/api/decheteries/:id",
+  checkRole(["Responsable", "Secrétaire"]),
+  deleteDecheterie
 );
 
 export default app;

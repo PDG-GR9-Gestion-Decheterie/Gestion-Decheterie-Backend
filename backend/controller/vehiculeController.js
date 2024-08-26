@@ -23,11 +23,13 @@ export async function getVehicules(req, res) {
         };
       }
       delete vehiculeData.fk_decheterie;
+      delete vehiculeData.decheterie_fk_adresse;
+      delete vehiculeData.decheterie_id;
       vehiculesData.push(vehiculeData);
     }
     res.status(200).json({ vehiculesData });
   } catch (err) {
-    console.error("Error fetching employes:", err);
+    console.error("Error fetching vehicules:", err);
     res.status(404).json({ error: "Error" });
   }
 }
@@ -46,7 +48,7 @@ export async function getVehiculeById(req, res) {
     let VehiculeData = vehicule.dataValues;
     res.status(200).json({ VehiculeData });
   } catch (err) {
-    console.error("Error fetching employe:", err);
+    console.error("Error fetching vehicule:", err);
     res.status(404).json({ error: "Error" });
   }
 }
