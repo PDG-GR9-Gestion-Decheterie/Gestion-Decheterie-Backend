@@ -79,7 +79,7 @@ describe("Employe CRUD", () => {
     const employe = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie)
-      .send(JSON.stringify(tdoumasCreateRequest));
+      .send(tdoumasCreateRequest);
     expect(employe.statusCode).toEqual(201);
     expect(employe.body).toEqual({
       message: EmployeOK.add,
