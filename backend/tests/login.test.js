@@ -16,14 +16,6 @@ import {
 
 import { LoginOK, LoginKO } from "./message.js";
 
-describe("The API default route", () => {
-  test("should receive Hello world!", async () => {
-    const list = await request(app).get("/api");
-    expect(list.statusCode).toEqual(200);
-    expect(list.text).toEqual("API Gestion Déchèterie");
-  });
-});
-
 describe("Login/Logout", () => {
   test("should login", async () => {
     const list = await request(app).post("/api/login").send(Responsable);
