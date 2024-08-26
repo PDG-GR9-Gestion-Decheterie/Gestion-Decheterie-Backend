@@ -43,6 +43,13 @@ import {
   updateContenant,
   deleteContenant,
 } from "./controller/contenantController.js";
+import {
+  getAdresses,
+  getAdresseById,
+  createAdresse,
+  updateAdresse,
+  deleteAdresse,
+} from "./controller/adresseController.js";
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -241,4 +248,11 @@ app.post(
   checkRole(["Responsable", "Secrétaire"]),
   createContenant
 );
+//-------------------------------------------------------------------//
+// ---------------------- Endpoints Adresse  ----------------------- //
+app.get("/api/adresses", checkRole(["All"]), getAdresses);
+app.get("/api/adresses/:id", checkRole(["All"]), getAdresseById);
+app.put("/api/adresses/:id", checkRole(["All"]), updateAdresse);
+app.delete("/api/adresses/:id", checkRole(["All"]), deleteAdresse);
+app.post("/api/adresses", checkRole(["All"]), createAdresse);
 export default app;

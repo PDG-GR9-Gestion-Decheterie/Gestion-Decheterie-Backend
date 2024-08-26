@@ -1,5 +1,4 @@
 import { models } from "../database/orm.js";
-import { flattenObject } from "./utils.js";
 
 // Get tous les Contenants - /contenants
 export async function getContenantsDecheterie(req, res) {

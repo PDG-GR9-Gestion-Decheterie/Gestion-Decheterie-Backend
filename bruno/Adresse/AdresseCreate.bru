@@ -1,0 +1,22 @@
+meta {
+  name: AdresseCreate
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://localhost/api/adresses
+  body: json
+  auth: none
+}
+
+body:json {
+      {
+        "id": 17,
+        "rue": "Chemin du test",
+        "numero": "24",
+        "npa": "1880",
+        "nomville": "Fribourg",
+        "pays": "Suisse"
+      }
+}
