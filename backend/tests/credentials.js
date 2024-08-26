@@ -11,6 +11,7 @@ const Chauffeur2 = { username: "Chauff2", password: "123" }; // déchèterie 2
 
 export {
   Responsable,
+  ResponsableWrong,
   Secretaire,
   Employe,
   Chauffeur,

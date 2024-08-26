@@ -74,5 +74,11 @@ jobs:
         env:
           PGPASSWORD: bdr
 
+      - name: List content of the employe table
+        run: |
+          psql -h localhost -U bdr -d bdr -c "SELECT * FROM gestion_decheterie.employe;"
+        env:
+          PGPASSWORD: bdr
+
       - run: npm test
         working-directory: ./backend
