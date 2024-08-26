@@ -1,5 +1,5 @@
 import { models } from "../database/orm.js";
-
+import { flattenObject } from "./utils.js";
 // Get tous les ramassage - /ramassages
 export async function getRamassages(req, res) {
   try {
@@ -15,23 +15,58 @@ export async function getRamassages(req, res) {
         ramassage.dataValues.fk_contenant
       );
       let employe = await models.Employe.findByPk(
-        ramassage.dataValues.fk_employe
+        ramassage.dataValues.fk_employee
       );
       let decheterie = await models.Decheterie.findByPk(
         ramassage.dataValues.fk_decheterie
       );
       let vehicule = await models.Vehicule.findByPk(ramassage.fk_vehicule);
+      let ramassageData = { ...ramassage.dataValues };
+      if (contenant) {
+        ramassageData = {
+          ...ramassageData,
+          ...flattenObject(contenant.dataValues, "contenant_"),
+        };
+      }
+      if (employe) {
+        ramassageData = {
+          ...ramassageData,
+          ...flattenObject(employe.dataValues, "employe_"),
+        };
+      }
+      if (decheterie) {
+        ramassageData = {
+          ...ramassageData,
+          ...flattenObject(decheterie.dataValues, "decheterie_"),
+        };
+      }
+      if (vehicule) {
+        ramassageData = {
+          ...ramassageData,
+          ...flattenObject(vehicule.dataValues, "vehicule_"),
+        };
+      }
+      delete ramassageData.fk_contenant;
+      delete ramassageData.fk_employee;
+      delete ramassageData.fk_decheterie;
+      delete ramassageData.fk_vehicule;
+      delete ramassageData.contenant_fk_decheterie;
+      delete ramassageData.decheterie_id;
+      delete ramassageData.decheterie_fk_adresse;
+      delete ramassageData.decheterie_fk_adresse;
+      delete ramassageData.vehicule_fk_decheterie;
+      delete ramassageData.employe_idlogin;
+      delete ramassageData.employe_mdplogin;
+      delete ramassageData.employe_datenaissance;
+      delete ramassageData.employe_datedebutcontrat;
+      delete ramassageData.employe_numtelephone;
+      delete ramassageData.employe_typepermis;
+      delete ramassageData.employe_fk_adresse;
+      delete ramassageData.employe_fk_decheterie;
+      delete ramassageData.employe_fk_fonction;
 
-      // TODO clean up
-      ramassagesData.push({
-        ...ramassage.dataValues,
-        contenant: contenant.dataValues,
-        employe: employe.dataValues,
-        decheterie: decheterie.dataValues,
-        vehicule: vehicule.dataValues,
-      });
+      ramassagesData.push(ramassageData);
     }
-
     res.status(200).json({ ramassagesData });
   } catch (err) {
     console.error("Error fetching ramassages:", err);
@@ -64,7 +99,6 @@ export async function createRamassage(req, res) {
     await newRamassage.save();
     res.status(201).json({
       message: "Ramassage added successfully",
-      ramassage: newRamassage,
     });
   } catch (err) {
     console.error("Error adding ramassage:", err);

@@ -1,6 +1,6 @@
 import { models } from "../database/orm.js";
 import bcrypt from "bcrypt";
-
+import { flattenObject } from "./utils.js";
 // Get tous les employes - /employes
 export async function getEmployees(req, res) {
   try {
@@ -39,7 +39,7 @@ export async function getEmployees(req, res) {
       delete employeData.adresse_id;
       employesData.push(employeData);
     }
-    res.status(200).json(employesData);
+    res.status(200).json({ employesData });
   } catch (err) {
     console.error("Error fetching employes:", err);
     res.status(404).json({ error: "Error" });
@@ -69,7 +69,6 @@ export async function getEmployeeById(req, res) {
 export async function createEmployee(req, res) {
   try {
     const salt = await bcrypt.genSalt(10);
-    console.log("salt", salt);
     const hashedPassword = await bcrypt.hash(req.body.mdplogin, salt);
     const newEmploye = await models.Employe.create({
       ...req.body,
@@ -78,7 +77,6 @@ export async function createEmployee(req, res) {
     await newEmploye.save();
     res.status(201).json({
       message: "Employe added successfully",
-      employe: newEmploye,
     });
   } catch (err) {
     console.error("Error adding employe:", err);
@@ -165,22 +163,4 @@ export async function getEmployeeProfile(req, res) {
     console.error("Error fetching employe:", err);
     res.status(404).json({ error: "Error" });
   }
-}
-
-function flattenObject(obj, prefix = "") {
-  const flattened = {};
-
-  for (let key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      if (typeof obj[key] === "object" && obj[key] !== null) {
-        // Récursivité pour aplatir les objets imbriqués
-        Object.assign(flattened, flattenObject(obj[key], `${prefix}${key}_`));
-      } else {
-        // Ajoute la propriété avec le préfixe
-        flattened[`${prefix}${key}`] = obj[key];
-      }
-    }
-  }
-
-  return flattened;
 }
