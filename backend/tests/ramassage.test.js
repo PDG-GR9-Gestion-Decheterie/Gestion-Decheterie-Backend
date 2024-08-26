@@ -38,7 +38,7 @@ describe("Ramassage not logged in", () => {
     // create in futur
     const ramassage = await request(app)
       .post("/api/ramassages")
-      .send(ram6FuturCreateRequest);
+      .send(ram6CreateRequest);
     expect(ramassage.statusCode).toEqual(403);
     expect(ramassage.body).toEqual({
       error: Unauthorized.message,
