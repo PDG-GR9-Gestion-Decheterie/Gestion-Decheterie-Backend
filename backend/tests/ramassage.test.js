@@ -41,21 +41,21 @@ describe("Ramassage not logged in", () => {
       .send(ram6CreateRequest);
     expect(ramassage.statusCode).toEqual(401);
     expect(ramassage.body).toEqual({
-      error: Unauthorized.message,
+      error: Unauthorized.error,
     });
 
     // get one
     const ramassageGet = await request(app).get("/api/ramassages/6");
     expect(ramassageGet.statusCode).toEqual(401);
     expect(ramassageGet.body).toEqual({
-      error: Unauthorized.message,
+      error: Unauthorized.error,
     });
 
     // get all
     const ramassageGetAll = await request(app).get("/api/ramassages");
     expect(ramassageGetAll.statusCode).toEqual(401);
     expect(ramassageGetAll.body).toEqual({
-      error: Unauthorized.message,
+      error: Unauthorized.error,
     });
 
     // update
@@ -64,14 +64,14 @@ describe("Ramassage not logged in", () => {
       .send(ram6UpdateRequest);
     expect(ramassageUpdate.statusCode).toEqual(401);
     expect(ramassageUpdate.body).toEqual({
-      error: Unauthorized.message,
+      error: Unauthorized.error,
     });
 
     // delete
     const ramassageDelete = await request(app).delete("/api/ramassages/6");
     expect(ramassageDelete.statusCode).toEqual(401);
     expect(ramassageDelete.body).toEqual({
-      error: Unauthorized.message,
+      error: Unauthorized.error,
     });
   });
 });
