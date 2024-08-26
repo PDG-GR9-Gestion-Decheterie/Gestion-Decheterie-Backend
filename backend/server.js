@@ -38,7 +38,7 @@ app.use("/api", (req, res, next) => {
 });
 
 app.get("/api", (req, res) => {
-  res.send("API Gestion Déchèterie");
+  res.send("API Gestion Déchèterie !");
 });
 //--------------------------------------------------------------------//
 //---------------------- Passport Configuration ----------------------//
