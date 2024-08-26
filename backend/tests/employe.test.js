@@ -83,7 +83,6 @@ describe("Employe CRUD", () => {
       .set("Cookie", cookie)
       .send(JSON.stringify(tdoumasCreateRequest));
     expect(employe.statusCode).toEqual(201);
-    employe.body.employe.mdplogin = "";
     expect(employe.body).toEqual({
       message: EmployeOK.add,
     });
@@ -294,10 +293,9 @@ describe("Employe CRUD", () => {
       .post("/api/employes")
       .set("Cookie", cookie)
       .send(JSON.stringify(tdoumasCreateRequest));
-    expect(employe.statusCode).toEqual(500);
-    employe.body.employe.mdplogin = "";
+    expect(employe.statusCode).toEqual(403);
     expect(employe.body).toEqual({
-      error: EmployeKO.add,
+      error: Forbidden.error,
     });
 
     // create with Responsable
