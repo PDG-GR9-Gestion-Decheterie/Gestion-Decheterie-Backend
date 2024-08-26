@@ -31,7 +31,35 @@ const truck1UpdateRequest = {
 };
 
 const truck1getAllResponse = {
-  // todo}
+  vehiculesData: [
+    {
+      immatriculation: "VD100000",
+      type: "camion",
+      remorque: false,
+      anneefabrication: "2010",
+      dateexpertise: "2022-01-01",
+      consocarburant: 10.5,
+      decheterie_nom: "Decheterie Yverdon",
+    },
+    {
+      immatriculation: "VD100001",
+      type: "camionnette",
+      remorque: false,
+      anneefabrication: "2010",
+      dateexpertise: "2022-01-01",
+      consocarburant: 10.5,
+      decheterie_nom: "Decheterie Yverdon",
+    },
+    {
+      immatriculation: "VD999999",
+      type: "camion",
+      remorque: false,
+      anneefabrication: "2010",
+      dateexpertise: "2022-01-01",
+      consocarburant: 10.5,
+      decheterie_nom: "Decheterie Yverdon",
+    },
+  ],
 };
 
 const truck2CreateRequest = {
@@ -48,7 +76,7 @@ const truck2GetOneResponse = {
   vehiculeData: {
     immatriculation: "VD888888",
     type: "camion",
-    remorque: true,
+    remorque: false,
     anneefabrication: "2010",
     dateexpertise: "2022-01-01",
     consocarburant: 11.5,
@@ -67,7 +95,26 @@ const truck2UpdateRequest = {
 };
 
 const dechet1GetAllResponse = {
-  //todo
+  vehiculesData: [
+    {
+      immatriculation: "VD100000",
+      type: "camion",
+      remorque: false,
+      anneefabrication: "2010",
+      dateexpertise: "2022-01-01",
+      consocarburant: 10.5,
+      decheterie_nom: "Decheterie Yverdon",
+    },
+    {
+      immatriculation: "VD100001",
+      type: "camionnette",
+      remorque: false,
+      anneefabrication: "2010",
+      dateexpertise: "2022-01-01",
+      consocarburant: 10.5,
+      decheterie_nom: "Decheterie Yverdon",
+    },
+  ],
 };
 
 export {
