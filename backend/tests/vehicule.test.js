@@ -13,85 +13,72 @@ import {
   Chauffeur2,
 } from "./credentials.js";
 
-import { VehiculeOK, VehiculeKO, Forbidden } from "./message.js";
+import { VehiculeOK, VehiculeKO, Forbidden, Unauthorized } from "./message.js";
+
+import {
+  truck1CreateRequest,
+  truck1GetOneResponse,
+  truck1UpdateRequest,
+  truck1getAllResponse,
+  truck2CreateRequest,
+  truck2GetOneResponse,
+  truck2UpdateRequest,
+  dechet1GetAllResponse,
+} from "./vehiculeMessage.js";
 
 describe("Vehicule not logged in", () => {
   test("CRUD", async () => {
     // create
-    const vehicule = await request(app).post("/api/vehicules").send({
-      immatriculation: "VD999999",
-      type: "camion",
-      remorque: false,
-      anneefabrication: "2010",
-      dateexpertise: "2022-01-01",
-      consocarburant: 10.5,
-      fk_decheterie: 1,
-    });
-    expect(vehicule.statusCode).toEqual(403);
+    const vehicule = await request(app)
+      .post("/api/vehicules")
+      .send(truck1CreateRequest);
+    expect(vehicule.statusCode).toEqual(401);
     expect(vehicule.body).toEqual({
-      error: Forbidden.message,
+      error: Unauthorized.error,
     });
 
     // get one
     const vehiculeGet = await request(app).get("/api/vehicules/VD999999");
-    expect(vehiculeGet.statusCode).toEqual(403);
+    expect(vehiculeGet.statusCode).toEqual(401);
     expect(vehiculeGet.body).toEqual({
-      error: Forbidden.message,
+      error: Unauthorized.error,
     });
 
     // get all
     const vehiculeGetAll = await request(app).get("/api/vehicules");
-    expect(vehiculeGetAll.statusCode).toEqual(403);
+    expect(vehiculeGetAll.statusCode).toEqual(401);
     expect(vehiculeGetAll.body).toEqual({
-      error: Forbidden.message,
+      error: Unauthorized.error,
     });
 
     // update
     const vehiculeUpdate = await request(app)
       .put("/api/vehicules/VD999999")
-      .send({
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: true,
-        anneefabrication: "2011",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 1,
-      });
-    expect(vehiculeUpdate.statusCode).toEqual(403);
+      .send(truck1UpdateRequest);
+    expect(vehiculeUpdate.statusCode).toEqual(401);
     expect(vehiculeUpdate.body).toEqual({
-      error: Forbidden.message,
+      error: Unauthorized.error,
     });
 
     // delete
     const vehiculeDelete = await request(app).delete("/api/vehicules/VD999999");
-    expect(vehiculeDelete.statusCode).toEqual(403);
+    expect(vehiculeDelete.statusCode).toEqual(401);
     expect(vehiculeDelete.body).toEqual({
-      error: Forbidden.message,
+      error: Unauthorized.error,
     });
   });
 });
 
 describe("Vehicule CRUD", () => {
   test("Responsable", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Responsable));
+    const list = await request(app).post("/api/login").send(Responsable);
     const cookie = list.headers["set-cookie"];
 
     // create
     const vehicule = await request(app)
       .post("/api/vehicules")
       .set("Cookie", cookie)
-      .send({
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: false,
-        anneefabrication: "2010",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 1,
-      });
+      .send(truck1CreateRequest);
     expect(vehicule.statusCode).toEqual(201);
     expect(vehicule.body).toEqual({
       message: VehiculeOK.add,
@@ -102,50 +89,20 @@ describe("Vehicule CRUD", () => {
       .get("/api/vehicules/VD999999")
       .set("Cookie", cookie);
     expect(vehiculeGet.statusCode).toEqual(200);
-    expect(vehiculeGet.body).toEqual({
-      vehicules: {
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: false,
-        anneefabrication: "2010",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 1,
-      },
-    });
+    expect(vehiculeGet.body).toEqual(truck1GetOneResponse);
 
     // get all
     const vehiculeGetAll = await request(app)
       .get("/api/vehicules")
       .set("Cookie", cookie);
     expect(vehiculeGetAll.statusCode).toEqual(200);
-    expect(vehiculeGetAll.body).toEqual({
-      vehicules: [
-        {
-          immatriculation: "VD999999",
-          type: "camion",
-          remorque: false,
-          anneefabrication: "2010",
-          dateexpertise: "2022-01-01",
-          consocarburant: 10.5,
-          fk_decheterie: 1,
-        },
-      ],
-    });
+    expect(vehiculeGetAll.body).toEqual(truck1getAllResponse);
 
     // update
     const vehiculeUpdate = await request(app)
       .put("/api/vehicules/VD999999")
       .set("Cookie", cookie)
-      .send({
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: true,
-        anneefabrication: "2011",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 1,
-      });
+      .send(truck1UpdateRequest);
     expect(vehiculeUpdate.statusCode).toEqual(200);
     expect(vehiculeUpdate.body).toEqual({
       message: VehiculeOK.update,
@@ -162,24 +119,14 @@ describe("Vehicule CRUD", () => {
   });
 
   test("Secretaire", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Secretaire));
+    const list = await request(app).post("/api/login").send(Secretaire);
     const cookie = list.headers["set-cookie"];
 
     // create
     const vehicule = await request(app)
       .post("/api/vehicules")
       .set("Cookie", cookie)
-      .send({
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: false,
-        anneefabrication: "2010",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 1,
-      });
+      .send(truck1CreateRequest);
     expect(vehicule.statusCode).toEqual(201);
     expect(vehicule.body).toEqual({
       message: VehiculeOK.add,
@@ -190,50 +137,20 @@ describe("Vehicule CRUD", () => {
       .get("/api/vehicules/VD999999")
       .set("Cookie", cookie);
     expect(vehiculeGet.statusCode).toEqual(200);
-    expect(vehiculeGet.body).toEqual({
-      vehicules: {
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: false,
-        anneefabrication: "2010",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 1,
-      },
-    });
+    expect(vehiculeGet.body).toEqual(truck1GetOneResponse);
 
     // get all
     const vehiculeGetAll = await request(app)
       .get("/api/vehicules")
       .set("Cookie", cookie);
     expect(vehiculeGetAll.statusCode).toEqual(200);
-    expect(vehiculeGetAll.body).toEqual({
-      vehicules: [
-        {
-          immatriculation: "VD999999",
-          type: "camion",
-          remorque: false,
-          anneefabrication: "2010",
-          dateexpertise: "2022-01-01",
-          consocarburant: 10.5,
-          fk_decheterie: 1,
-        },
-      ],
-    });
+    expect(vehiculeGetAll.body).toEqual(truck1getAllResponse);
 
     // update
     const vehiculeUpdate = await request(app)
       .put("/api/vehicules/VD999999")
       .set("Cookie", cookie)
-      .send({
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: true,
-        anneefabrication: "2011",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 1,
-      });
+      .send(truck1UpdateRequest);
     expect(vehiculeUpdate.statusCode).toEqual(200);
     expect(vehiculeUpdate.body).toEqual({
       message: VehiculeOK.update,
@@ -250,47 +167,27 @@ describe("Vehicule CRUD", () => {
   });
 
   test("Employe", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Employe));
+    const list = await request(app).post("/api/login").send(Employe);
     const cookie = list.headers["set-cookie"];
 
-    const list2 = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Responsable));
+    const list2 = await request(app).post("/api/login").send(Responsable);
     const cookie2 = list2.headers["set-cookie"];
 
     // create
     const vehicule = await request(app)
       .post("/api/vehicules")
       .set("Cookie", cookie)
-      .send({
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: false,
-        anneefabrication: "2010",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 1,
-      });
-    expect(vehicule.statusCode).toEqual(500);
+      .send(truck1CreateRequest);
+    expect(vehicule.statusCode).toEqual(403);
     expect(vehicule.body).toEqual({
-      error: VehiculeKO.add,
+      error: Forbidden.error,
     });
 
     // create with Responsable rights
     const vehicule2 = await request(app)
       .post("/api/vehicules")
       .set("Cookie", cookie2)
-      .send({
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: false,
-        anneefabrication: "2010",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 1,
-      });
+      .send(truck1CreateRequest);
     expect(vehicule2.statusCode).toEqual(201);
     expect(vehicule2.body).toEqual({
       message: VehiculeOK.add,
@@ -300,45 +197,37 @@ describe("Vehicule CRUD", () => {
     const vehiculeGet = await request(app)
       .get("/api/vehicules/VD999999")
       .set("Cookie", cookie);
-    expect(vehiculeGet.statusCode).toEqual(500);
+    expect(vehiculeGet.statusCode).toEqual(403);
     expect(vehiculeGet.body).toEqual({
-      error: VehiculeKO.get,
+      error: Forbidden.error,
     });
 
     // get all
     const vehiculeGetAll = await request(app)
       .get("/api/vehicules")
       .set("Cookie", cookie);
-    expect(vehiculeGetAll.statusCode).toEqual(200);
+    expect(vehiculeGetAll.statusCode).toEqual(403);
     expect(vehiculeGetAll.body).toEqual({
-      vehicules: [],
+      error: Forbidden.error,
     });
 
     // update
     const vehiculeUpdate = await request(app)
       .put("/api/vehicules/VD999999")
       .set("Cookie", cookie)
-      .send({
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: true,
-        anneefabrication: "2011",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 1,
-      });
-    expect(vehiculeUpdate.statusCode).toEqual(500);
+      .send(truck1UpdateRequest);
+    expect(vehiculeUpdate.statusCode).toEqual(403);
     expect(vehiculeUpdate.body).toEqual({
-      error: VehiculeKO.update,
+      error: Forbidden.error,
     });
 
     // delete
     const vehiculeDelete = await request(app)
       .delete("/api/vehicules/VD999999")
       .set("Cookie", cookie);
-    expect(vehiculeDelete.statusCode).toEqual(500);
+    expect(vehiculeDelete.statusCode).toEqual(403);
     expect(vehiculeDelete.body).toEqual({
-      error: VehiculeKO.delete,
+      error: Forbidden.error,
     });
 
     // delete with Responsable rights
@@ -352,47 +241,27 @@ describe("Vehicule CRUD", () => {
   });
 
   test("Chauffeur", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Chauffeur));
+    const list = await request(app).post("/api/login").send(Chauffeur);
     const cookie = list.headers["set-cookie"];
 
-    const list2 = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Responsable));
+    const list2 = await request(app).post("/api/login").send(Responsable);
     const cookie2 = list2.headers["set-cookie"];
 
     // create
     const vehicule = await request(app)
       .post("/api/vehicules")
       .set("Cookie", cookie)
-      .send({
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: false,
-        anneefabrication: "2010",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 1,
-      });
-    expect(vehicule.statusCode).toEqual(500);
+      .send(truck1CreateRequest);
+    expect(vehicule.statusCode).toEqual(403);
     expect(vehicule.body).toEqual({
-      error: VehiculeKO.add,
+      error: Forbidden.error,
     });
 
     // create with Responsable rights
     const vehicule2 = await request(app)
       .post("/api/vehicules")
       .set("Cookie", cookie2)
-      .send({
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: false,
-        anneefabrication: "2010",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 1,
-      });
+      .send(truck1CreateRequest);
     expect(vehicule2.statusCode).toEqual(201);
     expect(vehicule2.body).toEqual({
       message: VehiculeOK.add,
@@ -402,45 +271,37 @@ describe("Vehicule CRUD", () => {
     const vehiculeGet = await request(app)
       .get("/api/vehicules/VD999999")
       .set("Cookie", cookie);
-    expect(vehiculeGet.statusCode).toEqual(500);
+    expect(vehiculeGet.statusCode).toEqual(403);
     expect(vehiculeGet.body).toEqual({
-      error: VehiculeKO.get,
+      error: Forbidden.error,
     });
 
     // get all
     const vehiculeGetAll = await request(app)
       .get("/api/vehicules")
       .set("Cookie", cookie);
-    expect(vehiculeGetAll.statusCode).toEqual(200);
+    expect(vehiculeGetAll.statusCode).toEqual(403);
     expect(vehiculeGetAll.body).toEqual({
-      vehicules: [],
+      error: Forbidden.error,
     });
 
     // update
     const vehiculeUpdate = await request(app)
       .put("/api/vehicules/VD999999")
       .set("Cookie", cookie)
-      .send({
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: true,
-        anneefabrication: "2011",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 1,
-      });
-    expect(vehiculeUpdate.statusCode).toEqual(500);
+      .send(truck1UpdateRequest);
+    expect(vehiculeUpdate.statusCode).toEqual(403);
     expect(vehiculeUpdate.body).toEqual({
-      error: VehiculeKO.update,
+      error: Forbidden.error,
     });
 
     // delete
     const vehiculeDelete = await request(app)
       .delete("/api/vehicules/VD999999")
       .set("Cookie", cookie);
-    expect(vehiculeDelete.statusCode).toEqual(500);
+    expect(vehiculeDelete.statusCode).toEqual(403);
     expect(vehiculeDelete.body).toEqual({
-      error: VehiculeKO.delete,
+      error: Forbidden.error,
     });
 
     // delete with Responsable rights
@@ -456,47 +317,27 @@ describe("Vehicule CRUD", () => {
 
 describe("Vehicule CRUD on a diffrent decheterie", () => {
   test("Responsable", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Responsable));
+    const list = await request(app).post("/api/login").send(Responsable);
     const cookie = list.headers["set-cookie"];
 
-    const list2 = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Responsable));
+    const list2 = await request(app).post("/api/login").send(Responsable);
     const cookie2 = list2.headers["set-cookie"];
 
-    // create a employe with in a different primary decheterie
+    // create a vehicule with in a different primary decheterie
     const vehicule = await request(app)
       .post("/api/vehicules")
       .set("Cookie", cookie)
-      .send({
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: false,
-        anneefabrication: "2010",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 6,
-      });
-    expect(vehicule.statusCode).toEqual(500);
+      .send(truck2CreateRequest);
+    expect(vehicule.statusCode).toEqual(403);
     expect(vehicule.body).toEqual({
-      error: VehiculeKO.add,
+      error: Forbidden.error,
     });
 
-    // create a employe with in the same primary decheterie
+    // create a vehicule with in the same primary decheterie
     const vehicule2 = await request(app)
       .post("/api/vehicules")
       .set("Cookie", cookie2)
-      .send({
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: false,
-        anneefabrication: "2010",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 6,
-      });
+      .send(truck2CreateRequest);
     expect(vehicule2.statusCode).toEqual(201);
     expect(vehicule2.body).toEqual({
       message: VehiculeOK.add,
@@ -504,11 +345,11 @@ describe("Vehicule CRUD on a diffrent decheterie", () => {
 
     // get one
     const vehiculeGet = await request(app)
-      .get("/api/vehicules/VD999999")
+      .get("/api/vehicules/VD888888")
       .set("Cookie", cookie);
-    expect(vehiculeGet.statusCode).toEqual(500);
+    expect(vehiculeGet.statusCode).toEqual(403);
     expect(vehiculeGet.body).toEqual({
-      error: VehiculeKO.get,
+      error: Forbidden.error,
     });
 
     // get all
@@ -516,40 +357,30 @@ describe("Vehicule CRUD on a diffrent decheterie", () => {
       .get("/api/vehicules")
       .set("Cookie", cookie);
     expect(vehiculeGetAll.statusCode).toEqual(200);
-    expect(vehiculeGetAll.body).toEqual({
-      vehicules: [],
-    });
+    expect(vehiculeGetAll.body).toEqual(dechet1GetAllResponse);
 
     // update
     const vehiculeUpdate = await request(app)
-      .put("/api/vehicules/VD999999")
+      .put("/api/vehicules/VD888888")
       .set("Cookie", cookie)
-      .send({
-        immatriculation: "VD999999",
-        type: "camion",
-        remorque: true,
-        anneefabrication: "2012",
-        dateexpertise: "2022-01-01",
-        consocarburant: 10.5,
-        fk_decheterie: 5,
-      });
-    expect(vehiculeUpdate.statusCode).toEqual(500);
+      .send(truck2UpdateRequest);
+    expect(vehiculeUpdate.statusCode).toEqual(403);
     expect(vehiculeUpdate.body).toEqual({
-      error: VehiculeKO.update,
+      error: Forbidden.error,
     });
 
     // delete
     const vehiculeDelete = await request(app)
-      .delete("/api/vehicules/VD999999")
+      .delete("/api/vehicules/VD888888")
       .set("Cookie", cookie);
-    expect(vehiculeDelete.statusCode).toEqual(500);
+    expect(vehiculeDelete.statusCode).toEqual(403);
     expect(vehiculeDelete.body).toEqual({
-      error: VehiculeKO.delete,
+      error: Forbidden.error,
     });
 
     // delete
     const vehiculeDelete2 = await request(app)
-      .delete("/api/vehicules/VD999999")
+      .delete("/api/vehicules/VD888888")
       .set("Cookie", cookie2);
     expect(vehiculeDelete2.statusCode).toEqual(200);
     expect(vehiculeDelete2.body).toEqual({
