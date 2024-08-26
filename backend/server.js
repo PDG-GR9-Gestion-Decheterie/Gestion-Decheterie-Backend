@@ -36,6 +36,20 @@ import {
   updateDecheterie,
   deleteDecheterie,
 } from "./controller/decheterieController.js";
+import {
+  getContenantsDecheterie,
+  getContenantById,
+  createContenant,
+  updateContenant,
+  deleteContenant,
+} from "./controller/contenantController.js";
+import {
+  getAdresses,
+  getAdresseById,
+  createAdresse,
+  updateAdresse,
+  deleteAdresse,
+} from "./controller/adresseController.js";
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -193,7 +207,7 @@ app.post(
   createVehicule
 );
 //-------------------------------------------------------------------//
-// ---------------------- Endpoints Vehicule ----------------------- //
+// ---------------------- Endpoints Decheterie  ----------------------- //
 app.get("/api/decheteries", checkRole(["All"]), getDecheteries);
 app.get("/api/decheteries/:id", checkRole(["All"]), getDecheterieById);
 app.put(
@@ -211,5 +225,34 @@ app.delete(
   checkRole(["Responsable", "Secrétaire"]),
   deleteDecheterie
 );
-
+//-------------------------------------------------------------------//
+// ---------------------- Endpoints Contenant  ----------------------- //
+app.get(
+  "/api/contenantsDecheterie/:id",
+  checkRole(["All"]),
+  getContenantsDecheterie
+);
+app.get("/api/contenants/:id", checkRole(["All"]), getContenantById);
+app.put(
+  "/api/contenants/:id",
+  checkRole(["Responsable", "Secrétaire"]),
+  updateContenant
+);
+app.delete(
+  "/api/contenants/:id",
+  checkRole(["Responsable", "Secrétaire"]),
+  deleteContenant
+);
+app.post(
+  "/api/contenants",
+  checkRole(["Responsable", "Secrétaire"]),
+  createContenant
+);
+//-------------------------------------------------------------------//
+// ---------------------- Endpoints Adresse  ----------------------- //
+app.get("/api/adresses", checkRole(["All"]), getAdresses);
+app.get("/api/adresses/:id", checkRole(["All"]), getAdresseById);
+app.put("/api/adresses/:id", checkRole(["All"]), updateAdresse);
+app.delete("/api/adresses/:id", checkRole(["All"]), deleteAdresse);
+app.post("/api/adresses", checkRole(["All"]), createAdresse);
 export default app;

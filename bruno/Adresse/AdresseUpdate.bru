@@ -1,0 +1,22 @@
+meta {
+  name: AdresseUpdate
+  type: http
+  seq: 4
+}
+
+put {
+  url: https://localhost/api/adresses/17
+  body: json
+  auth: none
+}
+
+body:json {
+      {
+        "id": 17,
+        "rue": "Chemin du futur",
+        "numero": "24",
+        "npa": "1880",
+        "nomville": "Fribourg",
+        "pays": "Suisse"
+      }
+}
