@@ -50,6 +50,11 @@ import {
   updateAdresse,
   deleteAdresse,
 } from "./controller/adresseController.js";
+import {
+  getFonctions,
+  getStatus,
+  getDechets,
+} from "./controller/dropdownController.js";
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -65,9 +70,6 @@ app.use("/api", (req, res, next) => {
   next();
 });
 
-app.get("/api", (req, res) => {
-  res.send("API Gestion Déchèterie");
-});
 //--------------------------------------------------------------------//
 //---------------------- Passport Configuration ----------------------//
 passport.serializeUser((user, done) => {
@@ -255,4 +257,9 @@ app.get("/api/adresses/:id", checkRole(["All"]), getAdresseById);
 app.put("/api/adresses/:id", checkRole(["All"]), updateAdresse);
 app.delete("/api/adresses/:id", checkRole(["All"]), deleteAdresse);
 app.post("/api/adresses", checkRole(["All"]), createAdresse);
+//-------------------------------------------------------------------//
+// ---------------------- Endpoints DropDown  ----------------------- //
+app.get("/api/fonctions", checkRole(["All"]), getFonctions);
+app.get("/api/status", checkRole(["All"]), getStatus);
+app.get("/api/dechets", checkRole(["All"]), getDechets);
 export default app;
