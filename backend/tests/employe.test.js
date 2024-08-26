@@ -72,9 +72,7 @@ describe("Employe not logged in", () => {
 
 describe("Employe CRUD", () => {
   test("Responsable", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Responsable));
+    const list = await request(app).post("/api/login").send(Responsable);
     const cookie = list.headers["set-cookie"];
 
     // create
@@ -122,14 +120,10 @@ describe("Employe CRUD", () => {
   });
 
   test("Secretaire", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Secretaire));
+    const list = await request(app).post("/api/login").send(Secretaire);
     const cookie = list.headers["set-cookie"];
 
-    const list2 = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Responsable));
+    const list2 = await request(app).post("/api/login").send(Responsable);
     const cookie2 = list2.headers["set-cookie"];
 
     // create
@@ -200,14 +194,10 @@ describe("Employe CRUD", () => {
   });
 
   test("Employe", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Employe));
+    const list = await request(app).post("/api/login").send(Employe);
     const cookie = list.headers["set-cookie"];
 
-    const list2 = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Responsable));
+    const list2 = await request(app).post("/api/login").send(Responsable);
     const cookie2 = list2.headers["set-cookie"];
 
     // create
@@ -278,14 +268,10 @@ describe("Employe CRUD", () => {
   });
 
   test("Chauffeur", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Chauffeur));
+    const list = await request(app).post("/api/login").send(Chauffeur);
     const cookie = list.headers["set-cookie"];
 
-    const list2 = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Responsable));
+    const list2 = await request(app).post("/api/login").send(Responsable);
     const cookie2 = list2.headers["set-cookie"];
 
     // create
@@ -358,14 +344,10 @@ describe("Employe CRUD", () => {
 
 describe("Employe CRUD with different decheterie", () => {
   test("Responsable", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Responsable));
+    const list = await request(app).post("/api/login").send(Responsable);
     const cookie = list.headers["set-cookie"];
 
-    const list2 = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Responsable));
+    const list2 = await request(app).post("/api/login").send(Responsable);
     const cookie2 = list2.headers["set-cookie"];
 
     // create a employe with in a different primary decheterie

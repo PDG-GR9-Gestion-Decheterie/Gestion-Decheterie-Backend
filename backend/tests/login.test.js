@@ -35,9 +35,7 @@ describe("Login/Logout", () => {
   });
 
   test("should not login", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(ResponsableWrong));
+    const list = await request(app).post("/api/login").send(ResponsableWrong);
     expect(list.statusCode).toEqual(401);
     expect(list.body).toEqual({ error: LoginKO.login });
   });
