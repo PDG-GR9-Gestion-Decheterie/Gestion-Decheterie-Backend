@@ -1,105 +1,106 @@
 import { models } from "../database/orm.js";
 import { flattenObject } from "./utils.js";
 
-// Get tous les vehicules - /vehicules
-export async function getVehicules(req, res) {
+// Get tous les decheteries - /decheteries
+export async function getDecheteries(req, res) {
   try {
-    let vehicules = null;
-    let vehiculesData = [];
-    vehicules = await models.Vehicule.findAll();
-    if (vehicules === null) {
+    let decheteries = null;
+    let decheteriesData = [];
+    decheteries = await models.Decheterie.findAll();
+    if (decheteries === null) {
       throw new Error();
     }
-    for (let vehicule of vehicules) {
-      let decheterie = await models.Decheterie.findByPk(
-        vehicule.dataValues.fk_decheterie
+    for (let decheterie of decheteries) {
+      let adresse = await models.Adresse.findByPk(
+        decheterie.dataValues.fk_adresse
       );
 
-      let vehiculeData = { ...vehicule.dataValues };
-      if (decheterie) {
-        vehiculeData = {
-          ...vehiculeData,
-          ...flattenObject(decheterie.dataValues, "decheterie_"),
+      let decheterieData = { ...decheterie.dataValues };
+      if (adresse) {
+        decheterieData = {
+          ...decheterieData,
+          ...flattenObject(adresse.dataValues, "adresse_"),
         };
       }
-      delete vehiculeData.fk_decheterie;
-      vehiculesData.push(vehiculeData);
+      delete decheterieData.fk_adresse;
+      delete decheterieData.adresse_id;
+      decheteriesData.push(decheterieData);
     }
-    res.status(200).json({ vehiculesData });
+    res.status(200).json({ decheteriesData });
   } catch (err) {
-    console.error("Error fetching employes:", err);
+    console.error("Error fetching decheteries:", err);
     res.status(404).json({ error: "Error" });
   }
 }
 
-// Get un vehicule par id - /vehicules/:id
-export async function getVehiculeById(req, res) {
+// Get une decheterie par id - /decheteries/:id
+export async function getDecheterieById(req, res) {
   try {
-    let vehicule = null;
+    let decheterie = null;
 
-    vehicule = await models.Vehicule.findByPk(req.params.id);
+    decheterie = await models.Decheterie.findByPk(req.params.id);
 
-    if (vehicule === null) {
+    if (decheterie === null) {
       throw new Error();
     }
 
-    let VehiculeData = vehicule.dataValues;
-    res.status(200).json({ VehiculeData });
+    let DecheterieData = decheterie.dataValues;
+    res.status(200).json({ DecheterieData });
   } catch (err) {
-    console.error("Error fetching employe:", err);
+    console.error("Error fetching decheterie:", err);
     res.status(404).json({ error: "Error" });
   }
 }
-// Créer un vehicule - /vehicules
-export async function createVehicule(req, res) {
+// Créer une decheterie - /decheteries
+export async function createDecheterie(req, res) {
   try {
-    const newVehicule = await models.Vehicule.create(req.body);
-    await newVehicule.save();
+    const newDecheterie = await models.Decheterie.create(req.body);
+    await newDecheterie.save();
     res.status(201).json({
-      message: "Vehicule added successfully",
+      message: "Decheterie added successfully",
     });
   } catch (err) {
-    console.error("Error adding vehicule:", err);
-    res.status(500).json({ error: "Error adding vehicule" });
+    console.error("Error adding decheterie:", err);
+    res.status(500).json({ error: "Error adding decheterie" });
   }
 }
-// Mettre à jour un vehicule - /vehicules/:id
-export async function updateVehicule(req, res) {
+// Mettre à jour une decheterie - /decheteries/:id
+export async function updateDecheterie(req, res) {
   try {
-    let vehicule = null;
+    let decheterie = null;
 
-    vehicule = await models.Vehicule.findByPk(req.params.id);
+    decheterie = await models.Decheterie.findByPk(req.params.id);
 
-    if (!vehicule) {
-      throw new Error("Vehicule not found");
+    if (!decheterie) {
+      throw new Error("Decheterie not found");
     }
 
-    vehicule.set({
+    decheterie.set({
       ...req.body,
     });
-    await vehicule.save();
+    await decheterie.save();
 
-    res.status(200).json({ message: "Vehicule updated successfully" });
+    res.status(200).json({ message: "Decheterie updated successfully" });
   } catch (err) {
-    console.error("Error updating vehicule:", err);
-    res.status(500).json({ error: "Error updating vehicule" });
+    console.error("Error updating decheterie:", err);
+    res.status(500).json({ error: "Error updating decheterie" });
   }
 }
-// Supprimer un vehicule - /vehicules/:id
-export async function deleteVehicule(req, res) {
+// Supprimer une decheterie - /decheteries/:id
+export async function deleteDecheterie(req, res) {
   try {
-    let vehicule = null;
+    let decheterie = null;
 
-    vehicule = await models.Vehicule.findByPk(req.params.id);
+    decheterie = await models.Decheterie.findByPk(req.params.id);
 
-    if (!vehicule) {
-      throw new Error("Vehicule not found");
+    if (!decheterie) {
+      throw new Error("Decheterie not found");
     }
 
-    await vehicule.destroy(); // Supprimer le vehicule de la base de données
-    res.status(200).json({ message: "Vehicule deleted successfully" });
+    await decheterie.destroy(); // Supprimer le decheterie de la base de données
+    res.status(200).json({ message: "Decheterie deleted successfully" });
   } catch (err) {
-    console.error("Error deleting vehicule:", err);
-    res.status(500).json({ error: "Error deleting vehicule" });
+    console.error("Error deleting decheterie:", err);
+    res.status(500).json({ error: "Error deleting decheterie" });
   }
 }
