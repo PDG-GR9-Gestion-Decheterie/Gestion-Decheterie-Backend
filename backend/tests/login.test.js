@@ -26,9 +26,7 @@ describe("The API default route", () => {
 
 describe("Login/Logout", () => {
   test("should login", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Responsable));
+    const list = await request(app).post("/api/login").send(Responsable);
     expect(list.statusCode).toEqual(200);
     expect(list.body).toEqual({
       idlogin: Responsable.username,
