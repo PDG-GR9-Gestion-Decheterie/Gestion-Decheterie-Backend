@@ -22,6 +22,13 @@ import {
   updateRamassage,
   createRamassage,
 } from "./controller/ramassageController.js";
+import {
+  getVehicules,
+  getVehiculeById,
+  deleteVehicule,
+  updateVehicule,
+  createVehicule,
+} from "./controller/vehiculeController.js";
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -151,5 +158,32 @@ app.delete(
   deleteRamassage
 );
 app.post("/api/ramassages", checkRole(["All"]), createRamassage);
+//-------------------------------------------------------------------//
+// ---------------------- Endpoints Vehicule ----------------------- //
+app.get(
+  "/api/vehicules",
+  checkRole(["Responsable", "Secrétaire"]),
+  getVehicules
+);
+app.get(
+  "/api/vehicules/:id",
+  checkRole(["Responsable", "Secrétaire"]),
+  getVehiculeById
+);
+app.put(
+  "/api/vehicules/:id",
+  checkRole(["Responsable", "Secrétaire"]),
+  updateVehicule
+);
+app.delete(
+  "/api/vehicules/:id",
+  checkRole(["Responsable", "Secrétaire"]),
+  deleteVehicule
+);
+app.post(
+  "/api/vehicules",
+  checkRole(["Responsable", "Secrétaire"]),
+  createVehicule
+);
 
 export default app;
