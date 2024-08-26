@@ -139,7 +139,7 @@ describe("Employe CRUD", () => {
     // create with Responsable
     const employe2 = await request(app)
       .post("/api/employes")
-      .set("Cookie", cookie)
+      .set("Cookie", cookie2)
       .send(tdoumasCreateRequest);
     expect(employe2.statusCode).toEqual(201);
     expect(employe2.body).toEqual({
@@ -213,7 +213,7 @@ describe("Employe CRUD", () => {
     // create with Responsable
     const employe2 = await request(app)
       .post("/api/employes")
-      .set("Cookie", cookie)
+      .set("Cookie", cookie2)
       .send(tdoumasCreateRequest);
     expect(employe2.statusCode).toEqual(201);
     expect(employe2.body).toEqual({
@@ -287,7 +287,7 @@ describe("Employe CRUD", () => {
     // create with Responsable
     const employe2 = await request(app)
       .post("/api/employes")
-      .set("Cookie", cookie)
+      .set("Cookie", cookie2)
       .send(tdoumasCreateRequest);
     expect(employe2.statusCode).toEqual(201);
     expect(employe2.body).toEqual({
