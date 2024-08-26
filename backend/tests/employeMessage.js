@@ -27,7 +27,7 @@ const tdoumasUpdateRequest = {
 };
 
 const tdoumasGetOneResponse = {
-  employes: {
+  employesData: {
     idlogin: "tdoumas",
     nom: "Doumas",
     prenom: "Tristan",
@@ -151,7 +151,7 @@ const jdoeUpdateRequest = {
 };
 
 const jdoeGetOneResponse = {
-  employes: {
+  employesData: {
     idlogin: "jdoe",
     nom: "Doumas",
     prenom: "Tristan",
