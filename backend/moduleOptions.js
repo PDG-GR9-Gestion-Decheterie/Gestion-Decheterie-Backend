@@ -22,7 +22,7 @@ export const sessionOptions = session({
 export const checkRole = (requiredRoles) => {
   return (req, res, next) => {
     if (!req.isAuthenticated()) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
     if (requiredRoles.includes("All")) {
@@ -31,7 +31,7 @@ export const checkRole = (requiredRoles) => {
     const userRole = req.user.fk_fonction;
 
     if (!requiredRoles.includes(userRole)) {
-      return res.status(403).json({ message: "Forbidden: Insufficient role" });
+      return res.status(403).json({ error: "Forbidden" });
     }
 
     next();
