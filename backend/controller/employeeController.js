@@ -77,7 +77,6 @@ export async function createEmployee(req, res) {
     await newEmploye.save();
     res.status(201).json({
       message: "Employe added successfully",
-      employe: newEmploye,
     });
   } catch (err) {
     console.error("Error adding employe:", err);

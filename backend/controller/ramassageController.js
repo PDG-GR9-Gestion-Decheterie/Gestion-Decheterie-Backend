@@ -99,7 +99,6 @@ export async function createRamassage(req, res) {
     await newRamassage.save();
     res.status(201).json({
       message: "Ramassage added successfully",
-      ramassage: newRamassage,
     });
   } catch (err) {
     console.error("Error adding ramassage:", err);
