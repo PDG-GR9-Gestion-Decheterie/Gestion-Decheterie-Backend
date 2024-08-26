@@ -70,9 +70,6 @@ app.use("/api", (req, res, next) => {
   next();
 });
 
-app.get("/api", (req, res) => {
-  res.send("API Gestion Déchèterie");
-});
 //--------------------------------------------------------------------//
 //---------------------- Passport Configuration ----------------------//
 passport.serializeUser((user, done) => {
