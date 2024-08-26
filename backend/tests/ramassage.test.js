@@ -39,7 +39,7 @@ describe("Ramassage not logged in", () => {
     const ramassage = await request(app)
       .post("/api/ramassages")
       .send(ram6CreateRequest);
-    expect(ramassage.statusCode).toEqual(403);
+    expect(ramassage.statusCode).toEqual(401);
     expect(ramassage.body).toEqual({
       error: Unauthorized.message,
     });
