@@ -3,7 +3,7 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import bcrypt from "bcrypt";
 import cookieParser from "cookie-parser";
-import { corsOptions, sessionOptions } from "./moduleOptions.js";
+import { corsOptions, sessionOptions, checkRole } from "./moduleOptions.js";
 import { models } from "./database/orm.js";
 import {
   getEmployees,
@@ -130,17 +130,26 @@ app.get("/api/favicon.ico", (req, res) => res.status(204));
 
 //-------------------------------------------------------------------//
 // ---------------------- Endpoints Employes ----------------------- //
-app.get("/api/employes", getEmployees);
-app.get("/api/employes/:id", getEmployeeById);
-app.put("/api/employes/:id", updateEmployee);
-app.delete("/api/employes/:id", deleteEmployee);
-app.post("/api/employes", createEmployee);
-app.get("/api/profile", getEmployeeProfile);
-
-app.get("/api/ramassages", getRamassages);
-app.get("/api/ramassages/:id", getRamassageById);
-app.put("/api/ramassages/:id", updateRamassage);
-app.delete("/api/ramassages/:id", deleteRamassage);
-app.post("/api/ramassages", createRamassage);
+app.get("/api/employes", checkRole(["Responsable"]), getEmployees);
+app.get("/api/employes/:id", checkRole(["Responsable"]), getEmployeeById);
+app.put("/api/employes/:id", checkRole(["Responsable"]), updateEmployee);
+app.delete("/api/employes/:id", checkRole(["Responsable"]), deleteEmployee);
+app.post("/api/employes", checkRole(["Responsable"]), createEmployee);
+app.get("/api/profile", checkRole(["All"]), getEmployeeProfile);
+//-------------------------------------------------------------------//
+// ---------------------- Endpoints Ramassages ----------------------- //
+app.get("/api/ramassages", checkRole(["All"]), getRamassages);
+app.get("/api/ramassages/:id", checkRole(["All"]), getRamassageById);
+app.put(
+  "/api/ramassages/:id",
+  checkRole(["Responsable", "Secrétaire"]),
+  updateRamassage
+);
+app.delete(
+  "/api/ramassages/:id",
+  checkRole(["Responsable", "Secrétaire"]),
+  deleteRamassage
+);
+app.post("/api/ramassages", checkRole(["All"]), createRamassage);
 
 export default app;
