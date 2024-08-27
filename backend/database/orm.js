@@ -9,7 +9,7 @@ const SEQUELIZE_LOGS = process.env.SEQUELIZE_LOGS;
 export async function initializeDB() {
   try {
     sequelize = new Sequelize(DB_URL, {
-      logging: SEQUELIZE_LOGS,
+      logging: SEQUELIZE_LOGS === "true" ? console.log : false,
     });
 
     console.log("Connection string:", sequelize.config);
