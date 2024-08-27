@@ -80,5 +80,12 @@ jobs:
         env:
           PGPASSWORD: bdr
 
+      - name: Disable SQL query logging
+        run: |
+          psql -h localhost -U postgres -d postgres -c "ALTER SYSTEM SET log_statement = 'none';"
+          psql -h localhost -U postgres -d postgres -c "SELECT pg_reload_conf();"
+        env:
+          PGPASSWORD: root
+
       - run: npm test
         working-directory: ./backend
