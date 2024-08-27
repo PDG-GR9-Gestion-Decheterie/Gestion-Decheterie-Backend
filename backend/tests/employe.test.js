@@ -13,9 +13,11 @@ import {
   Chauffeur2,
 } from "./credentials.js";
 
-import { EmployeOK, EmployeKO, Forbidden, Unauthorized } from "./message.js";
+import { Forbidden, Unauthorized } from "./message.js";
 
 import {
+  EmployeOK,
+  EmployeKO,
   tdoumasCreateRequest,
   tdoumasUpdateRequest,
   tdoumasGetOneResponse,
@@ -32,7 +34,7 @@ describe("Employe not logged in", () => {
     // create
     const employe = await request(app)
       .post("/api/employes")
-      .send(JSON.stringify(tdoumasCreateRequest));
+      .send(tdoumasCreateRequest);
     expect(employe.statusCode).toEqual(401);
     expect(employe.body).toEqual({
       error: Unauthorized.error,
@@ -55,7 +57,7 @@ describe("Employe not logged in", () => {
     // update
     const employeUpdate = await request(app)
       .put("/api/employes/tdoumas")
-      .send(JSON.stringify(tdoumasUpdateRequest));
+      .send(tdoumasUpdateRequest);
     expect(employeUpdate.statusCode).toEqual(401);
     expect(employeUpdate.body).toEqual({
       error: Unauthorized.error,
@@ -79,7 +81,7 @@ describe("Employe CRUD", () => {
     const employe = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie)
-      .send(JSON.stringify(tdoumasCreateRequest));
+      .send(tdoumasCreateRequest);
     expect(employe.statusCode).toEqual(201);
     expect(employe.body).toEqual({
       message: EmployeOK.add,
@@ -90,20 +92,20 @@ describe("Employe CRUD", () => {
       .get("/api/employes/tdoumas")
       .set("Cookie", cookie);
     expect(employeGet.statusCode).toEqual(200);
-    expect(employeGet.body).toEqual(JSON.stringify(tdoumasGetOneResponse));
+    expect(employeGet.body).toEqual(tdoumasGetOneResponse);
 
     // get all
     const employeGetAll = await request(app)
       .get("/api/employes")
       .set("Cookie", cookie);
     expect(employeGetAll.statusCode).toEqual(200);
-    expect(employeGetAll.body).toEqual(JSON.stringify(tdoumasGetAllResponse));
+    expect(employeGetAll.body).toEqual(tdoumasGetAllResponse);
 
     // update
     const employeUpdate = await request(app)
       .put("/api/employes/tdoumas")
       .set("Cookie", cookie)
-      .send(JSON.stringify(tdoumasUpdateRequest));
+      .send(tdoumasUpdateRequest);
     expect(employeUpdate.statusCode).toEqual(200);
     expect(employeUpdate.body).toEqual({
       message: EmployeOK.update,
@@ -130,7 +132,7 @@ describe("Employe CRUD", () => {
     const employe = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie)
-      .send(JSON.stringify(tdoumasCreateRequest));
+      .send(tdoumasCreateRequest);
     expect(employe.statusCode).toEqual(403);
     expect(employe.body).toEqual({
       error: Forbidden.error,
@@ -139,8 +141,8 @@ describe("Employe CRUD", () => {
     // create with Responsable
     const employe2 = await request(app)
       .post("/api/employes")
-      .set("Cookie", cookie)
-      .send(JSON.stringify(tdoumasCreateRequest));
+      .set("Cookie", cookie2)
+      .send(tdoumasCreateRequest);
     expect(employe2.statusCode).toEqual(201);
     expect(employe2.body).toEqual({
       message: EmployeOK.add,
@@ -168,7 +170,7 @@ describe("Employe CRUD", () => {
     const employeUpdate = await request(app)
       .put("/api/employes/tdoumas")
       .set("Cookie", cookie)
-      .send(JSON.stringify(tdoumasUpdateRequest));
+      .send(tdoumasUpdateRequest);
     expect(employeUpdate.statusCode).toEqual(403);
     expect(employeUpdate.body).toEqual({
       error: Forbidden.error,
@@ -204,7 +206,7 @@ describe("Employe CRUD", () => {
     const employe = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie)
-      .send(JSON.stringify(tdoumasCreateRequest));
+      .send(tdoumasCreateRequest);
     expect(employe.statusCode).toEqual(403);
     expect(employe.body).toEqual({
       error: Forbidden.error,
@@ -213,8 +215,8 @@ describe("Employe CRUD", () => {
     // create with Responsable
     const employe2 = await request(app)
       .post("/api/employes")
-      .set("Cookie", cookie)
-      .send(JSON.stringify(tdoumasCreateRequest));
+      .set("Cookie", cookie2)
+      .send(tdoumasCreateRequest);
     expect(employe2.statusCode).toEqual(201);
     expect(employe2.body).toEqual({
       message: EmployeOK.add,
@@ -242,7 +244,7 @@ describe("Employe CRUD", () => {
     const employeUpdate = await request(app)
       .put("/api/employes/tdoumas")
       .set("Cookie", cookie)
-      .send(JSON.stringify(tdoumasUpdateRequest));
+      .send(tdoumasUpdateRequest);
     expect(employeUpdate.statusCode).toEqual(403);
     expect(employeUpdate.body).toEqual({
       error: Forbidden.error,
@@ -278,7 +280,7 @@ describe("Employe CRUD", () => {
     const employe = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie)
-      .send(JSON.stringify(tdoumasCreateRequest));
+      .send(tdoumasCreateRequest);
     expect(employe.statusCode).toEqual(403);
     expect(employe.body).toEqual({
       error: Forbidden.error,
@@ -287,8 +289,8 @@ describe("Employe CRUD", () => {
     // create with Responsable
     const employe2 = await request(app)
       .post("/api/employes")
-      .set("Cookie", cookie)
-      .send(JSON.stringify(tdoumasCreateRequest));
+      .set("Cookie", cookie2)
+      .send(tdoumasCreateRequest);
     expect(employe2.statusCode).toEqual(201);
     expect(employe2.body).toEqual({
       message: EmployeOK.add,
@@ -316,7 +318,7 @@ describe("Employe CRUD", () => {
     const employeUpdate = await request(app)
       .put("/api/employes/tdoumas")
       .set("Cookie", cookie)
-      .send(JSON.stringify(tdoumasUpdateRequest));
+      .send(tdoumasUpdateRequest);
     expect(employeUpdate.statusCode).toEqual(403);
     expect(employeUpdate.body).toEqual({
       error: Forbidden.error,
@@ -347,14 +349,14 @@ describe("Employe CRUD with different decheterie", () => {
     const list = await request(app).post("/api/login").send(Responsable);
     const cookie = list.headers["set-cookie"];
 
-    const list2 = await request(app).post("/api/login").send(Responsable);
+    const list2 = await request(app).post("/api/login").send(Responsable2);
     const cookie2 = list2.headers["set-cookie"];
 
     // create a employe with in a different primary decheterie
     const employe = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie)
-      .send(JSON.stringify(jdoeCreateRequest));
+      .send(jdoeCreateRequest);
     expect(employe.statusCode).toEqual(403);
     expect(employe.body).toEqual({
       error: Forbidden.error,
@@ -364,7 +366,7 @@ describe("Employe CRUD with different decheterie", () => {
     const employe2 = await request(app)
       .post("/api/employes")
       .set("Cookie", cookie2)
-      .send(JSON.stringify(jdoeCreateRequest));
+      .send(jdoeCreateRequest);
     expect(employe2.statusCode).toEqual(201);
     expect(employe2.body).toEqual({
       message: EmployeOK.add,
@@ -384,20 +386,20 @@ describe("Employe CRUD with different decheterie", () => {
       .get("/api/employes")
       .set("Cookie", cookie);
     expect(employeGetAll.statusCode).toEqual(200);
-    expect(employeGetAll.body).toEqual(JSON.stringify(dech1getAllResponse));
+    expect(employeGetAll.body).toEqual(dech1getAllResponse);
 
     // get all
     const employeGetAll2 = await request(app)
       .get("/api/employes")
       .set("Cookie", cookie2);
     expect(employeGetAll2.statusCode).toEqual(200);
-    expect(employeGetAll2.body).toEqual(JSON.stringify(jdoeGetAllResponse));
+    expect(employeGetAll2.body).toEqual(jdoeGetAllResponse);
 
     // update
     const employeUpdate = await request(app)
       .put("/api/employes/tdoumas")
       .set("Cookie", cookie)
-      .send(JSON.stringify(jdoeUpdateRequest));
+      .send(jdoeUpdateRequest);
     expect(employeUpdate.statusCode).toEqual(403);
     expect(employeUpdate.body).toEqual({
       error: Forbidden.error,

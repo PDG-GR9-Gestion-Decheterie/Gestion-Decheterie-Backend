@@ -14,15 +14,9 @@ import {
   Chauffeur2,
 } from "./credentials.js";
 
-import { LoginOK, LoginKO } from "./message.js";
+import { Forbidden, Unauthorized } from "./message.js";
 
-describe("The API default route", () => {
-  test("should receive Hello world!", async () => {
-    const list = await request(app).get("/api");
-    expect(list.statusCode).toEqual(200);
-    expect(list.text).toEqual("API Gestion Déchèterie");
-  });
-});
+import { LoginOK, LoginKO } from "./loginMessage.js";
 
 describe("Login/Logout", () => {
   test("should login", async () => {
