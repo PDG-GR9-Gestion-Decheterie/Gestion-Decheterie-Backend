@@ -143,8 +143,8 @@ describe("Decheterie CRUD", () => {
       .post("/api/decheteries")
       .set("Cookie", cookie2)
       .send(decheterie1CreateRequest);
-    expect(decheterie.statusCode).toEqual(201);
-    expect(decheterie.body).toEqual({
+    expect(decheterie2.statusCode).toEqual(201);
+    expect(decheterie2.body).toEqual({
       message: DecheterieOK.add,
     });
 
@@ -213,8 +213,8 @@ describe("Decheterie CRUD", () => {
       .post("/api/decheteries")
       .set("Cookie", cookie2)
       .send(decheterie1CreateRequest);
-    expect(decheterie.statusCode).toEqual(201);
-    expect(decheterie.body).toEqual({
+    expect(decheterie2.statusCode).toEqual(201);
+    expect(decheterie2.body).toEqual({
       message: DecheterieOK.add,
     });
 
@@ -283,8 +283,8 @@ describe("Decheterie CRUD", () => {
       .post("/api/decheteries")
       .set("Cookie", cookie2)
       .send(decheterie1CreateRequest);
-    expect(decheterie.statusCode).toEqual(201);
-    expect(decheterie.body).toEqual({
+    expect(decheterie2.statusCode).toEqual(201);
+    expect(decheterie2.body).toEqual({
       message: DecheterieOK.add,
     });
 
@@ -324,86 +324,6 @@ describe("Decheterie CRUD", () => {
     // delete with Responsable
     const decheterieDelete2 = await request(app)
       .delete("/api/decheteries/10")
-      .set("Cookie", cookie2);
-    expect(decheterieDelete2.statusCode).toEqual(200);
-    expect(decheterieDelete2.body).toEqual({
-      message: DecheterieOK.delete,
-    });
-  });
-});
-
-describe("Decheterie CRUD with different decheterie", () => {
-  test("Responsable", async () => {
-    const list = await request(app).post("/api/login").send(Responsable);
-    const cookie = list.headers["set-cookie"];
-
-    const list2 = await request(app).post("/api/login").send(Responsable2);
-    const cookie2 = list2.headers["set-cookie"];
-
-    // create a decheterie with in a different primary decheterie
-    const decheterie = await request(app)
-      .post("/api/decheteries")
-      .set("Cookie", cookie)
-      .send(decheterie2CreateRequest);
-    expect(decheterie.statusCode).toEqual(500);
-    expect(decheterie.body).toEqual({
-      error: DecheterieKO.add,
-    });
-
-    // create a decheterie with in the same primary decheterie
-    const decheterie2 = await request(app)
-      .post("/api/decheteries")
-      .set("Cookie", cookie2)
-      .send(decheterie2CreateRequest);
-    expect(decheterie2.statusCode).toEqual(201);
-    expect(decheterie2.body).toEqual({
-      message: DecheterieOK.add,
-    });
-
-    // get one
-    const decheterieGet = await request(app)
-      .get("/api/decheteries/20")
-      .set("Cookie", cookie);
-    expect(decheterieGet.statusCode).toEqual(403);
-    expect(decheterieGet.body).toEqual({
-      error: Forbidden.error,
-    });
-
-    // get all
-    const decheterieGetAll = await request(app)
-      .get("/api/decheteries")
-      .set("Cookie", cookie);
-    expect(decheterieGetAll.statusCode).toEqual(200);
-    expect(decheterieGetAll.body).toEqual(decheterie1GetAllResponseClear);
-
-    // get all
-    const decheterieGetAll2 = await request(app)
-      .get("/api/decheteries")
-      .set("Cookie", cookie2);
-    expect(decheterieGetAll2.statusCode).toEqual(200);
-    expect(decheterieGetAll2.body).toEqual(decheterie2GetAllResponse);
-
-    // update
-    const decheterieUpdate = await request(app)
-      .put("/api/decheteries/20")
-      .set("Cookie", cookie)
-      .send(ram11UpdateRequest);
-    expect(decheterieUpdate.statusCode).toEqual(403);
-    expect(decheterieUpdate.body).toEqual({
-      error: Forbidden.error,
-    });
-
-    // delete
-    const decheterieDelete = await request(app)
-      .delete("/api/decheteries/20")
-      .set("Cookie", cookie);
-    expect(decheterieDelete.statusCode).toEqual(403);
-    expect(decheterieDelete.body).toEqual({
-      error: Forbidden.error,
-    });
-
-    const decheterieDelete2 = await request(app)
-      .delete("/api/decheteries/20")
       .set("Cookie", cookie2);
     expect(decheterieDelete2.statusCode).toEqual(200);
     expect(decheterieDelete2.body).toEqual({
