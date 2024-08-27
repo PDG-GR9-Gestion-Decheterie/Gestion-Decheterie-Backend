@@ -1,3 +1,4 @@
+import { models } from "../database/orm.js";
 export function flattenObject(obj, prefix = "") {
   const flattened = {};
 
@@ -14,4 +15,30 @@ export function flattenObject(obj, prefix = "") {
   }
 
   return flattened;
+}
+
+export async function findDecheteriePrinciaple(id) {
+  let employee = await models.Employe.findOne({
+    where: {
+      idlogin: id,
+    },
+  });
+
+  if (!employee) {
+    throw new Error("Employee not found");
+  }
+  let principal = await models.Principale.findOne({
+    where: {
+      fk_decheterie: employee.dataValues.fk_decheterie,
+    },
+  });
+
+  if (!principal) {
+    throw new Error("Principal not found");
+  }
+  return await models.Principale.findAll({
+    where: {
+      fk_principale: principal.dataValues.fk_principale,
+    },
+  });
 }
