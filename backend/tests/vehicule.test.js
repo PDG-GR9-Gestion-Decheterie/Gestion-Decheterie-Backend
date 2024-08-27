@@ -13,9 +13,11 @@ import {
   Chauffeur2,
 } from "./credentials.js";
 
-import { VehiculeOK, VehiculeKO, Forbidden, Unauthorized } from "./message.js";
+import { Forbidden, Unauthorized } from "./message.js";
 
 import {
+  VehiculeOK,
+  VehiculeKO,
   truck1CreateRequest,
   truck1GetOneResponse,
   truck1UpdateRequest,

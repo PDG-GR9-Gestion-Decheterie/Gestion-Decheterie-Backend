@@ -13,14 +13,11 @@ import {
   Chauffeur2,
 } from "./credentials.js";
 
+import { Forbidden, Unauthorized } from "./message.js";
+
 import {
   ContenantOK,
   ContenantKO,
-  Forbidden,
-  Unauthorized,
-} from "./message.js";
-
-import {
   contenant1CreateRequest,
   contenant1UpdateRequest,
   contenant1GetOneResponse,

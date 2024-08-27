@@ -13,9 +13,11 @@ import {
   Chauffeur2,
 } from "./credentials.js";
 
-import { EmployeOK, EmployeKO, Forbidden, Unauthorized } from "./message.js";
+import { Forbidden, Unauthorized } from "./message.js";
 
 import {
+  EmployeOK,
+  EmployeKO,
   tdoumasCreateRequest,
   tdoumasUpdateRequest,
   tdoumasGetOneResponse,

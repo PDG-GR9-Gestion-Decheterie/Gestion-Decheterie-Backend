@@ -1,3 +1,15 @@
+const ContenantOK = {
+  add: "Contenant added successfully",
+  update: "Contenant updated successfully",
+  delete: "Contenant deleted successfully",
+};
+const ContenantKO = {
+  add: "Error adding contenant",
+  update: "Error updating contenant",
+  delete: "Error deleting contenant",
+  get: "Error getting contenant",
+};
+
 const contenant1CreateRequest = {
   id: 100,
   nom: "benne",
@@ -217,6 +229,8 @@ const contenant3UpdateRequest10 = {
 };
 
 export {
+  ContenantOK,
+  ContenantKO,
   contenant1CreateRequest,
   contenant1UpdateRequest,
   contenant1GetOneResponse,

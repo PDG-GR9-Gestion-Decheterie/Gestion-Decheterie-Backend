@@ -12,14 +12,11 @@ import {
   Chauffeur2,
 } from "./credentials.js";
 
+import { Forbidden, Unauthorized } from "./message.js";
+
 import {
   RamassageOK,
   RamassageKO,
-  Forbidden,
-  Unauthorized,
-} from "./message.js";
-
-import {
   ram6CreateRequest,
   ram10CreateRequest,
   ram6UpdateRequest,

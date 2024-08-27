@@ -1,3 +1,15 @@
+const RamassageOK = {
+  add: "Ramassage added successfully",
+  update: "Ramassage updated successfully",
+  delete: "Ramassage deleted successfully",
+};
+const RamassageKO = {
+  add: "Error adding ramassage",
+  update: "Error updating ramassage",
+  delete: "Error deleting ramassage",
+  get: "Error getting ramassage",
+};
+
 const ram6CreateRequest = {
   //Futur
   id: 6,
@@ -311,6 +323,8 @@ const ram13CreateRequest = {
 };
 
 export {
+  RamassageOK,
+  RamassageKO,
   ram6CreateRequest,
   ram10CreateRequest,
   ram6UpdateRequest,

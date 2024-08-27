@@ -14,7 +14,9 @@ import {
   Chauffeur2,
 } from "./credentials.js";
 
-import { LoginOK, LoginKO } from "./message.js";
+import { Forbidden, Unauthorized } from "./message.js";
+
+import { LoginOK, LoginKO } from "./loginMessage.js";
 
 describe("Login/Logout", () => {
   test("should login", async () => {

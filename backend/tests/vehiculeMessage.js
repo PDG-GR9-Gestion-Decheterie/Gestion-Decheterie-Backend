@@ -1,3 +1,16 @@
+const VehiculeOK = {
+  add: "Vehicule added successfully",
+  update: "Vehicule updated successfully",
+  delete: "Vehicule deleted successfully",
+};
+
+const VehiculeKO = {
+  add: "Error adding vehicule",
+  update: "Error updating vehicule",
+  delete: "Error deleting vehicule",
+  get: "Error getting vehicule",
+};
+
 const truck1CreateRequest = {
   immatriculation: "VD999999",
   type: "camion",
@@ -118,6 +131,8 @@ const dechet1GetAllResponse = {
 };
 
 export {
+  VehiculeOK,
+  VehiculeKO,
   truck1CreateRequest,
   truck1GetOneResponse,
   truck1UpdateRequest,

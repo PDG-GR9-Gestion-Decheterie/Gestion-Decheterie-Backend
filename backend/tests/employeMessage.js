@@ -1,3 +1,15 @@
+const EmployeOK = {
+  add: "Employe added successfully",
+  update: "Employe updated successfully",
+  delete: "Employe deleted successfully",
+};
+const EmployeKO = {
+  add: "Error adding employe",
+  update: "Error updating employe",
+  delete: "Error deleting employe",
+  get: "Error getting employe",
+};
+
 const tdoumasCreateRequest = {
   idlogin: "tdoumas",
   mdplogin: "123",
@@ -317,6 +329,8 @@ const dech1getAllResponse = {
 };
 
 export {
+  EmployeOK,
+  EmployeKO,
   tdoumasCreateRequest,
   tdoumasUpdateRequest,
   tdoumasGetOneResponse,
