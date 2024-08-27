@@ -515,9 +515,9 @@ describe("Ramassage test employe have licence", () => {
       .post("/api/ramassages")
       .set("Cookie", cookie)
       .send(ram12CreateRequest);
-    expect(ramassage.statusCode).toEqual(500);
+    expect(ramassage.statusCode).toEqual(403);
     expect(ramassage.body).toEqual({
-      error: RamassageKO.add,
+      error: Forbidden.error,
     });
 
     // create with employe who have wrong licence for truck
@@ -525,9 +525,9 @@ describe("Ramassage test employe have licence", () => {
       .post("/api/ramassages")
       .set("Cookie", cookie)
       .send(ram13CreateRequest);
-    expect(ramassage2.statusCode).toEqual(500);
+    expect(ramassage2.statusCode).toEqual(403);
     expect(ramassage2.body).toEqual({
-      error: RamassageKO.add,
+      error: Forbidden.error,
     });
   });
 });
