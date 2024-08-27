@@ -42,17 +42,8 @@ const decheterie1GetAllResponse = {
       adresse_pays: "Suisse",
     },
     {
-      id: 2,
-      nom: "Decheterie Berne",
-      adresse_rue: "Rue 2",
-      adresse_numero: "2",
-      adresse_npa: "3000",
-      adresse_nomville: "Berne",
-      adresse_pays: "Suisse",
-    },
-    {
       id: 10,
-      nom: "Decheterie Create",
+      nom: "Decheterie Test",
       adresse_rue: "Rue 1",
       adresse_numero: "1",
       adresse_npa: "1400",
@@ -63,36 +54,27 @@ const decheterie1GetAllResponse = {
 };
 
 const decheterie2CreateRequest = {
-  id: 10,
+  id: 20,
   nom: "Decheterie Test",
-  fk_adresse: 1,
+  fk_adresse: 2,
 };
 
 const decheterie2UpdateRequest = {
-  id: 10,
+  id: 20,
   nom: "Decheterie Tesssssssst",
-  fk_adresse: 1,
+  fk_adresse: 2,
 };
 
 const decheterie2GetOneResponse = {
   DecheterieData: {
-    id: 10,
+    id: 20,
     nom: "Decheterie Test",
-    fk_adresse: 1,
+    fk_adresse: 2,
   },
 };
 
 const decheterie2GetAllResponse = {
   decheteriesData: [
-    {
-      id: 1,
-      nom: "Decheterie Yverdon",
-      adresse_rue: "Rue 1",
-      adresse_numero: "1",
-      adresse_npa: "1400",
-      adresse_nomville: "Yverdon-les-Bains",
-      adresse_pays: "Suisse",
-    },
     {
       id: 2,
       nom: "Decheterie Berne",
@@ -102,9 +84,14 @@ const decheterie2GetAllResponse = {
       adresse_nomville: "Berne",
       adresse_pays: "Suisse",
     },
+  ],
+};
+
+const decheterie1GetAllResponseClear = {
+  decheteriesData: [
     {
-      id: 10,
-      nom: "Decheterie Create",
+      id: 1,
+      nom: "Decheterie Yverdon",
       adresse_rue: "Rue 1",
       adresse_numero: "1",
       adresse_npa: "1400",
@@ -121,4 +108,9 @@ export {
   decheterie1UpdateRequest,
   decheterie1GetOneResponse,
   decheterie1GetAllResponse,
+  decheterie2CreateRequest,
+  decheterie2UpdateRequest,
+  decheterie2GetOneResponse,
+  decheterie2GetAllResponse,
+  decheterie1GetAllResponseClear,
 };
