@@ -55,29 +55,8 @@ export async function createContenant(req, res) {
       return res.status(403).json({ error: "Forbidden" });
     }
 
-    // Validate the integrity of the contenant before creating it
-    if (req.body.nom === "palette") {
-      if (
-        req.body.nbcadre < 0 ||
-        req.body.nbcadre > 4 ||
-        req.body.nbcadre === null ||
-        req.body.taille !== null
-      ) {
-        return res.status(403).json({ error: "Forbidden" });
-      }
-    } else if (req.body.nom === "big bag") {
-      if (
-        (req.body.taille !== "petit" &&
-          req.body.taille !== "moyen" &&
-          req.body.taille !== "grand") ||
-        req.body.nbcadre !== null
-      ) {
-        return res.status(403).json({ error: "Forbidden" });
-      }
-    } else {
-      if (req.body.nbcadre != null || req.body.taille != null) {
-        return res.status(403).json({ error: "Forbidden" });
-      }
+    if (!isContenantValid(req.body)) {
+      return res.status(403).json({ error: "Forbidden" });
     }
 
     const newContenant = await models.Contenant.create(req.body);
@@ -97,6 +76,11 @@ export async function updateContenant(req, res) {
     if (!(await isIDreachable(req))) {
       return res.status(403).json({ error: "Forbidden" });
     }
+
+    if (!isContenantValid(req.body)) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+
     contenant = await models.Contenant.findByPk(req.params.id);
 
     if (!contenant) {
@@ -151,6 +135,34 @@ async function isIDreachable(req) {
   );
   if (!contenant) {
     return false;
+  }
+  return true;
+}
+
+function isContenantValid(contenant) {
+  // Validate the integrity of the contenant before creating it
+  if (contenant.nom === "palette") {
+    if (
+      contenant.nbcadre < 0 ||
+      contenant.nbcadre > 4 ||
+      contenant.nbcadre === null ||
+      contenant.taille !== null
+    ) {
+      return false;
+    }
+  } else if (contenant.nom === "big bag") {
+    if (
+      (contenant.taille !== "petit" &&
+        contenant.taille !== "moyen" &&
+        contenant.taille !== "grand") ||
+      contenant.nbcadre !== null
+    ) {
+      return false;
+    }
+  } else {
+    if (contenant.nbcadre != null || contenant.taille != null) {
+      return false;
+    }
   }
   return true;
 }
