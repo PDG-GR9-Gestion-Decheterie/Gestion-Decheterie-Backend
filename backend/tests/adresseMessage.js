@@ -40,7 +40,7 @@ const adresse1GetOneResponse = {
 };
 
 const adresse1GetAllResponse = {
-  AdressesData: [
+  adressesData: [
     {
       id: 1,
       rue: "Rue 1",
