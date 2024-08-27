@@ -45,7 +45,7 @@ export async function getDecheterieById(req, res) {
     }
 
     let decheterieData = decheterie.dataValues;
-    res.status(200).json({ DecheterieData });
+    res.status(200).json({ decheterieData });
   } catch (err) {
     console.error("Error fetching decheterie:", err);
     res.status(404).json({ error: "Error" });
