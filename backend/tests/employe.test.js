@@ -365,7 +365,7 @@ describe("Employe own info", () => {
   });
 
   test("Secretaire", async () => {
-    const list = await request(app).post("/api/login").send(Responsable);
+    const list = await request(app).post("/api/login").send(Secretaire);
     const cookie = list.headers["set-cookie"];
 
     // get profile
@@ -377,7 +377,7 @@ describe("Employe own info", () => {
   });
 
   test("Employe", async () => {
-    const list = await request(app).post("/api/login").send(Responsable);
+    const list = await request(app).post("/api/login").send(Employe);
     const cookie = list.headers["set-cookie"];
 
     // get profile
@@ -389,7 +389,7 @@ describe("Employe own info", () => {
   });
 
   test("Chauffeur", async () => {
-    const list = await request(app).post("/api/login").send(Responsable);
+    const list = await request(app).post("/api/login").send(Chauffeur);
     const cookie = list.headers["set-cookie"];
 
     // get profile
