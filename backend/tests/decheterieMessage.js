@@ -23,7 +23,7 @@ const decheterie1UpdateRequest = {
 };
 
 const decheterie1GetOneResponse = {
-  DecheterieData: {
+  decheterieData: {
     id: 10,
     nom: "Decheterie Test",
     fk_adresse: 1,
@@ -66,7 +66,7 @@ const decheterie2UpdateRequest = {
 };
 
 const decheterie2GetOneResponse = {
-  DecheterieData: {
+  decheterieData: {
     id: 20,
     nom: "Decheterie Test",
     fk_adresse: 2,
