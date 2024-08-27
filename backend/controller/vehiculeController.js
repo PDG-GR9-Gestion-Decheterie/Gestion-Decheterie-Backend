@@ -1,19 +1,23 @@
 import { models } from "../database/orm.js";
-import { flattenObject } from "./utils.js";
+import { flattenObject, findDecheteriePrinciaple } from "./utils.js";
 
 // Get tous les vehicules - /vehicules
 export async function getVehicules(req, res) {
   try {
-    let vehicules = null;
-    let vehiculesData = [];
-    vehicules = await models.Vehicule.findAll();
-    if (vehicules === null) {
-      throw new Error();
+    let vehiculesDB = [];
+    let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
+    for (let idDecheterie of decheteriesDispo) {
+      let vehicules = await models.Vehicule.findAll({
+        where: {
+          fk_decheterie: idDecheterie,
+        },
+      });
+      vehiculesDB = vehiculesDB.concat(vehicules);
     }
-    for (let vehicule of vehicules) {
-      let decheterie = await models.Decheterie.findByPk(
-        vehicule.dataValues.fk_decheterie
-      );
+
+    let vehiculesData = [];
+    for (let vehicule of vehiculesDB) {
+      let decheterie = await models.Decheterie.findByPk(vehicule.fk_decheterie);
 
       let vehiculeData = { ...vehicule.dataValues };
       if (decheterie) {
@@ -38,7 +42,9 @@ export async function getVehicules(req, res) {
 export async function getVehiculeById(req, res) {
   try {
     let vehicule = null;
-
+    if (!(await isIDreachable(req))) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
     vehicule = await models.Vehicule.findByPk(req.params.id);
 
     if (vehicule === null) {
@@ -55,6 +61,14 @@ export async function getVehiculeById(req, res) {
 // Créer un vehicule - /vehicules
 export async function createVehicule(req, res) {
   try {
+    let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
+    if (
+      !decheteriesDispo.find(
+        (decheterie) => decheterie == req.body.fk_decheterie
+      )
+    ) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
     const newVehicule = await models.Vehicule.create(req.body);
     await newVehicule.save();
     res.status(201).json({
@@ -68,8 +82,10 @@ export async function createVehicule(req, res) {
 // Mettre à jour un vehicule - /vehicules/:id
 export async function updateVehicule(req, res) {
   try {
+    if (!(await isIDreachable(req))) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
     let vehicule = null;
-
     vehicule = await models.Vehicule.findByPk(req.params.id);
 
     if (!vehicule) {
@@ -90,8 +106,10 @@ export async function updateVehicule(req, res) {
 // Supprimer un vehicule - /vehicules/:id
 export async function deleteVehicule(req, res) {
   try {
+    if (!(await isIDreachable(req))) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
     let vehicule = null;
-
     vehicule = await models.Vehicule.findByPk(req.params.id);
 
     if (!vehicule) {
@@ -104,4 +122,23 @@ export async function deleteVehicule(req, res) {
     console.error("Error deleting vehicule:", err);
     res.status(500).json({ error: "Error deleting vehicule" });
   }
+}
+async function isIDreachable(req) {
+  let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
+  let vehiculesData = [];
+  for (let idDecheterie of decheteriesDispo) {
+    let vehicules = await models.Vehicule.findAll({
+      where: {
+        fk_decheterie: idDecheterie,
+      },
+    });
+    vehiculesData = vehiculesData.concat(vehicules);
+  }
+  let vehicule = vehiculesData.find(
+    (vehicule) => vehicule.dataValues.immatriculation == req.params.id
+  );
+  if (!vehicule) {
+    return false;
+  }
+  return true;
 }
