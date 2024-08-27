@@ -199,19 +199,15 @@ describe("Vehicule CRUD", () => {
     const vehiculeGet = await request(app)
       .get("/api/vehicules/VD999999")
       .set("Cookie", cookie);
-    expect(vehiculeGet.statusCode).toEqual(403);
-    expect(vehiculeGet.body).toEqual({
-      error: Forbidden.error,
-    });
+    expect(vehiculeGet.statusCode).toEqual(200);
+    expect(vehiculeGet.body).toEqual(truck1GetOneResponse);
 
     // get all
     const vehiculeGetAll = await request(app)
       .get("/api/vehicules")
       .set("Cookie", cookie);
-    expect(vehiculeGetAll.statusCode).toEqual(403);
-    expect(vehiculeGetAll.body).toEqual({
-      error: Forbidden.error,
-    });
+    expect(vehiculeGetAll.statusCode).toEqual(200);
+    expect(vehiculeGetAll.body).toEqual(truck1getAllResponse);
 
     // update
     const vehiculeUpdate = await request(app)
@@ -273,19 +269,15 @@ describe("Vehicule CRUD", () => {
     const vehiculeGet = await request(app)
       .get("/api/vehicules/VD999999")
       .set("Cookie", cookie);
-    expect(vehiculeGet.statusCode).toEqual(403);
-    expect(vehiculeGet.body).toEqual({
-      error: Forbidden.error,
-    });
+    expect(vehiculeGet.statusCode).toEqual(200);
+    expect(vehiculeGet.body).toEqual(truck1GetOneResponse);
 
     // get all
     const vehiculeGetAll = await request(app)
       .get("/api/vehicules")
       .set("Cookie", cookie);
-    expect(vehiculeGetAll.statusCode).toEqual(403);
-    expect(vehiculeGetAll.body).toEqual({
-      error: Forbidden.error,
-    });
+    expect(vehiculeGetAll.statusCode).toEqual(200);
+    expect(vehiculeGetAll.body).toEqual(truck1getAllResponse);
 
     // update
     const vehiculeUpdate = await request(app)

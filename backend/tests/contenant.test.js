@@ -209,19 +209,15 @@ describe("Contenant CRUD", () => {
     const contenantGet = await request(app)
       .get("/api/contenants/100")
       .set("Cookie", cookie);
-    expect(contenantGet.statusCode).toEqual(403);
-    expect(contenantGet.body).toEqual({
-      error: Forbidden.error,
-    });
+    expect(contenantGet.statusCode).toEqual(200);
+    expect(contenantGet.body).toEqual(contenant1GetOneResponse);
 
     // get all
     const contenantGetAll = await request(app)
       .get("/api/contenants")
       .set("Cookie", cookie);
-    expect(contenantGetAll.statusCode).toEqual(403);
-    expect(contenantGetAll.body).toEqual({
-      error: Forbidden.error,
-    });
+    expect(contenantGetAll.statusCode).toEqual(200);
+    expect(contenantGetAll.body).toEqual(contenant1GetAllResponse);
 
     // update
     const contenantUpdate = await request(app)
@@ -283,19 +279,15 @@ describe("Contenant CRUD", () => {
     const contenantGet = await request(app)
       .get("/api/contenants/100")
       .set("Cookie", cookie);
-    expect(contenantGet.statusCode).toEqual(403);
-    expect(contenantGet.body).toEqual({
-      error: Forbidden.error,
-    });
+    expect(contenantGet.statusCode).toEqual(200);
+    expect(contenantGet.body).toEqual(contenant1GetOneResponse);
 
     // get all
     const contenantGetAll = await request(app)
       .get("/api/contenants")
       .set("Cookie", cookie);
-    expect(contenantGetAll.statusCode).toEqual(403);
-    expect(contenantGetAll.body).toEqual({
-      error: Forbidden.error,
-    });
+    expect(contenantGetAll.statusCode).toEqual(200);
+    expect(contenantGetAll.body).toEqual(contenant1GetAllResponse);
 
     // update
     const contenantUpdate = await request(app)
