@@ -27,7 +27,9 @@ export async function getContenantsDecheterie(req, res) {
 export async function getContenantById(req, res) {
   try {
     let contenant = null;
-
+    if (!(await isIDreachable(req))) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
     contenant = await models.Contenant.findByPk(req.params.id);
 
     if (contenant === null) {
@@ -45,6 +47,7 @@ export async function getContenantById(req, res) {
 export async function createContenant(req, res) {
   try {
     const newContenant = await models.Contenant.create(req.body);
+
     await newContenant.save();
     res.status(201).json({
       message: "Contenant added successfully",
@@ -58,7 +61,9 @@ export async function createContenant(req, res) {
 export async function updateContenant(req, res) {
   try {
     let contenant = null;
-
+    if (!(await isIDreachable(req))) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
     contenant = await models.Contenant.findByPk(req.params.id);
 
     if (!contenant) {
@@ -80,7 +85,9 @@ export async function updateContenant(req, res) {
 export async function deleteContenant(req, res) {
   try {
     let contenant = null;
-
+    if (!(await isIDreachable(req))) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
     contenant = await models.Contenant.findByPk(req.params.id);
 
     if (!contenant) {
@@ -93,4 +100,25 @@ export async function deleteContenant(req, res) {
     console.error("Error deleting contenant:", err);
     res.status(500).json({ error: "Error deleting contenant" });
   }
+}
+
+async function isIDreachable(req) {
+  let principals = null;
+  principals = await findDecheteriePrinciaple(req.user.idlogin);
+  let contenantsData = [];
+  for (let principal of principals) {
+    let contenants = await models.Contenant.findAll({
+      where: {
+        fk_decheterie: principal.fk_decheterie,
+      },
+    });
+    contenantsData = contenantsData.concat(contenants);
+  }
+  let contenant = contenantsData.find(
+    (contenant) => contenant.dataValues.id == req.params.id
+  );
+  if (!contenant) {
+    return false;
+  }
+  return true;
 }
