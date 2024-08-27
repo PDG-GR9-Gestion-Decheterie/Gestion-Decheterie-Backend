@@ -204,19 +204,11 @@ app.post(
 // ---------------------- Endpoints Decheterie  ----------------------- //
 app.get("/api/decheteries", checkRole(["All"]), getDecheteries);
 app.get("/api/decheteries/:id", checkRole(["All"]), getDecheterieById);
-app.put(
-  "/api/decheteries/:id",
-  checkRole(["Responsable", "Secrétaire"]),
-  updateDecheterie
-);
-app.post(
-  "/api/decheteries",
-  checkRole(["Responsable", "Secrétaire"]),
-  createDecheterie
-);
+app.put("/api/decheteries/:id", checkRole(["Responsable"]), updateDecheterie);
+app.post("/api/decheteries", checkRole(["Responsable"]), createDecheterie);
 app.delete(
   "/api/decheteries/:id",
-  checkRole(["Responsable", "Secrétaire"]),
+  checkRole(["Responsable"]),
   deleteDecheterie
 );
 //-------------------------------------------------------------------//
