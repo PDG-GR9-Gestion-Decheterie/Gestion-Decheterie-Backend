@@ -94,6 +94,10 @@ export async function getRamassageById(req, res) {
 // Créer un ramassage - /ramassages
 export async function createRamassage(req, res) {
   try {
+    if (!(await isRightLicence(req.body))) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+
     // Créer un nouveau ramassage avec les données reçues
     const newRamassage = await models.Ramassage.create(req.body);
     await newRamassage.save();
@@ -112,6 +116,10 @@ export async function updateRamassage(req, res) {
 
     if (!ramassage) {
       throw new Error("Ramassage not found");
+    }
+
+    if (!(await isRightLicence(req.body))) {
+      return res.status(403).json({ error: "Forbidden" });
     }
 
     ramassage.set({
@@ -140,4 +148,23 @@ export async function deleteRamassage(req, res) {
     console.error("Error deleting ramassage:", err);
     res.status(500).json({ error: "Error deleting ramassage" });
   }
+}
+
+async function isRightLicence(ramassage) {
+  let employe = await models.Employe.findByPk(ramassage.fk_employee);
+  let vehicule = await models.Vehicule.findByPk(ramassage.fk_vehicule);
+
+  if (!employe || !vehicule) {
+    return false;
+  }
+
+  if (vehicule.type == "camion" && employe.typepermis !== "C") {
+    return false;
+  } else if (
+    vehicule.type == "camionette" &&
+    (employe.typepermis !== "B" || employe.typepermis !== "C")
+  ) {
+    return false;
+  }
+  return true;
 }
