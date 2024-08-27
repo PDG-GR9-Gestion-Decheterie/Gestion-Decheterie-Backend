@@ -51,8 +51,8 @@ export async function getVehiculeById(req, res) {
       throw new Error();
     }
 
-    let VehiculeData = vehicule.dataValues;
-    res.status(200).json({ VehiculeData });
+    let vehiculeData = vehicule.dataValues;
+    res.status(200).json({ vehiculeData });
   } catch (err) {
     console.error("Error fetching vehicule:", err);
     res.status(404).json({ error: "Error" });
