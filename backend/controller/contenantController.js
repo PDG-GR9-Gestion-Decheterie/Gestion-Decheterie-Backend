@@ -55,6 +55,31 @@ export async function createContenant(req, res) {
       return res.status(403).json({ error: "Forbidden" });
     }
 
+    // Validate the integrity of the contenant before creating it
+    if (req.body.nom === "palette") {
+      if (
+        req.body.nbcadre < 0 ||
+        req.body.nbcadre > 4 ||
+        req.body.nbcadre === null ||
+        req.body.taille !== null
+      ) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+    } else if (req.body.nom === "big bag") {
+      if (
+        (req.body.taille !== "petit" &&
+          req.body.taille !== "moyen" &&
+          req.body.taille !== "grand") ||
+        req.body.nbcadre !== null
+      ) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+    } else {
+      if (req.body.nbcadre != null || req.body.taille != null) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+    }
+
     const newContenant = await models.Contenant.create(req.body);
     await newContenant.save();
     res.status(201).json({
