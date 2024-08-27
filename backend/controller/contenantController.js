@@ -46,8 +46,21 @@ export async function getContenantById(req, res) {
 // Créer une Contenant - /contenants
 export async function createContenant(req, res) {
   try {
-    const newContenant = await models.Contenant.create(req.body);
+    const { fk_decheterie } = req.body;
+    let principals = null;
+    principals = await findDecheteriePrinciaple(req.user.idlogin);
+    let reachable = false;
+    for (let principal of principals) {
+      if (principal.fk_decheterie == fk_decheterie) {
+        reachable = true;
+        break;
+      }
+    }
+    if (!reachable) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
 
+    const newContenant = await models.Contenant.create(req.body);
     await newContenant.save();
     res.status(201).json({
       message: "Contenant added successfully",
