@@ -320,7 +320,7 @@ describe("Vehicule CRUD on a diffrent decheterie", () => {
     const list = await request(app).post("/api/login").send(Responsable);
     const cookie = list.headers["set-cookie"];
 
-    const list2 = await request(app).post("/api/login").send(Responsable);
+    const list2 = await request(app).post("/api/login").send(Responsable2);
     const cookie2 = list2.headers["set-cookie"];
 
     // create a vehicule with in a different primary decheterie
