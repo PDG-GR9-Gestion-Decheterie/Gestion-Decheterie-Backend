@@ -328,6 +328,51 @@ const dech1getAllResponse = {
   ],
 };
 
+const secretaireGetOneResponse = {
+  employeData: {
+    idlogin: "Secr1",
+    nom: "Nom",
+    prenom: "Prenom",
+    datenaissance: "2000-01-01",
+    datedebutcontrat: "2020-01-01",
+    numtelephone: "0123456789",
+    typepermis: null,
+    fk_adresse: 1,
+    fk_decheterie: 1,
+    fk_fonction: "Secrétaire",
+  },
+};
+
+const employeGetOneResponse = {
+  employeData: {
+    idlogin: "Empl1",
+    nom: "Nom",
+    prenom: "Prenom",
+    datenaissance: "2000-01-01",
+    datedebutcontrat: "2020-01-01",
+    numtelephone: "0123456789",
+    typepermis: "B",
+    fk_adresse: 1,
+    fk_decheterie: 1,
+    fk_fonction: "Employé",
+  },
+};
+
+const chauffeurGetOneResponse = {
+  employeData: {
+    idlogin: "Chauff1",
+    nom: "Nom",
+    prenom: "Prenom",
+    datenaissance: "2000-01-01",
+    datedebutcontrat: "2020-01-01",
+    numtelephone: null,
+    typepermis: "C",
+    fk_adresse: 1,
+    fk_decheterie: 1,
+    fk_fonction: "Chauffeur",
+  },
+};
+
 export {
   EmployeOK,
   EmployeKO,
@@ -340,4 +385,7 @@ export {
   jdoeGetOneResponse,
   jdoeGetAllResponse,
   dech1getAllResponse,
+  secretaireGetOneResponse,
+  employeGetOneResponse,
+  chauffeurGetOneResponse,
 };

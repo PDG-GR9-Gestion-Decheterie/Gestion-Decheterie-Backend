@@ -27,6 +27,9 @@ import {
   jdoeGetOneResponse,
   jdoeGetAllResponse,
   dech1getAllResponse,
+  secretaireGetOneResponse,
+  employeGetOneResponse,
+  chauffeurGetOneResponse,
 } from "./employeMessage.js";
 
 describe("Employe not logged in", () => {
@@ -157,6 +160,13 @@ describe("Employe CRUD", () => {
       error: Forbidden.error,
     });
 
+    // get one with own login
+    const employeGet2 = await request(app)
+      .get(`/api/employes/${Secretaire.username}`)
+      .set("Cookie", cookie);
+    expect(employeGet2.statusCode).toEqual(200);
+    expect(employeGet2.body).toEqual(secretaireGetOneResponse);
+
     // get all
     const employeGetAll = await request(app)
       .get("/api/employes")
@@ -231,6 +241,13 @@ describe("Employe CRUD", () => {
       error: Forbidden.error,
     });
 
+    // get one with own login
+    const employeGet2 = await request(app)
+      .get(`/api/employes/${Secretaire.username}`)
+      .set("Cookie", cookie);
+    expect(employeGet2.statusCode).toEqual(200);
+    expect(employeGet2.body).toEqual(employeeGetOneResponse);
+
     // get all
     const employeGetAll = await request(app)
       .get("/api/employes")
@@ -304,6 +321,13 @@ describe("Employe CRUD", () => {
     expect(employeGet.body).toEqual({
       error: Forbidden.error,
     });
+
+    // get one with own login
+    const employeGet2 = await request(app)
+      .get(`/api/employes/${Secretaire.username}`)
+      .set("Cookie", cookie);
+    expect(employeGet2.statusCode).toEqual(200);
+    expect(employeGet2.body).toEqual(chauffeurGetOneResponse);
 
     // get all
     const employeGetAll = await request(app)
