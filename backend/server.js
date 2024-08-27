@@ -183,16 +183,8 @@ app.delete(
 app.post("/api/ramassages", checkRole(["All"]), createRamassage);
 //-------------------------------------------------------------------//
 // ---------------------- Endpoints Vehicule ----------------------- //
-app.get(
-  "/api/vehicules",
-  checkRole(["Responsable", "Secrétaire"]),
-  getVehicules
-);
-app.get(
-  "/api/vehicules/:id",
-  checkRole(["Responsable", "Secrétaire"]),
-  getVehiculeById
-);
+app.get("/api/vehicules", checkRole(["All"]), getVehicules);
+app.get("/api/vehicules/:id", checkRole(["All"]), getVehiculeById);
 app.put(
   "/api/vehicules/:id",
   checkRole(["Responsable", "Secrétaire"]),
@@ -229,11 +221,7 @@ app.delete(
 );
 //-------------------------------------------------------------------//
 // ---------------------- Endpoints Contenant  ----------------------- //
-app.get(
-  "/api/contenantsDecheterie/:id",
-  checkRole(["All"]),
-  getContenantsDecheterie
-);
+app.get("/api/contenants/", checkRole(["All"]), getContenantsDecheterie);
 app.get("/api/contenants/:id", checkRole(["All"]), getContenantById);
 app.put(
   "/api/contenants/:id",

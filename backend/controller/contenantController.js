@@ -1,19 +1,21 @@
 import { models } from "../database/orm.js";
+import { findDecheteriePrinciaple } from "./utils.js";
 
 // Get tous les Contenants - /contenants
 export async function getContenantsDecheterie(req, res) {
   try {
-    let contenantsData = null;
+    let principals = null;
+    principals = await findDecheteriePrinciaple(req.user.idlogin);
 
-    contenantsData = await models.Contenant.findAll({
-      where: {
-        fk_decheterie: req.params.id,
-      },
-    });
-    if (contenantsData === null) {
-      throw new Error();
+    let contenantsData = [];
+    for (let principal of principals) {
+      let contenants = await models.Contenant.findAll({
+        where: {
+          fk_decheterie: principal.fk_decheterie,
+        },
+      });
+      contenantsData = contenantsData.concat(contenants);
     }
-
     res.status(200).json({ contenantsData });
   } catch (err) {
     console.error("Error fetching contenants:", err);
