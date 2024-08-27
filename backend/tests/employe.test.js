@@ -30,6 +30,10 @@ import {
   secretaireGetOneResponse,
   employeGetOneResponse,
   chauffeurGetOneResponse,
+  profileResponsable1Response,
+  profileSecretaire1Response,
+  profileEmploye1Response,
+  profileChauffeur1Response,
 } from "./employeMessage.js";
 
 describe("Employe not logged in", () => {
@@ -344,5 +348,55 @@ describe("Employe CRUD", () => {
     expect(employeDelete2.body).toEqual({
       message: EmployeOK.delete,
     });
+  });
+});
+
+describe("Employe own info", () => {
+  test("Responsable", async () => {
+    const list = await request(app).post("/api/login").send(Responsable);
+    const cookie = list.headers["set-cookie"];
+
+    // get profile
+    const employeGet = await request(app)
+      .get("/api/profile")
+      .set("Cookie", cookie);
+    expect(employeGet.statusCode).toEqual(200);
+    expect(employeGet.body).toEqual(profileResponsable1Response);
+  });
+
+  test("Secretaire", async () => {
+    const list = await request(app).post("/api/login").send(Responsable);
+    const cookie = list.headers["set-cookie"];
+
+    // get profile
+    const employeGet = await request(app)
+      .get("/api/profile")
+      .set("Cookie", cookie);
+    expect(employeGet.statusCode).toEqual(200);
+    expect(employeGet.body).toEqual(profileSecretaire1Response);
+  });
+
+  test("Employe", async () => {
+    const list = await request(app).post("/api/login").send(Responsable);
+    const cookie = list.headers["set-cookie"];
+
+    // get profile
+    const employeGet = await request(app)
+      .get("/api/profile")
+      .set("Cookie", cookie);
+    expect(employeGet.statusCode).toEqual(200);
+    expect(employeGet.body).toEqual(profileEmploye1Response);
+  });
+
+  test("Chauffeur", async () => {
+    const list = await request(app).post("/api/login").send(Responsable);
+    const cookie = list.headers["set-cookie"];
+
+    // get profile
+    const employeGet = await request(app)
+      .get("/api/profile")
+      .set("Cookie", cookie);
+    expect(employeGet.statusCode).toEqual(200);
+    expect(employeGet.body).toEqual(profileChauffeur1Response);
   });
 });

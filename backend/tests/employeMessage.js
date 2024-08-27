@@ -377,6 +377,82 @@ const chauffeurGetOneResponse = {
   },
 };
 
+const profileResponsable1Response = {
+  employeData: {
+    idlogin: "Resp1",
+    nom: "Nom",
+    prenom: "Prenom",
+    datenaissance: "2000-01-01",
+    datedebutcontrat: "2020-01-01",
+    numtelephone: null,
+    typepermis: null,
+    fk_fonction: "Responsable",
+    decheterie_nom: "Decheterie Yverdon",
+    adresse_rue: "Rue 1",
+    adresse_numero: "1",
+    adresse_npa: "1400",
+    adresse_nomville: "Yverdon-les-Bains",
+    adresse_pays: "Suisse",
+  },
+};
+
+const profileSecretaire1Response = {
+  employeData: {
+    idlogin: "Secr1",
+    nom: "Nom",
+    prenom: "Prenom",
+    datenaissance: "2000-01-01",
+    datedebutcontrat: "2020-01-01",
+    numtelephone: "0123456789",
+    typepermis: null,
+    fk_fonction: "Secrétaire",
+    decheterie_nom: "Decheterie Yverdon",
+    adresse_rue: "Rue 1",
+    adresse_numero: "1",
+    adresse_npa: "1400",
+    adresse_nomville: "Yverdon-les-Bains",
+    adresse_pays: "Suisse",
+  },
+};
+
+const profileEmploye1Response = {
+  employeData: {
+    idlogin: "Empl1",
+    nom: "Nom",
+    prenom: "Prenom",
+    datenaissance: "2000-01-01",
+    datedebutcontrat: "2020-01-01",
+    numtelephone: "0123456789",
+    typepermis: "B",
+    fk_fonction: "Employé",
+    decheterie_nom: "Decheterie Yverdon",
+    adresse_rue: "Rue 1",
+    adresse_numero: "1",
+    adresse_npa: "1400",
+    adresse_nomville: "Yverdon-les-Bains",
+    adresse_pays: "Suisse",
+  },
+};
+
+const profileChauffeur1Response = {
+  employeData: {
+    idlogin: "Chauff1",
+    nom: "Nom",
+    prenom: "Prenom",
+    datenaissance: "2000-01-01",
+    datedebutcontrat: "2020-01-01",
+    numtelephone: null,
+    typepermis: "C",
+    fk_fonction: "Chauffeur",
+    decheterie_nom: "Decheterie Yverdon",
+    adresse_rue: "Rue 1",
+    adresse_numero: "1",
+    adresse_npa: "1400",
+    adresse_nomville: "Yverdon-les-Bains",
+    adresse_pays: "Suisse",
+  },
+};
+
 export {
   EmployeOK,
   EmployeKO,
@@ -392,4 +468,8 @@ export {
   secretaireGetOneResponse,
   employeGetOneResponse,
   chauffeurGetOneResponse,
+  profileResponsable1Response,
+  profileSecretaire1Response,
+  profileEmploye1Response,
+  profileChauffeur1Response,
 };
