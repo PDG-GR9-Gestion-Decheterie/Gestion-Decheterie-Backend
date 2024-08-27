@@ -352,6 +352,15 @@ describe("Employe CRUD", () => {
 });
 
 describe("Employe own info", () => {
+  test("Not logged in", async () => {
+    // get profile
+    const employeGet = await request(app).get("/api/profile");
+    expect(employeGet.statusCode).toEqual(401);
+    expect(employeGet.body).toEqual({
+      error: Unauthorized.error,
+    });
+  });
+
   test("Responsable", async () => {
     const list = await request(app).post("/api/login").send(Responsable);
     const cookie = list.headers["set-cookie"];
