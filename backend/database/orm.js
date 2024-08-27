@@ -4,10 +4,13 @@ let sequelize;
 export let models;
 
 const DB_URL = process.env.DATABASE_URL;
+const SEQUELIZE_LOGS = process.env.SEQUELIZE_LOGS;
 
 export async function initializeDB() {
   try {
-    sequelize = new Sequelize(DB_URL);
+    sequelize = new Sequelize(DB_URL, {
+      logging: SEQUELIZE_LOGS,
+    });
 
     console.log("Connection string:", sequelize.config);
 
