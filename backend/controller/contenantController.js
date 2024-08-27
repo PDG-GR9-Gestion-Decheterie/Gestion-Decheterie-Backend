@@ -4,14 +4,13 @@ import { findDecheteriePrinciaple } from "./utils.js";
 // Get tous les Contenants - /contenants
 export async function getContenantsDecheterie(req, res) {
   try {
-    let principals = null;
-    principals = await findDecheteriePrinciaple(req.user.idlogin);
+    let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
 
     let contenantsData = [];
-    for (let principal of principals) {
+    for (let idDecheterie of decheteriesDispo) {
       let contenants = await models.Contenant.findAll({
         where: {
-          fk_decheterie: principal.fk_decheterie,
+          fk_decheterie: idDecheterie,
         },
       });
       contenantsData = contenantsData.concat(contenants);
@@ -46,17 +45,13 @@ export async function getContenantById(req, res) {
 // Créer une Contenant - /contenants
 export async function createContenant(req, res) {
   try {
-    const { fk_decheterie } = req.body;
-    let principals = null;
-    principals = await findDecheteriePrinciaple(req.user.idlogin);
-    let reachable = false;
-    for (let principal of principals) {
-      if (principal.fk_decheterie == fk_decheterie) {
-        reachable = true;
-        break;
-      }
-    }
-    if (!reachable) {
+    let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
+
+    if (
+      !decheteriesDispo.find(
+        (decheterie) => decheterie == req.body.fk_decheterie
+      )
+    ) {
       return res.status(403).json({ error: "Forbidden" });
     }
 
@@ -116,13 +111,12 @@ export async function deleteContenant(req, res) {
 }
 
 async function isIDreachable(req) {
-  let principals = null;
-  principals = await findDecheteriePrinciaple(req.user.idlogin);
+  let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
   let contenantsData = [];
-  for (let principal of principals) {
+  for (let idDecheterie of decheteriesDispo) {
     let contenants = await models.Contenant.findAll({
       where: {
-        fk_decheterie: principal.fk_decheterie,
+        fk_decheterie: idDecheterie,
       },
     });
     contenantsData = contenantsData.concat(contenants);

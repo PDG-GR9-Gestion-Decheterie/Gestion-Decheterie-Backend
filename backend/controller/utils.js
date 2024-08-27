@@ -36,9 +36,14 @@ export async function findDecheteriePrinciaple(id) {
   if (!principal) {
     throw new Error("Principal not found");
   }
-  return await models.Principale.findAll({
+  let principales = await models.Principale.findAll({
     where: {
       fk_principale: principal.dataValues.fk_principale,
     },
   });
+  let decheteries = [];
+  for (let principal of principales) {
+    decheteries.push(principal.dataValues.fk_decheterie);
+  }
+  return decheteries;
 }
