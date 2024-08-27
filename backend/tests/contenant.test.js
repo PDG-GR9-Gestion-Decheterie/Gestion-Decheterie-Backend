@@ -413,45 +413,45 @@ describe("Contenant CRUD check integrity", () => {
       .put("/api/contenants/300")
       .set("Cookie", cookie)
       .send(contenant3UpdateRequest1);
-    expect(contenantUpdate.statusCode).toEqual(500);
+    expect(contenantUpdate.statusCode).toEqual(403);
     expect(contenantUpdate.body).toEqual({
-      error: ContenantKO.update,
+      error: Forbidden.error,
     });
 
     const contenantUpdate2 = await request(app)
       .put("/api/contenants/300")
       .set("Cookie", cookie)
       .send(contenant3UpdateRequest2);
-    expect(contenantUpdate2.statusCode).toEqual(500);
+    expect(contenantUpdate2.statusCode).toEqual(403);
     expect(contenantUpdate2.body).toEqual({
-      error: ContenantKO.update,
+      error: Forbidden.error,
     });
 
     const contenantUpdate3 = await request(app)
       .put("/api/contenants/300")
       .set("Cookie", cookie)
       .send(contenant3UpdateRequest3);
-    expect(contenantUpdate3.statusCode).toEqual(500);
+    expect(contenantUpdate3.statusCode).toEqual(403);
     expect(contenantUpdate3.body).toEqual({
-      error: ContenantKO.update,
+      error: Forbidden.error,
     });
 
     const contenantUpdate4 = await request(app)
       .put("/api/contenants/300")
       .set("Cookie", cookie)
       .send(contenant3UpdateRequest4);
-    expect(contenantUpdate4.statusCode).toEqual(500);
+    expect(contenantUpdate4.statusCode).toEqual(403);
     expect(contenantUpdate4.body).toEqual({
-      error: ContenantKO.update,
+      error: Forbidden.error,
     });
 
     const contenantUpdate5 = await request(app)
       .put("/api/contenants/300")
       .set("Cookie", cookie)
       .send(contenant3UpdateRequest5);
-    expect(contenantUpdate5.statusCode).toEqual(500);
+    expect(contenantUpdate5.statusCode).toEqual(403);
     expect(contenantUpdate5.body).toEqual({
-      error: ContenantKO.update,
+      error: Forbidden.error,
     });
 
     // update test for:
@@ -460,45 +460,45 @@ describe("Contenant CRUD check integrity", () => {
       .put("/api/contenants/300")
       .set("Cookie", cookie)
       .send(contenant3UpdateRequest6);
-    expect(contenantUpdate6.statusCode).toEqual(500);
+    expect(contenantUpdate6.statusCode).toEqual(403);
     expect(contenantUpdate6.body).toEqual({
-      error: ContenantKO.update,
+      error: Forbidden.error,
     });
 
     const contenantUpdate7 = await request(app)
       .put("/api/contenants/300")
       .set("Cookie", cookie)
       .send(contenant3UpdateRequest7);
-    expect(contenantUpdate7.statusCode).toEqual(500);
+    expect(contenantUpdate7.statusCode).toEqual(403);
     expect(contenantUpdate7.body).toEqual({
-      error: ContenantKO.update,
+      error: Forbidden.error,
     });
 
     const contenantUpdate8 = await request(app)
       .put("/api/contenants/300")
       .set("Cookie", cookie)
       .send(contenant3UpdateRequest8);
-    expect(contenantUpdate8.statusCode).toEqual(500);
+    expect(contenantUpdate8.statusCode).toEqual(403);
     expect(contenantUpdate8.body).toEqual({
-      error: ContenantKO.update,
+      error: Forbidden.error,
     });
 
     const contenantUpdate9 = await request(app)
       .put("/api/contenants/300")
       .set("Cookie", cookie)
       .send(contenant3UpdateRequest9);
-    expect(contenantUpdate9.statusCode).toEqual(500);
+    expect(contenantUpdate9.statusCode).toEqual(403);
     expect(contenantUpdate9.body).toEqual({
-      error: ContenantKO.update,
+      error: Forbidden.error,
     });
 
     const contenantUpdate10 = await request(app)
       .put("/api/contenants/300")
       .set("Cookie", cookie)
       .send(contenant3UpdateRequest10);
-    expect(contenantUpdate10.statusCode).toEqual(500);
+    expect(contenantUpdate10.statusCode).toEqual(403);
     expect(contenantUpdate10.body).toEqual({
-      error: ContenantKO.update,
+      error: Forbidden.error,
     });
 
     // delete
