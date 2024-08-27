@@ -3,14 +3,14 @@ import { models } from "../database/orm.js";
 // Get tous les Adresses - /adresses
 export async function getAdresses(req, res) {
   try {
-    let AdressesData = null;
+    let adressesData = null;
 
-    AdressesData = await models.Adresse.findAll();
-    if (AdressesData === null) {
+    adressesData = await models.Adresse.findAll();
+    if (adressesData === null) {
       throw new Error();
     }
 
-    res.status(200).json({ AdressesData });
+    res.status(200).json({ adressesData });
   } catch (err) {
     console.error("Error fetching adresses:", err);
     res.status(404).json({ error: "Error" });
