@@ -14,21 +14,14 @@ import {
   Chauffeur2,
 } from "./credentials.js";
 
-import { LoginOK, LoginKO } from "./message.js";
+import { Forbidden, Unauthorized } from "./message.js";
 
-describe("The API default route", () => {
-  test("should receive Hello world!", async () => {
-    const list = await request(app).get("/api");
-    expect(list.statusCode).toEqual(200);
-    expect(list.text).toEqual("API Gestion Déchèterie !");
-  });
-});
+import { LoginOK, LoginKO } from "./loginMessage.js";
+
 
 describe("Login/Logout", () => {
   test("should login", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(Responsable));
+    const list = await request(app).post("/api/login").send(Responsable);
     expect(list.statusCode).toEqual(200);
     expect(list.body).toEqual({
       idlogin: Responsable.username,
@@ -37,9 +30,7 @@ describe("Login/Logout", () => {
   });
 
   test("should not login", async () => {
-    const list = await request(app)
-      .post("/api/login")
-      .send(JSON.stringify(ResponsableWrong));
+    const list = await request(app).post("/api/login").send(ResponsableWrong);
     expect(list.statusCode).toEqual(401);
     expect(list.body).toEqual({ error: LoginKO.login });
   });

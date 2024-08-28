@@ -6,6 +6,7 @@ jobs:
   build:
     env:
       DATABASE_URL: postgres://bdr:bdr@localhost:5432/bdr
+      SEQUELIZE_LOGS: false
 
     runs-on: ubuntu-latest
 
@@ -39,7 +40,7 @@ jobs:
           repo-temp
 
       - name: Move the db folder to the correct location
-        run: mv repo-temp/release/db ./db
+        run: mv repo-temp/test/db ./db
 
       - name: Clean up
         run: rm -rf repo-temp
@@ -71,6 +72,12 @@ jobs:
       - name: List tables
         run: |
           psql -h localhost -U bdr -d bdr -c "\dt gestion_decheterie.*"
+        env:
+          PGPASSWORD: bdr
+
+      - name: List content of the employe table
+        run: |
+          psql -h localhost -U bdr -d bdr -c "SELECT * FROM gestion_decheterie.employe;"
         env:
           PGPASSWORD: bdr
 

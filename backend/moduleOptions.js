@@ -19,3 +19,21 @@ export const sessionOptions = session({
     maxAge: 21600000,
   },
 });
+export const checkRole = (requiredRoles) => {
+  return (req, res, next) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    if (requiredRoles.includes("All")) {
+      return next();
+    }
+    const userRole = req.user.fk_fonction;
+
+    if (!requiredRoles.includes(userRole)) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+
+    next();
+  };
+};

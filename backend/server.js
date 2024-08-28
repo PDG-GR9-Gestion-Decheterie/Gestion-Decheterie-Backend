@@ -3,7 +3,7 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import bcrypt from "bcrypt";
 import cookieParser from "cookie-parser";
-import { corsOptions, sessionOptions } from "./moduleOptions.js";
+import { corsOptions, sessionOptions, checkRole } from "./moduleOptions.js";
 import { models } from "./database/orm.js";
 import {
   getEmployees,
@@ -22,6 +22,39 @@ import {
   updateRamassage,
   createRamassage,
 } from "./controller/ramassageController.js";
+import {
+  getVehicules,
+  getVehiculeById,
+  deleteVehicule,
+  updateVehicule,
+  createVehicule,
+} from "./controller/vehiculeController.js";
+import {
+  getDecheteries,
+  getDecheterieById,
+  createDecheterie,
+  updateDecheterie,
+  deleteDecheterie,
+} from "./controller/decheterieController.js";
+import {
+  getContenantsDecheterie,
+  getContenantById,
+  createContenant,
+  updateContenant,
+  deleteContenant,
+} from "./controller/contenantController.js";
+import {
+  getAdresses,
+  getAdresseById,
+  createAdresse,
+  updateAdresse,
+  deleteAdresse,
+} from "./controller/adresseController.js";
+import {
+  getFonctions,
+  getStatus,
+  getDechets,
+} from "./controller/dropdownController.js";
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -37,9 +70,6 @@ app.use("/api", (req, res, next) => {
   next();
 });
 
-app.get("/api", (req, res) => {
-  res.send("API Gestion Déchèterie !");
-});
 //--------------------------------------------------------------------//
 //---------------------- Passport Configuration ----------------------//
 passport.serializeUser((user, done) => {
@@ -130,17 +160,86 @@ app.get("/api/favicon.ico", (req, res) => res.status(204));
 
 //-------------------------------------------------------------------//
 // ---------------------- Endpoints Employes ----------------------- //
-app.get("/api/employes", getEmployees);
-app.get("/api/employes/:id", getEmployeeById);
-app.put("/api/employes/:id", updateEmployee);
-app.delete("/api/employes/:id", deleteEmployee);
-app.post("/api/employes", createEmployee);
-app.get("/api/profile", getEmployeeProfile);
-
-app.get("/api/ramassages", getRamassages);
-app.get("/api/ramassages/:id", getRamassageById);
-app.put("/api/ramassages/:id", updateRamassage);
-app.delete("/api/ramassages/:id", deleteRamassage);
-app.post("/api/ramassages", createRamassage);
-
+app.get("/api/employes", checkRole(["Responsable"]), getEmployees);
+app.get("/api/employes/:id", checkRole(["Responsable"]), getEmployeeById);
+app.put("/api/employes/:id", checkRole(["Responsable"]), updateEmployee);
+app.delete("/api/employes/:id", checkRole(["Responsable"]), deleteEmployee);
+app.post("/api/employes", checkRole(["Responsable"]), createEmployee);
+app.get("/api/profile", checkRole(["All"]), getEmployeeProfile);
+//-------------------------------------------------------------------//
+// ---------------------- Endpoints Ramassages ----------------------- //
+app.get("/api/ramassages", checkRole(["All"]), getRamassages);
+app.get("/api/ramassages/:id", checkRole(["All"]), getRamassageById);
+app.put(
+  "/api/ramassages/:id",
+  checkRole(["Responsable", "Secrétaire"]),
+  updateRamassage
+);
+app.delete(
+  "/api/ramassages/:id",
+  checkRole(["Responsable", "Secrétaire"]),
+  deleteRamassage
+);
+app.post("/api/ramassages", checkRole(["All"]), createRamassage);
+//-------------------------------------------------------------------//
+// ---------------------- Endpoints Vehicule ----------------------- //
+app.get("/api/vehicules", checkRole(["All"]), getVehicules);
+app.get("/api/vehicules/:id", checkRole(["All"]), getVehiculeById);
+app.put(
+  "/api/vehicules/:id",
+  checkRole(["Responsable", "Secrétaire"]),
+  updateVehicule
+);
+app.delete(
+  "/api/vehicules/:id",
+  checkRole(["Responsable", "Secrétaire"]),
+  deleteVehicule
+);
+app.post(
+  "/api/vehicules",
+  checkRole(["Responsable", "Secrétaire"]),
+  createVehicule
+);
+//-------------------------------------------------------------------//
+// ---------------------- Endpoints Decheterie  ----------------------- //
+app.get("/api/decheteries", checkRole(["All"]), getDecheteries);
+app.get("/api/decheteries/:id", checkRole(["All"]), getDecheterieById);
+app.put("/api/decheteries/:id", checkRole(["Responsable"]), updateDecheterie);
+app.post("/api/decheteries", checkRole(["Responsable"]), createDecheterie);
+app.delete(
+  "/api/decheteries/:id",
+  checkRole(["Responsable"]),
+  deleteDecheterie
+);
+//-------------------------------------------------------------------//
+// ---------------------- Endpoints Contenant  ----------------------- //
+app.get("/api/contenants/", checkRole(["All"]), getContenantsDecheterie);
+app.get("/api/contenants/:id", checkRole(["All"]), getContenantById);
+app.put(
+  "/api/contenants/:id",
+  checkRole(["Responsable", "Secrétaire"]),
+  updateContenant
+);
+app.delete(
+  "/api/contenants/:id",
+  checkRole(["Responsable", "Secrétaire"]),
+  deleteContenant
+);
+app.post(
+  "/api/contenants",
+  checkRole(["Responsable", "Secrétaire"]),
+  createContenant
+);
+//-------------------------------------------------------------------//
+// ---------------------- Endpoints Adresse  ----------------------- //
+app.get("/api/adresses", checkRole(["All"]), getAdresses);
+app.get("/api/adresses/:id", checkRole(["All"]), getAdresseById);
+app.put("/api/adresses/:id", checkRole(["All"]), updateAdresse);
+app.delete("/api/adresses/:id", checkRole(["All"]), deleteAdresse);
+app.post("/api/adresses", checkRole(["All"]), createAdresse);
+//-------------------------------------------------------------------//
+// ---------------------- Endpoints DropDown  ----------------------- //
+app.get("/api/fonctions", checkRole(["All"]), getFonctions);
+app.get("/api/status", checkRole(["All"]), getStatus);
+app.get("/api/dechets", checkRole(["All"]), getDechets);
 export default app;
