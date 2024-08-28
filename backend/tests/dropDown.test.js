@@ -58,27 +58,21 @@ describe("DropDown logged in", () => {
     // Get all
     const status = await request(app).get("/api/status").set("Cookie", cookie);
     expect(status.statusCode).toEqual(200);
-    expect(status.body).toEqual({
-      message: statusResponse,
-    });
+    expect(status.body).toEqual(statusResponse);
 
     // Get all
     const dechets = await request(app)
       .get("/api/dechets")
       .set("Cookie", cookie);
     expect(dechets.statusCode).toEqual(200);
-    expect(dechets.body).toEqual({
-      message: dechetResponse,
-    });
+    expect(dechets.body).toEqual(dechetResponse);
 
     // Get all
     const fonctions = await request(app)
       .get("/api/fonction")
       .set("Cookie", cookie);
     expect(fonctions.statusCode).toEqual(200);
-    expect(fonctions.body).toEqual({
-      message: fonctionResponse,
-    });
+    expect(fonctions.body).toEqual(fonctionResponse);
   });
 
   test("Secretaire", async () => {
@@ -88,27 +82,21 @@ describe("DropDown logged in", () => {
     // Get all
     const status = await request(app).get("/api/status").set("Cookie", cookie);
     expect(status.statusCode).toEqual(200);
-    expect(status.body).toEqual({
-      message: statusResponse,
-    });
+    expect(status.body).toEqual(statusResponse);
 
     // Get all
     const dechets = await request(app)
       .get("/api/dechets")
       .set("Cookie", cookie);
     expect(dechets.statusCode).toEqual(200);
-    expect(dechets.body).toEqual({
-      message: dechetResponse,
-    });
+    expect(dechets.body).toEqual(dechetResponse);
 
     // Get all
     const fonctions = await request(app)
       .get("/api/fonction")
       .set("Cookie", cookie);
     expect(fonctions.statusCode).toEqual(200);
-    expect(fonctions.body).toEqual({
-      message: fonctionResponse,
-    });
+    expect(fonctions.body).toEqual(fonctionResponse);
   });
 
   test("Employe", async () => {
@@ -118,27 +106,21 @@ describe("DropDown logged in", () => {
     // Get all
     const status = await request(app).get("/api/status").set("Cookie", cookie);
     expect(status.statusCode).toEqual(200);
-    expect(status.body).toEqual({
-      message: statusResponse,
-    });
+    expect(status.body).toEqual(statusResponse);
 
     // Get all
     const dechets = await request(app)
       .get("/api/dechets")
       .set("Cookie", cookie);
     expect(dechets.statusCode).toEqual(200);
-    expect(dechets.body).toEqual({
-      message: dechetResponse,
-    });
+    expect(dechets.body).toEqual(dechetResponse);
 
     // Get all
     const fonctions = await request(app)
       .get("/api/fonction")
       .set("Cookie", cookie);
     expect(fonctions.statusCode).toEqual(200);
-    expect(fonctions.body).toEqual({
-      message: fonctionResponse,
-    });
+    expect(fonctions.body).toEqual(fonctionResponse);
   });
 
   test("Chauffeur", async () => {
@@ -148,26 +130,20 @@ describe("DropDown logged in", () => {
     // Get all
     const status = await request(app).get("/api/status").set("Cookie", cookie);
     expect(status.statusCode).toEqual(200);
-    expect(status.body).toEqual({
-      message: statusResponse,
-    });
+    expect(status.body).toEqual(statusResponse);
 
     // Get all
     const dechets = await request(app)
       .get("/api/dechets")
       .set("Cookie", cookie);
     expect(dechets.statusCode).toEqual(200);
-    expect(dechets.body).toEqual({
-      message: dechetResponse,
-    });
+    expect(dechets.body).toEqual(dechetResponse);
 
     // Get all
     const fonctions = await request(app)
       .get("/api/fonction")
       .set("Cookie", cookie);
     expect(fonctions.statusCode).toEqual(200);
-    expect(fonctions.body).toEqual({
-      message: fonctionResponse,
-    });
+    expect(fonctions.body).toEqual(fonctionResponse);
   });
 });
