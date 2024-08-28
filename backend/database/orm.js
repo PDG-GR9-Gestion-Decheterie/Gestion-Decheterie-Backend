@@ -96,23 +96,23 @@ const defineModels = (sequelize) => {
         type: Sequelize.INTEGER,
         primaryKey: true,
       },
-      rue: {
+      number: {
         type: Sequelize.STRING(30),
         allowNull: false,
       },
-      numero: {
-        type: Sequelize.STRING(10),
+      street: {
+        type: Sequelize.STRING(255),
         allowNull: false,
       },
-      npa: {
-        type: Sequelize.STRING(10),
+      city: {
+        type: Sequelize.STRING(255),
         allowNull: false,
       },
-      nomville: {
-        type: Sequelize.STRING(30),
+      region: {
+        type: Sequelize.STRING(50),
         allowNull: false,
       },
-      pays: {
+      postcode: {
         type: Sequelize.STRING(30),
         allowNull: false,
       },
