@@ -276,7 +276,7 @@ describe("Ramassage CRUD", () => {
     });
     const ramassageDelete3 = await request(app)
       .delete("/api/ramassages/10")
-      .set("Cookie", cookie);
+      .set("Cookie", cookieResp);
     expect(ramassageDelete3.statusCode).toEqual(200);
     expect(ramassageDelete3.body).toEqual({
       message: RamassageOK.delete,
@@ -353,7 +353,7 @@ describe("Ramassage CRUD", () => {
     });
     const ramassageDelete3 = await request(app)
       .delete("/api/ramassages/10")
-      .set("Cookie", cookie);
+      .set("Cookie", cookieResp);
     expect(ramassageDelete3.statusCode).toEqual(200);
     expect(ramassageDelete3.body).toEqual({
       message: RamassageOK.delete,
