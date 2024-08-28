@@ -25,6 +25,7 @@ import {
   employeGetAllResponse,
   ram11CreateRequest,
   ram11UpdateRequest,
+  ram11GetAllResponse,
   dechet1GetAllResponse,
   ram12CreateRequest,
   ram13CreateRequest,
