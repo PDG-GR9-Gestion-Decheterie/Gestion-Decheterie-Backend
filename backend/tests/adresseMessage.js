@@ -12,30 +12,30 @@ const AdresseKO = {
 
 const adresse1CreateRequest = {
   id: 10,
-  rue: "Chemin du test",
-  numero: "24",
-  npa: "1880",
-  nomville: "Fribourg",
-  pays: "Suisse",
+  number: "1",
+  street: "Chemin du test",
+  city: "Fribourg",
+  region: "Fribourg",
+  postcode: "1880",
 };
 
 const adresse1UpdateRequest = {
   id: 10,
-  rue: "Chemin du tesssst",
-  numero: "24",
-  npa: "1880",
-  nomville: "Fribourg",
-  pays: "Suisse",
+  number: "1",
+  street: "Chemin du tesssst",
+  city: "Fribourg",
+  region: "Fribourg",
+  postcode: "1880",
 };
 
 const adresse1GetOneResponse = {
   adresseData: {
     id: 10,
-    rue: "Chemin du test",
-    numero: "24",
-    npa: "1880",
-    nomville: "Fribourg",
-    pays: "Suisse",
+    number: "1",
+    street: "Chemin du test",
+    city: "Fribourg",
+    region: "Fribourg",
+    postcode: "1880",
   },
 };
 
@@ -43,27 +43,27 @@ const adresse1GetAllResponse = {
   adressesData: [
     {
       id: 1,
-      rue: "Rue 1",
-      numero: "1",
-      npa: "1400",
-      nomville: "Yverdon-les-Bains",
-      pays: "Suisse",
+      number: "1",
+      street: "Rue 1",
+      city: "Yverdon-les-Bains",
+      region: "VD",
+      postcode: "1400",
     },
     {
       id: 2,
-      rue: "Rue 2",
-      numero: "2",
-      npa: "3000",
-      nomville: "Berne",
-      pays: "Suisse",
+      number: "2",
+      street: "Rue 2",
+      city: "Berne",
+      region: "VD",
+      postcode: "3000",
     },
     {
       id: 10,
-      rue: "Chemin du test",
-      numero: "24",
-      npa: "1880",
-      nomville: "Fribourg",
-      pays: "Suisse",
+      number: "1",
+      street: "Chemin du test",
+      city: "Fribourg",
+      region: "Fribourg",
+      postcode: "1880",
     },
   ],
 };
