@@ -29,6 +29,10 @@ import {
   dechet1GetAllResponse,
   ram12CreateRequest,
   ram13CreateRequest,
+  ram14CreateRequest,
+  ram15CreateRequest,
+  ram16CreateRequest,
+  ram17CreateRequest,
 } from "./ramassageMessage.js";
 
 describe("Ramassage not logged in", () => {
@@ -463,6 +467,53 @@ describe("Ramassage test employe have licence", () => {
       .send(ram13CreateRequest);
     expect(ramassage2.statusCode).toEqual(403);
     expect(ramassage2.body).toEqual({
+      error: Forbidden.error,
+    });
+  });
+});
+
+describe("Ramassage test with wrong data", () => {
+  test("Responsable", async () => {
+    const list = await request(app).post("/api/login").send(Responsable);
+    const cookie = list.headers["set-cookie"];
+
+    // create with wrong contenants
+    const ramassage = await request(app)
+      .post("/api/ramassages")
+      .set("Cookie", cookie)
+      .send(ram14CreateRequest);
+    expect(ramassage.statusCode).toEqual(403);
+    expect(ramassage.body).toEqual({
+      error: Forbidden.error,
+    });
+
+    // create with wrong employe
+    const ramassage2 = await request(app)
+      .post("/api/ramassages")
+      .set("Cookie", cookie)
+      .send(ram15CreateRequest);
+    expect(ramassage2.statusCode).toEqual(403);
+    expect(ramassage2.body).toEqual({
+      error: Forbidden.error,
+    });
+
+    // create with wrong decheterie
+    const ramassage3 = await request(app)
+      .post("/api/ramassages")
+      .set("Cookie", cookie)
+      .send(ram16CreateRequest);
+    expect(ramassage3.statusCode).toEqual(403);
+    expect(ramassage3.body).toEqual({
+      error: Forbidden.error,
+    });
+
+    // create with wrong vehicule
+    const ramassage4 = await request(app)
+      .post("/api/ramassages")
+      .set("Cookie", cookie)
+      .send(ram17CreateRequest);
+    expect(ramassage4.statusCode).toEqual(403);
+    expect(ramassage4.body).toEqual({
       error: Forbidden.error,
     });
   });
