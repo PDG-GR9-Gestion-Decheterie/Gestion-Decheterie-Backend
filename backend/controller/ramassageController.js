@@ -124,6 +124,9 @@ export async function createRamassage(req, res) {
     ) {
       return res.status(403).json({ error: "Forbidden" });
     }
+    if (!(await isRightLicence(req.body))) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
 
     // Créer un nouveau ramassage avec les données reçues
     const newRamassage = await models.Ramassage.create(req.body);
@@ -139,17 +142,13 @@ export async function createRamassage(req, res) {
 // Mettre à jour un ramassage - /ramassages/:id
 export async function updateRamassage(req, res) {
   try {
-    if (!(await isIDreachable(req))) {
+    if (!(await isIDreachable(req)) || !(await isRightLicence(req.body))) {
       return res.status(403).json({ error: "Forbidden" });
     }
     let ramassage = await models.Ramassage.findByPk(req.params.id);
 
     if (!ramassage) {
       throw new Error("Ramassage not found");
-    }
-
-    if (!(await isRightLicence(req.body))) {
-      return res.status(403).json({ error: "Forbidden" });
     }
 
     ramassage.set({
