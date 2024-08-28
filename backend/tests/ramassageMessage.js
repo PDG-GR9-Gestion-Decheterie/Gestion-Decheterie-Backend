@@ -278,6 +278,54 @@ const ram13CreateRequest = {
   fk_vehicule: "VD100000",
 };
 
+const ram14CreateRequest = {
+  // Ramassage with wrong contenant
+  id: 14,
+  date: 1960995200000,
+  fk_status: "accepté",
+  poids: 100,
+  fk_contenant: 2,
+  fk_employee: "Resp1",
+  fk_decheterie: 1,
+  fk_vehicule: "VD100000",
+};
+
+const ram15CreateRequest = {
+  // Ramassage with wrong employe
+  id: 15,
+  date: 1960995200000,
+  fk_status: "accepté",
+  poids: 100,
+  fk_contenant: 1,
+  fk_employee: "Chauff2",
+  fk_decheterie: 1,
+  fk_vehicule: "VD100000",
+};
+
+const ram16CreateRequest = {
+  // Ramassage with wrong decheterie
+  id: 16,
+  date: 1960995200000,
+  fk_status: "accepté",
+  poids: 100,
+  fk_contenant: 1,
+  fk_employee: "Resp1",
+  fk_decheterie: 2,
+  fk_vehicule: "VD100000",
+};
+
+const ram17CreateRequest = {
+  // Ramassage with wrong vehicule
+  id: 17,
+  date: 1960995200000,
+  fk_status: "accepté",
+  poids: 100,
+  fk_contenant: 1,
+  fk_employee: "Resp1",
+  fk_decheterie: 1,
+  fk_vehicule: "VD200000",
+};
+
 export {
   RamassageOK,
   RamassageKO,
@@ -293,4 +341,8 @@ export {
   dechet1GetAllResponse,
   ram12CreateRequest,
   ram13CreateRequest,
+  ram14CreateRequest,
+  ram15CreateRequest,
+  ram16CreateRequest,
+  ram17CreateRequest,
 };
