@@ -17,6 +17,13 @@ export async function getRamassages(req, res) {
     }
 
     for (let ramassage of ramassages) {
+      if (
+        (req.user.fk_fonction == "Employé" ||
+          req.user.fk_fonction == "Chauffeur") &&
+        ramassage.dataValues.date < new Date().toISOString().split("T")[0]
+      ) {
+        continue;
+      }
       let contenant = await models.Contenant.findByPk(
         ramassage.dataValues.fk_contenant
       );
@@ -92,7 +99,13 @@ export async function getRamassageById(req, res) {
     if (ramassage === null) {
       throw new Error();
     }
-
+    if (
+      (req.user.fk_fonction == "Employé" ||
+        req.user.fk_fonction == "Chauffeur") &&
+      ramassage.dataValues.date < new Date().toISOString().split("T")[0]
+    ) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
     let ramassageData = ramassage.dataValues;
     res.status(200).json({ ramassageData });
   } catch (err) {
