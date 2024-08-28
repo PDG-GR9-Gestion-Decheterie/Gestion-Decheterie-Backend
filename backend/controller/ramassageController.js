@@ -120,11 +120,10 @@ export async function createRamassage(req, res) {
     if (
       !decheteriesDispo.find(
         (decheterie) => decheterie == req.body.fk_decheterie
-      )
+      ) ||
+      !(await isInRightDecheterie(req)) ||
+      !(await isRightLicence(req.body))
     ) {
-      return res.status(403).json({ error: "Forbidden" });
-    }
-    if (!(await isRightLicence(req.body))) {
       return res.status(403).json({ error: "Forbidden" });
     }
 
@@ -142,7 +141,11 @@ export async function createRamassage(req, res) {
 // Mettre à jour un ramassage - /ramassages/:id
 export async function updateRamassage(req, res) {
   try {
-    if (!(await isIDreachable(req)) || !(await isRightLicence(req.body))) {
+    if (
+      !(await isIDreachable(req)) ||
+      !(await isRightLicence(req.body)) ||
+      !(await isInRightDecheterie(req))
+    ) {
       return res.status(403).json({ error: "Forbidden" });
     }
     let ramassage = await models.Ramassage.findByPk(req.params.id);
@@ -204,12 +207,41 @@ async function isRightLicence(ramassage) {
   if (!employe || !vehicule) {
     return false;
   }
-
   if (vehicule.type == "camion" && employe.typepermis !== "C") {
     return false;
   } else if (
     vehicule.type == "camionette" &&
     (employe.typepermis !== "B" || employe.typepermis !== "C")
+  ) {
+    return false;
+  }
+  return true;
+}
+async function isInRightDecheterie(req) {
+  let contenant = await models.Contenant.findByPk(req.body.fk_contenant);
+  let employe = await models.Employe.findByPk(req.body.fk_employee);
+  let vehicule = await models.Vehicule.findByPk(req.body.fk_vehicule);
+
+  let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
+  if (!contenant || !employe || !vehicule) {
+    return false;
+  }
+
+  if (
+    contenant.fk_decheterie !== req.body.fk_decheterie ||
+    !decheteriesDispo.includes(parseInt(contenant.fk_decheterie, 10))
+  ) {
+    return false;
+  }
+  if (
+    employe.fk_decheterie !== req.body.fk_decheterie ||
+    !decheteriesDispo.includes(parseInt(employe.fk_decheterie, 10))
+  ) {
+    return false;
+  }
+  if (
+    vehicule.fk_decheterie !== req.body.fk_decheterie ||
+    !decheteriesDispo.includes(parseInt(vehicule.fk_decheterie, 10))
   ) {
     return false;
   }
