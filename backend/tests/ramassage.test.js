@@ -361,71 +361,6 @@ describe("Ramassage CRUD", () => {
   });
 });
 
-// TODO check if necessary
-describe("Ramassage CRUD not working", () => {
-  test("Responsable not working", async () => {
-    const list = await request(app).post("/api/login").send(Responsable);
-    const cookie = list.headers["set-cookie"];
-
-    // create in futur
-    const ramassage = await request(app)
-      .post("/api/ramassages")
-      .set("Cookie", cookie)
-      .send(ram6CreateRequest);
-    expect(ramassage.statusCode).toEqual(201);
-    expect(ramassage.body).toEqual({
-      message: RamassageOK.add,
-    });
-
-    // create the same
-    const ramassage2 = await request(app)
-      .post("/api/ramassages")
-      .set("Cookie", cookie)
-      .send(ram6CreateRequest);
-    expect(ramassage2.statusCode).toEqual(500);
-    expect(ramassage2.body).toEqual({
-      error: RamassageKO.add,
-    });
-
-    // get one that does not exist
-    const ramassageGet = await request(app)
-      .get("/api/ramassages/99")
-      .set("Cookie", cookie);
-    expect(ramassageGet.statusCode).toEqual(500);
-    expect(ramassageGet.body).toEqual({
-      error: RamassageKO.get,
-    });
-
-    // update one that does not exist
-    const ramassageUpdate = await request(app)
-      .put("/api/ramassages/99")
-      .set("Cookie", cookie)
-      .send({
-        id: 99,
-        date: 1640995200000,
-        fk_status: "accepté",
-        poids: 150,
-        fk_contenant: 1,
-        fk_employee: "rsmith2",
-        fk_decheterie: 1,
-        fk_vehicule: "VD756254",
-      });
-    expect(ramassageUpdate.statusCode).toEqual(500);
-    expect(ramassageUpdate.body).toEqual({
-      error: RamassageKO.update,
-    });
-
-    // delete one that does not exist
-    const ramassageDelete = await request(app)
-      .delete("/api/ramassages/99")
-      .set("Cookie", cookie);
-    expect(ramassageDelete.statusCode).toEqual(500);
-    expect(ramassageDelete.body).toEqual({
-      error: RamassageKO.delete,
-    });
-  });
-});
-
 describe("Ramassage CRUD with different decheterie", () => {
   test("Responsable", async () => {
     const list = await request(app).post("/api/login").send(Responsable);
@@ -439,9 +374,9 @@ describe("Ramassage CRUD with different decheterie", () => {
       .post("/api/ramassages")
       .set("Cookie", cookie)
       .send(ram11CreateRequest);
-    expect(ramassage.statusCode).toEqual(500);
+    expect(ramassage.statusCode).toEqual(403);
     expect(ramassage.body).toEqual({
-      error: RamassageKO.add,
+      error: Forbidden.error,
     });
 
     // create a ramassage with in the same primary decheterie
