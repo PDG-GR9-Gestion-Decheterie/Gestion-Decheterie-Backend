@@ -1,11 +1,17 @@
 import { models } from "../database/orm.js";
-import { flattenObject } from "./utils.js";
+import { flattenObject, findDecheteriePrinciaple } from "./utils.js";
+import Sequelize from "sequelize";
 // Get tous les ramassage - /ramassages
 export async function getRamassages(req, res) {
   try {
     let ramassages = null;
     let ramassagesData = [];
-    ramassages = await models.Ramassage.findAll();
+    let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
+    ramassages = await models.Ramassage.findAll({
+      where: {
+        fk_decheterie: { [Sequelize.Op.in]: decheteriesDispo },
+      },
+    });
     if (ramassages === null) {
       throw new Error();
     }
@@ -76,6 +82,9 @@ export async function getRamassages(req, res) {
 // Get un ramassage par id - /ramassages/:id
 export async function getRamassageById(req, res) {
   try {
+    if (!(await isIDreachable(req))) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
     let ramassage = null;
 
     ramassage = await models.Ramassage.findByPk(req.params.id);
@@ -94,7 +103,12 @@ export async function getRamassageById(req, res) {
 // Créer un ramassage - /ramassages
 export async function createRamassage(req, res) {
   try {
-    if (!(await isRightLicence(req.body))) {
+    let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
+    if (
+      !decheteriesDispo.find(
+        (decheterie) => decheterie == req.body.fk_decheterie
+      )
+    ) {
       return res.status(403).json({ error: "Forbidden" });
     }
 
@@ -112,6 +126,9 @@ export async function createRamassage(req, res) {
 // Mettre à jour un ramassage - /ramassages/:id
 export async function updateRamassage(req, res) {
   try {
+    if (!(await isIDreachable(req))) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
     let ramassage = await models.Ramassage.findByPk(req.params.id);
 
     if (!ramassage) {
@@ -136,6 +153,9 @@ export async function updateRamassage(req, res) {
 // Supprimer un ramassage - /ramassages/:id
 export async function deleteRamassage(req, res) {
   try {
+    if (!(await isIDreachable(req))) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
     let ramassage = await models.Ramassage.findByPk(req.params.id);
 
     if (!ramassage) {
@@ -148,6 +168,21 @@ export async function deleteRamassage(req, res) {
     console.error("Error deleting ramassage:", err);
     res.status(500).json({ error: "Error deleting ramassage" });
   }
+}
+async function isIDreachable(req) {
+  let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
+  let ramassagesData = await models.Ramassage.findAll({
+    where: {
+      fk_decheterie: { [Sequelize.Op.in]: decheteriesDispo },
+    },
+  });
+  let ramassage = ramassagesData.find(
+    (ramassage) => ramassage.id == req.params.id
+  );
+  if (!ramassage) {
+    return false;
+  }
+  return true;
 }
 
 async function isRightLicence(ramassage) {
