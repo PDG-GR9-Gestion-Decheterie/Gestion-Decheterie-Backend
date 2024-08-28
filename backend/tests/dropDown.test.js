@@ -69,7 +69,7 @@ describe("DropDown logged in", () => {
 
     // Get all
     const fonctions = await request(app)
-      .get("/api/fonction")
+      .get("/api/fonctions")
       .set("Cookie", cookie);
     expect(fonctions.statusCode).toEqual(200);
     expect(fonctions.body).toEqual(fonctionResponse);
@@ -93,7 +93,7 @@ describe("DropDown logged in", () => {
 
     // Get all
     const fonctions = await request(app)
-      .get("/api/fonction")
+      .get("/api/fonctions")
       .set("Cookie", cookie);
     expect(fonctions.statusCode).toEqual(200);
     expect(fonctions.body).toEqual(fonctionResponse);
@@ -117,7 +117,7 @@ describe("DropDown logged in", () => {
 
     // Get all
     const fonctions = await request(app)
-      .get("/api/fonction")
+      .get("/api/fonctions")
       .set("Cookie", cookie);
     expect(fonctions.statusCode).toEqual(200);
     expect(fonctions.body).toEqual(fonctionResponse);
@@ -141,7 +141,7 @@ describe("DropDown logged in", () => {
 
     // Get all
     const fonctions = await request(app)
-      .get("/api/fonction")
+      .get("/api/fonctions")
       .set("Cookie", cookie);
     expect(fonctions.statusCode).toEqual(200);
     expect(fonctions.body).toEqual(fonctionResponse);
