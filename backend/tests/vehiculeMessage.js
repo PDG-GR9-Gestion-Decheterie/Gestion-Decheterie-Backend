@@ -35,7 +35,7 @@ const truck1GetOneResponse = {
 
 const truck1UpdateRequest = {
   immatriculation: "VD999999",
-  type: "camionette",
+  type: "camionnette",
   remorque: true,
   anneefabrication: "2011",
   dateexpertise: "2022-01-01",
