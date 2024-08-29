@@ -42,22 +42,6 @@ const adresse1GetOneResponse = {
 const adresse1GetAllResponse = {
   adressesData: [
     {
-      id: 1,
-      number: "1",
-      street: "Rue 1",
-      city: "Yverdon-les-Bains",
-      region: "VD",
-      postcode: "1400",
-    },
-    {
-      id: 2,
-      number: "2",
-      street: "Rue 2",
-      city: "Berne",
-      region: "VD",
-      postcode: "3000",
-    },
-    {
       id: 10,
       number: "1",
       street: "Chemin du test",
