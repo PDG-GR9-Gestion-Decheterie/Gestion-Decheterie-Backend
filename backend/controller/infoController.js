@@ -3,7 +3,7 @@ import { flattenObject } from "./utils.js";
 
 export async function getInfos(req, res) {
   try {
-    let response = [];
+    let infosData = [];
     let decheterieData = await models.Decheterie.findAll();
 
     for (let decheterie of decheterieData) {
@@ -17,17 +17,9 @@ export async function getInfos(req, res) {
         },
       });
 
-      let i = 0;
-      for (let c of contenants) {
-        let dechet = [c.dataValues.fk_dechet];
-        i++;
-        if (c) {
-          decheterieData = {
-            ...decheterieData,
-            ...flattenObject(dechet, "contenant" + i + "_"),
-          };
-        }
-      }
+      decheterieData.contenants = contenants.map((contenant) => {
+        return contenant.dataValues.fk_dechet;
+      });
 
       let adresse = await models.Adresse.findByPk(
         decheterie.dataValues.fk_adresse
@@ -41,10 +33,11 @@ export async function getInfos(req, res) {
 
       delete decheterieData.fk_adresse;
       delete decheterieData.adresse_id;
-      response.push(decheterieData);
+      delete decheterieData.id;
+      infosData.push(decheterieData);
     }
 
-    res.status(200).json(response);
+    res.status(200).json({ infosData });
   } catch (err) {
     console.error("Error fetching infos:", err);
     res.status(404).json({ error: "Error" });
