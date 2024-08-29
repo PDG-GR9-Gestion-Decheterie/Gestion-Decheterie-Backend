@@ -1,6 +1,7 @@
 import { models } from "../database/orm.js";
 import { flattenObject, findDecheteriePrinciaple } from "./utils.js";
 import Sequelize from "sequelize";
+
 // Get tous les ramassage - /ramassages
 export async function getRamassages(req, res) {
   try {

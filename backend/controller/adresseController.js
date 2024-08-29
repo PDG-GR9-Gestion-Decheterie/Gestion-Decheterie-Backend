@@ -29,11 +29,12 @@ export async function getAdressesSearch(req, res) {
       ],
     }));
 
-    // Rechercher des adresses correspondant à tous les termes
+    // Rechercher des adresses correspondant à tous les termes avec une limite de 50 résultats
     const adressesData = await models.Adresse.findAll({
       where: {
         [Op.and]: searchConditions, // Tous les termes doivent correspondre
       },
+      limit: 50, // Limiter le nombre de résultats à 50
     });
 
     if (!adressesData.length) {

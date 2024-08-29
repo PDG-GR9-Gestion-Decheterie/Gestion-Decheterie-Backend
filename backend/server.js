@@ -55,6 +55,7 @@ import {
   getStatus,
   getDechets,
 } from "./controller/dropdownController.js";
+import { getAPIKey } from "./controller/mapsController.js";
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -242,4 +243,9 @@ app.post("/api/adresses", checkRole(["All"]), createAdresse);
 app.get("/api/fonctions", checkRole(["All"]), getFonctions);
 app.get("/api/status", checkRole(["All"]), getStatus);
 app.get("/api/dechets", checkRole(["All"]), getDechets);
+
+//-------------------------------------------------------------------//
+// ---------------------- Endpoints Maps --------------------------- //
+app.get("/api/apikey", checkRole(["All"]), getAPIKey);
+
 export default app;

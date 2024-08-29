@@ -35,7 +35,7 @@ const truck1GetOneResponse = {
 
 const truck1UpdateRequest = {
   immatriculation: "VD999999",
-  type: "camion",
+  type: "camionette",
   remorque: true,
   anneefabrication: "2011",
   dateexpertise: "2022-01-01",
@@ -130,6 +130,16 @@ const dechet1GetAllResponse = {
   ],
 };
 
+const truck3CreateRequest = {
+  immatriculation: "VD999999",
+  type: "camione",
+  remorque: false,
+  anneefabrication: "2010",
+  dateexpertise: "2022-01-01",
+  consocarburant: 10.5,
+  fk_decheterie: 1,
+};
+
 export {
   VehiculeOK,
   VehiculeKO,
@@ -141,4 +151,5 @@ export {
   truck2GetOneResponse,
   truck2UpdateRequest,
   dechet1GetAllResponse,
+  truck3CreateRequest,
 };
