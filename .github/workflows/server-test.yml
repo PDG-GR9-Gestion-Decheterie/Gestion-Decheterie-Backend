@@ -44,7 +44,7 @@ jobs:
           tar -xzf release-asset.tar.gz -C ./repo-temp
 
       - name: Move the db folder to the correct location
-        run: mv repo-temp/test/db ./db
+        run: mv repo-temp/Gestion-Decheterie-Infra-Pre-release/test/db ./db
 
       - name: Clean up
         run: rm -rf repo-temp
