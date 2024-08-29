@@ -44,7 +44,7 @@ import {
   deleteContenant,
 } from "./controller/contenantController.js";
 import {
-  getAdresses,
+  getAdressesSearch,
   getAdresseById,
   createAdresse,
   updateAdresse,
@@ -232,7 +232,7 @@ app.post(
 );
 //-------------------------------------------------------------------//
 // ---------------------- Endpoints Adresse  ----------------------- //
-app.get("/api/adresses", checkRole(["All"]), getAdresses);
+app.get("/api/adressesSearch/:string", checkRole(["All"]), getAdressesSearch);
 app.get("/api/adresses/:id", checkRole(["All"]), getAdresseById);
 app.put("/api/adresses/:id", checkRole(["All"]), updateAdresse);
 app.delete("/api/adresses/:id", checkRole(["All"]), deleteAdresse);

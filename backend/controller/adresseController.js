@@ -1,22 +1,53 @@
 import { models } from "../database/orm.js";
+import Sequelize from "sequelize";
+import { Op } from "sequelize";
 
-// Get tous les Adresses - /adresses
-export async function getAdresses(req, res) {
+// Get tous les Adresses - /adresses/:string
+export async function getAdressesSearch(req, res) {
   try {
-    let adressesData = null;
+    const { string } = req.params;
+    const searchTerms = string.toLowerCase().split(" "); // Diviser la chaîne en termes individuels
 
-    adressesData = await models.Adresse.findAll();
-    if (adressesData === null) {
-      throw new Error();
+    // Construire un tableau de conditions de recherche pour chaque terme
+    const searchConditions = searchTerms.map((term) => ({
+      [Op.or]: [
+        Sequelize.where(Sequelize.fn("LOWER", Sequelize.col("number")), {
+          [Op.like]: `%${term}%`,
+        }),
+        Sequelize.where(Sequelize.fn("LOWER", Sequelize.col("street")), {
+          [Op.like]: `%${term}%`,
+        }),
+        Sequelize.where(Sequelize.fn("LOWER", Sequelize.col("city")), {
+          [Op.like]: `%${term}%`,
+        }),
+        Sequelize.where(Sequelize.fn("LOWER", Sequelize.col("region")), {
+          [Op.like]: `%${term}%`,
+        }),
+        Sequelize.where(Sequelize.fn("LOWER", Sequelize.col("postcode")), {
+          [Op.like]: `%${term}%`,
+        }),
+      ],
+    }));
+
+    // Rechercher des adresses correspondant à tous les termes
+    const adressesData = await models.Adresse.findAll({
+      where: {
+        [Op.and]: searchConditions, // Tous les termes doivent correspondre
+      },
+    });
+
+    if (!adressesData.length) {
+      return res.status(404).json({ error: "No matching addresses found" });
     }
 
     res.status(200).json({ adressesData });
   } catch (err) {
-    console.error("Error fetching adresses:", err);
-    res.status(404).json({ error: "Error" });
+    console.error("Error fetching addresses:", err);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching addresses" });
   }
 }
-
 // Get une Adresse par id - /adresses/:id
 export async function getAdresseById(req, res) {
   try {
