@@ -1,7 +1,6 @@
 import { describe, test, expect } from "@jest/globals";
 import app from "../server.js";
 import request from "supertest";
-import { Chauffeur, Employe } from "./credentials.js";
 
 import {
   Responsable,
