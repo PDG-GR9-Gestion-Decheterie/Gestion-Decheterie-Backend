@@ -236,17 +236,13 @@ async function isInRightDecheterie(req) {
     contenant.fk_decheterie !== req.body.fk_decheterie ||
     !decheteriesDispo.includes(parseInt(contenant.fk_decheterie, 10))
   ) {
-    console.log("contenant false");
     return false;
   }
   if (!decheteriesDispo.includes(parseInt(employe.fk_decheterie, 10))) {
-    console.log("employe false");
     return false;
   }
   if (!decheteriesDispo.includes(parseInt(vehicule.fk_decheterie, 10))) {
-    console.log("vehicule false");
     return false;
   }
-  console.log("true principal");
   return true;
 }

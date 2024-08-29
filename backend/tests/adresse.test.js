@@ -43,7 +43,7 @@ describe("Adresse not logged in", () => {
     });
 
     // get all
-    const adresseGetAll = await request(app).get("/api/adresses/Y");
+    const adresseGetAll = await request(app).get("/api/adressesSearch/Y");
     expect(adresseGetAll.statusCode).toEqual(401);
     expect(adresseGetAll.body).toEqual({
       error: Unauthorized.error,
@@ -91,7 +91,7 @@ describe("Adresse CRUD", () => {
 
     // get all
     const adresseGetAll = await request(app)
-      .get("/api/adresses")
+      .get("/api/adressesSearch/test")
       .set("Cookie", cookie);
     expect(adresseGetAll.statusCode).toEqual(200);
     expect(adresseGetAll.body).toEqual(adresse1GetAllResponse);
@@ -139,7 +139,7 @@ describe("Adresse CRUD", () => {
 
     // get all
     const adresseGetAll = await request(app)
-      .get("/api/adresses/test")
+      .get("/api/adressesSearch/test")
       .set("Cookie", cookie);
     expect(adresseGetAll.statusCode).toEqual(200);
     expect(adresseGetAll.body).toEqual(adresse1GetAllResponse);
@@ -187,7 +187,7 @@ describe("Adresse CRUD", () => {
 
     // get all
     const adresseGetAll = await request(app)
-      .get("/api/adresses/test")
+      .get("/api/adressesSearch/test")
       .set("Cookie", cookie);
     expect(adresseGetAll.statusCode).toEqual(200);
     expect(adresseGetAll.body).toEqual(adresse1GetAllResponse);
@@ -235,7 +235,7 @@ describe("Adresse CRUD", () => {
 
     // get all
     const adresseGetAll = await request(app)
-      .get("/api/adresses/test")
+      .get("/api/adressesSearch/test")
       .set("Cookie", cookie);
     expect(adresseGetAll.statusCode).toEqual(200);
     expect(adresseGetAll.body).toEqual(adresse1GetAllResponse);

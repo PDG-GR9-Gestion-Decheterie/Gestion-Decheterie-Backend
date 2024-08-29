@@ -2,11 +2,11 @@ import { models } from "../database/orm.js";
 import Sequelize from "sequelize";
 import { Op } from "sequelize";
 
-// Get tous les Adresses - /adresses/:char
+// Get tous les Adresses - /adresses/:string
 export async function getAdressesSearch(req, res) {
   try {
-    const { char } = req.params;
-    const searchTerms = char.toLowerCase().split(" "); // Diviser la chaîne en termes individuels
+    const { string } = req.params;
+    const searchTerms = string.toLowerCase().split(" "); // Diviser la chaîne en termes individuels
 
     // Construire un tableau de conditions de recherche pour chaque terme
     const searchConditions = searchTerms.map((term) => ({
