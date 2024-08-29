@@ -33,11 +33,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Clone the secondary repository
-        run:
-          git clone
-          https://github.com/PDG-GR9-Gestion-Decheterie/Gestion-Decheterie-Infra.git
-          repo-temp
+      - name: Download release asset using curl
+        run: |
+          curl -L -o release-asset.zip \
+          https://github.com/PDG-GR9-Gestion-Decheterie/Gestion-Decheterie-Infra/releases/download/Pre-release/release-asset.tar.gz
+
+      - name: Extract the release asset
+        run: |
+          mkdir -p ./repo-temp
+          tar -xzf release-asset.tar.gz -C ./repo-temp
 
       - name: Move the db folder to the correct location
         run: mv repo-temp/test/db ./db
