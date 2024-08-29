@@ -26,6 +26,7 @@ import {
   truck2GetOneResponse,
   truck2UpdateRequest,
   dechet1GetAllResponse,
+  truck3CreateRequest,
 } from "./vehiculeMessage.js";
 
 describe("Vehicule not logged in", () => {
@@ -379,6 +380,33 @@ describe("Vehicule CRUD on a diffrent decheterie", () => {
     expect(vehiculeDelete2.statusCode).toEqual(200);
     expect(vehiculeDelete2.body).toEqual({
       message: VehiculeOK.delete,
+    });
+  });
+});
+
+describe("Vehicule test invalid data", () => {
+  test("Responsable", async () => {
+    const list = await request(app).post("/api/login").send(Responsable);
+    const cookie = list.headers["set-cookie"];
+
+    // create
+    const vehicule = await request(app)
+      .post("/api/vehicules")
+      .set("Cookie", cookie)
+      .send(truck1CreateRequest);
+    expect(vehicule.statusCode).toEqual(201);
+    expect(vehicule.body).toEqual({
+      message: VehiculeOK.add,
+    });
+
+    // create
+    const vehicule2 = await request(app)
+      .post("/api/vehicules")
+      .set("Cookie", cookie)
+      .send(truck3CreateRequest);
+    expect(vehicule2.statusCode).toEqual(403);
+    expect(vehicule2.body).toEqual({
+      error: Forbidden.error,
     });
   });
 });

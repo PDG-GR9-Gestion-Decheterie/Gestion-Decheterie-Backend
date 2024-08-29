@@ -65,7 +65,8 @@ export async function createVehicule(req, res) {
     if (
       !decheteriesDispo.find(
         (decheterie) => decheterie == req.body.fk_decheterie
-      )
+      ) ||
+      !checkTypeVehicule(req.body.type)
     ) {
       return res.status(403).json({ error: "Forbidden" });
     }
@@ -82,7 +83,7 @@ export async function createVehicule(req, res) {
 // Mettre à jour un vehicule - /vehicules/:id
 export async function updateVehicule(req, res) {
   try {
-    if (!(await isIDreachable(req))) {
+    if (!(await isIDreachable(req)) || !checkTypeVehicule(req.body.type)) {
       return res.status(403).json({ error: "Forbidden" });
     }
     let vehicule = null;
@@ -141,4 +142,11 @@ async function isIDreachable(req) {
     return false;
   }
   return true;
+}
+
+function checkTypeVehicule(typeVehicule) {
+  typeVehicule = String(typeVehicule);
+  let types = ["camion", "camionette"];
+  console.log(types.includes(typeVehicule));
+  return types.includes(typeVehicule);
 }
