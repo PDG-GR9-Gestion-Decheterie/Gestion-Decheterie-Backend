@@ -2,6 +2,8 @@ import { describe, test, expect } from "@jest/globals";
 import app from "../server.js";
 import request from "supertest";
 
+import { Forbidden, Unauthorized } from "./message.js";
+
 import {
   Responsable,
   Secretaire,
