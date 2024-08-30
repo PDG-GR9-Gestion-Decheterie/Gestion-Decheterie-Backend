@@ -20,7 +20,6 @@ export async function getContenantsDecheterie(req, res) {
         },
       });
       contenants = contenants.map((contenant) => {
-        delete contenant.dataValues.fk_decheterie;
         return {
           ...contenant.dataValues,
           decheterie_nom: decheterie.nom,
