@@ -10,6 +10,7 @@ import {
   loginLimiter,
   compressionOptions,
   errorHandler,
+  logger,
 } from "./moduleOptions.js";
 import { models } from "./database/orm.js";
 import {
@@ -75,9 +76,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(errorHandler);
 
+
 // Log all requests to console
 app.use("/api", (req, res, next) => {
   console.log("Request for " + req.originalUrl);
+  const date = new Date().toISOString();
+  const userId = req.user ? req.user.idlogin : 'anonymous';
+  logger.info(`${req.method} ${req.url} - User ID: ${userId}`);
   next();
 });
 app.set("trust proxy", 1); // trust first proxy for loginlimiter
