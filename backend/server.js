@@ -3,7 +3,14 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import bcrypt from "bcrypt";
 import cookieParser from "cookie-parser";
-import { corsOptions, sessionOptions, checkRole } from "./moduleOptions.js";
+import {
+  corsOptions,
+  sessionOptions,
+  checkRole,
+  loginLimiter,
+  compressionOptions,
+  errorHandler,
+} from "./moduleOptions.js";
 import { models } from "./database/orm.js";
 import {
   getEmployees,
@@ -62,16 +69,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(corsOptions);
+app.use(compressionOptions);
 app.use(sessionOptions);
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(errorHandler);
 
 // Log all requests to console
 app.use("/api", (req, res, next) => {
   console.log("Request for " + req.originalUrl);
   next();
 });
-
+app.set("trust proxy", 1); // trust first proxy for loginlimiter
 //--------------------------------------------------------------------//
 //---------------------- Passport Configuration ----------------------//
 passport.serializeUser((user, done) => {
@@ -114,7 +123,7 @@ passport.use(
 //-------------------------------------------------------------------//
 // ------------------ Endpoints Authentification ------------------- //
 
-app.post("/api/login", (req, res, next) => {
+app.post("/api/login", loginLimiter, (req, res, next) => {
   try {
     passport.authenticate("local", (err, user, info) => {
       if (err) {
@@ -252,5 +261,22 @@ app.get("/api/apikey", checkRole(["All"]), getAPIKey);
 //-------------------------------------------------------------------//
 // ---------------------- Endpoints Infos -------------------------- //
 app.get("/api/infos", getInfos);
+
+//-------------------------------------------------------------------//
+// --------------------- Error Handling DB ------------------------- //
+const gracefulShutdown = async () => {
+  closeConnection()
+    .then(() => {
+      console.log("Database connection closed gracefully.");
+      process.exit(0);
+    })
+    .catch((err) => {
+      console.error("Error closing database connection:", err);
+      process.exit(1);
+    });
+};
+
+process.on("SIGINT", gracefulShutdown);
+process.on("SIGTERM", gracefulShutdown);
 
 export default app;

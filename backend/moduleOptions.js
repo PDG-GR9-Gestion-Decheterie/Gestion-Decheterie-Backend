@@ -1,5 +1,7 @@
 import cors from "cors";
 import session from "express-session";
+import rateLimit from "express-rate-limit";
+import compression from "compression";
 
 const apiUrl = process.env.BACKEND_APP_API_URL;
 
@@ -19,6 +21,30 @@ export const sessionOptions = session({
     maxAge: 21600000,
   },
 });
+export const loginLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 5,
+  message: {
+    error: "Too many login attempts, please try again after 1 minute.",
+  },
+  skipSuccessfulRequests: true, // Ne pas compter les requêtes réussies
+});
+export const compressionOptions = compression({
+  threshold: 1024, // 1KB minimum size before compression
+  level: 4, // 1-9 compression level
+  filter: (req, res) => {
+    return req.headers["x-no-compression"] !== "true";
+  },
+});
+// Error handler middleware, used to send a generic error message to the user when the db is down for example
+export function errorHandler(err, req, res, next) {
+  if (err) {
+    console.error("Error:", err.message); // Log the error message for internal use
+    res.status(500).json({ message: "Error" }); // Send a generic error message to the user
+  } else {
+    next();
+  }
+}
 export const checkRole = (requiredRoles) => {
   return (req, res, next) => {
     if (!req.isAuthenticated()) {
