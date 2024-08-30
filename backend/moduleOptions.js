@@ -27,6 +27,7 @@ export const loginLimiter = rateLimit({
   message: {
     error: "Too many login attempts, please try again after 1 minute.",
   },
+  skipSuccessfulRequests: true, // Ne pas compter les requêtes réussies
 });
 export const compressionOptions = compression({
   threshold: 1024, // 1KB minimum size before compression
