@@ -54,8 +54,8 @@ const contenant1GetAllResponse = {
       nbcadre: null,
       taille: null,
       couleur: "bleu",
-      fk_decheterie: 1,
       fk_dechet: "papier",
+      decheterie_nom: "Decheterie Yverdon",
     },
     {
       id: 100,
@@ -64,8 +64,8 @@ const contenant1GetAllResponse = {
       nbcadre: null,
       taille: null,
       couleur: "blue",
-      fk_decheterie: 1,
       fk_dechet: "papier",
+      decheterie_nom: "Decheterie Yverdon",
     },
   ],
 };
@@ -101,8 +101,8 @@ const dechet1GetAllResponse = {
       nbcadre: null,
       taille: null,
       couleur: "bleu",
-      fk_decheterie: 1,
       fk_dechet: "papier",
+      decheterie_nom: "Decheterie Yverdon",
     },
   ],
 };
