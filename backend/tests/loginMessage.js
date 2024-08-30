@@ -5,6 +5,7 @@ const LoginOK = {
 
 const LoginKO = {
   login: "Login failed",
+  loginTooMuch: "Too many login attempts, please try again after 1 minute",
   logout: "Logout failed",
 };
 

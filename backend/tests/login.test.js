@@ -18,7 +18,6 @@ import { Forbidden, Unauthorized } from "./message.js";
 
 import { LoginOK, LoginKO } from "./loginMessage.js";
 
-
 describe("Login/Logout", () => {
   test("should login", async () => {
     const list = await request(app).post("/api/login").send(Responsable);
@@ -33,6 +32,36 @@ describe("Login/Logout", () => {
     const list = await request(app).post("/api/login").send(ResponsableWrong);
     expect(list.statusCode).toEqual(401);
     expect(list.body).toEqual({ error: LoginKO.login });
+  });
+
+  test("should not login", async () => {
+    const list = await request(app).post("/api/login").send(ResponsableWrong);
+    expect(list.statusCode).toEqual(401);
+    expect(list.body).toEqual({ error: LoginKO.login });
+  });
+
+  test("should not login", async () => {
+    const list = await request(app).post("/api/login").send(ResponsableWrong);
+    expect(list.statusCode).toEqual(401);
+    expect(list.body).toEqual({ error: LoginKO.login });
+  });
+
+  test("should not login", async () => {
+    const list = await request(app).post("/api/login").send(ResponsableWrong);
+    expect(list.statusCode).toEqual(401);
+    expect(list.body).toEqual({ error: LoginKO.login });
+  });
+
+  test("should not login", async () => {
+    const list = await request(app).post("/api/login").send(ResponsableWrong);
+    expect(list.statusCode).toEqual(401);
+    expect(list.body).toEqual({ error: LoginKO.login });
+  });
+
+  test("should return too many login", async () => {
+    const list = await request(app).post("/api/login").send(ResponsableWrong);
+    expect(list.statusCode).toEqual(429);
+    expect(list.body).toEqual({ error: LoginKO.loginTooMuch });
   });
 
   test("should logout", async () => {

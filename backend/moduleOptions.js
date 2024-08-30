@@ -27,7 +27,7 @@ export const loginLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   max: 5,
   message: {
-    error: "Too many login attempts, please try again after 1 minute.",
+    error: "Too many login attempts, please try again after 1 minute",
   },
   skipSuccessfulRequests: true, // Ne pas compter les requêtes réussies
 });
@@ -39,14 +39,14 @@ export const compressionOptions = compression({
   },
 });
 export const logger = winston.createLogger({
-  level: 'info',
+  level: "info",
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.json()
   ),
   transports: [
     new winston.transports.File({
-      filename: path.join('/var/log', 'app.log'),
+      filename: path.join("/var/log", "app.log"),
       handleExceptions: true,
     }),
   ],
