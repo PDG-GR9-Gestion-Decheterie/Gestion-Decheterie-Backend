@@ -300,12 +300,37 @@ app.get("/api/employes/:id", checkRole(["Responsable"]), getEmployeeById);
  *         required: true
  *         schema:
  *           type: string
- *     requestBody:
+  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               idlogin:
+ *                 type: string
+ *               mdplogin:
+ *                 type: string
+ *               nom:
+ *                 type: string
+ *               prenom:
+ *                 type: string
+ *               datenaissance:
+ *                 type: string
+ *                 format: date
+ *               datedebutcontrat:
+ *                 type: string
+ *                 format: date
+ *               fk_fonction:
+ *                 type: string
+ *               numtelephone:
+ *                 type: string
+ *               typepermis:
+ *                 type: string
+ *               fk_adresse:
+ *                 type: integer
+ *               fk_decheterie:
+ *                 type: integer
  *     responses:
  *       200:
  *         description: Employee updated
@@ -325,6 +350,7 @@ app.put("/api/employes/:id", checkRole(["Responsable"]), updateEmployee);
  *         required: true
  *         schema:
  *           type: string
+
  *     responses:
  *       200:
  *         description: Employee deleted
@@ -344,6 +370,31 @@ app.delete("/api/employes/:id", checkRole(["Responsable"]), deleteEmployee);
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               idlogin:
+ *                 type: string
+ *               mdplogin:
+ *                 type: string
+ *               nom:
+ *                 type: string
+ *               prenom:
+ *                 type: string
+ *               datenaissance:
+ *                 type: string
+ *                 format: date
+ *               datedebutcontrat:
+ *                 type: string
+ *                 format: date
+ *               fk_fonction:
+ *                 type: string
+ *               numtelephone:
+ *                 type: string
+ *               typepermis:
+ *                 type: string
+ *               fk_adresse:
+ *                 type: integer
+ *               fk_decheterie:
+ *                 type: integer
  *     responses:
  *       201:
  *         description: Employee created
@@ -417,6 +468,23 @@ app.get("/api/ramassages/:id", checkRole(["All"]), getRamassageById);
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *               date:
+ *                 type: integer
+ *               fk_status:
+ *                 type: string
+ *               poids:
+ *                 type: integer
+ *               fk_contenant:
+ *                 type: integer
+ *               fk_employee:
+ *                 type: string
+ *               fk_decheterie:
+ *                 type: integer
+ *               fk_vehicule:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Ramassage updated
@@ -463,6 +531,23 @@ app.delete(
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *               date:
+ *                 type: integer
+ *               fk_status:
+ *                 type: string
+ *               poids:
+ *                 type: integer
+ *               fk_contenant:
+ *                 type: integer
+ *               fk_employee:
+ *                 type: string
+ *               fk_decheterie:
+ *                 type: integer
+ *               fk_vehicule:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Ramassage created
@@ -530,6 +615,23 @@ app.get("/api/vehicules/:id", checkRole(["All"]), getVehiculeById);
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *               date:
+ *                 type: integer
+ *               fk_status:
+ *                 type: string
+ *               poids:
+ *                 type: integer
+ *               fk_contenant:
+ *                 type: integer
+ *               fk_employee:
+ *                 type: string
+ *               fk_decheterie:
+ *                 type: integer
+ *               fk_vehicule:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Vehicule updated
@@ -576,6 +678,23 @@ app.delete(
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *               date:
+ *                 type: integer
+ *               fk_status:
+ *                 type: string
+ *               poids:
+ *                 type: integer
+ *               fk_contenant:
+ *                 type: integer
+ *               fk_employee:
+ *                 type: string
+ *               fk_decheterie:
+ *                 type: integer
+ *               fk_vehicule:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Vehicule created
@@ -647,6 +766,13 @@ app.get("/api/decheteries/:id", checkRole(["All"]), getDecheterieById);
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *               nom:
+ *                 type: string
+ *               fk_adresse:
+ *                 type: integer
  *     responses:
  *       200:
  *         description: Decheterie updated
@@ -666,6 +792,13 @@ app.put("/api/decheteries/:id", checkRole(["Responsable"]), updateDecheterie);
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *               nom:
+ *                 type: string
+ *               fk_adresse:
+ *                 type: integer
  *     responses:
  *       201:
  *         description: Decheterie created
@@ -756,6 +889,25 @@ app.get("/api/contenants/:id", checkRole(["All"]), getContenantById);
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *               nom:
+ *                 type: string
+ *               capacitemax:
+ *                 type: integer
+ *               nbcadre:
+ *                 type: integer
+ *                 nullable: true
+ *               taille:
+ *                 type: integer
+ *                 nullable: true
+ *               couleur:
+ *                 type: string
+ *               fk_decheterie:
+ *                 type: integer
+ *               fk_dechet:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Contenant updated
@@ -802,6 +954,25 @@ app.delete(
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *               nom:
+ *                 type: string
+ *               capacitemax:
+ *                 type: integer
+ *               nbcadre:
+ *                 type: integer
+ *                 nullable: true
+ *               taille:
+ *                 type: integer
+ *                 nullable: true
+ *               couleur:
+ *                 type: string
+ *               fk_decheterie:
+ *                 type: integer
+ *               fk_dechet:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Contenant created
@@ -879,6 +1050,19 @@ app.get("/api/adresses/:id", checkRole(["All"]), getAdresseById);
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *               number:
+ *                 type: string
+ *               street:
+ *                 type: string
+ *               city:
+ *                 type: string
+ *               region:
+ *                 type: string
+ *               postcode:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Address updated
@@ -917,6 +1101,19 @@ app.delete("/api/adresses/:id", checkRole(["All"]), deleteAdresse);
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *               number:
+ *                 type: string
+ *               street:
+ *                 type: string
+ *               city:
+ *                 type: string
+ *               region:
+ *                 type: string
+ *               postcode:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Address created

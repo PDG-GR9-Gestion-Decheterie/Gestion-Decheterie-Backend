@@ -1,3 +1,4 @@
+
 export const swaggerOptions = {
     swaggerDefinition: {
       openapi: '3.0.0',
@@ -8,7 +9,7 @@ export const swaggerOptions = {
       },
       servers: [
         {
-          url: 'https://gestion-decheterie.internet-box.ch',
+          url: process.env.BACKEND_APP_API_URL,
         },
       ],
     },
