@@ -46,7 +46,7 @@ export const logger = winston.createLogger({
   ),
   transports: [
     new winston.transports.File({
-      filename: path.join('/var/logs-API', 'app.log'),
+      filename: path.join('/var/log', 'app.log'),
       handleExceptions: true,
     }),
   ],
