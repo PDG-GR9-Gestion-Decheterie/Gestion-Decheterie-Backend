@@ -35,6 +35,15 @@ export const compressionOptions = compression({
     return req.headers["x-no-compression"] !== "true";
   },
 });
+// Error handler middleware, used to send a generic error message to the user when the db is down for example
+export function errorHandler(err, req, res, next) {
+  if (err) {
+    console.error("Error:", err.message); // Log the error message for internal use
+    res.status(500).json({ message: "Error" }); // Send a generic error message to the user
+  } else {
+    next();
+  }
+}
 export const checkRole = (requiredRoles) => {
   return (req, res, next) => {
     if (!req.isAuthenticated()) {

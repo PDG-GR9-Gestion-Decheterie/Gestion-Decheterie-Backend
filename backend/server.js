@@ -9,6 +9,7 @@ import {
   checkRole,
   loginLimiter,
   compressionOptions,
+  errorHandler,
 } from "./moduleOptions.js";
 import { models } from "./database/orm.js";
 import {
@@ -72,6 +73,7 @@ app.use(compressionOptions);
 app.use(sessionOptions);
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(errorHandler);
 
 // Log all requests to console
 app.use("/api", (req, res, next) => {
@@ -259,5 +261,22 @@ app.get("/api/apikey", checkRole(["All"]), getAPIKey);
 //-------------------------------------------------------------------//
 // ---------------------- Endpoints Infos -------------------------- //
 app.get("/api/infos", getInfos);
+
+//-------------------------------------------------------------------//
+// --------------------- Error Handling DB ------------------------- //
+const gracefulShutdown = async () => {
+  closeConnection()
+    .then(() => {
+      console.log("Database connection closed gracefully.");
+      process.exit(0);
+    })
+    .catch((err) => {
+      console.error("Error closing database connection:", err);
+      process.exit(1);
+    });
+};
+
+process.on("SIGINT", gracefulShutdown);
+process.on("SIGTERM", gracefulShutdown);
 
 export default app;
