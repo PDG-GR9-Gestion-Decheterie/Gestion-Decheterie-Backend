@@ -2,6 +2,8 @@ import cors from "cors";
 import session from "express-session";
 import rateLimit from "express-rate-limit";
 import compression from "compression";
+import winston from "winston";
+import path from "path";
 
 const apiUrl = process.env.BACKEND_APP_API_URL;
 
@@ -36,10 +38,25 @@ export const compressionOptions = compression({
     return req.headers["x-no-compression"] !== "true";
   },
 });
+export const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.File({
+      filename: path.join('/var/log', 'app.log'),
+      handleExceptions: true,
+    }),
+  ],
+  exitOnError: false,
+});
 // Error handler middleware, used to send a generic error message to the user when the db is down for example
 export function errorHandler(err, req, res, next) {
   if (err) {
     console.error("Error:", err.message); // Log the error message for internal use
+    logger.error(err.message); // Log the error message to the log file
     res.status(500).json({ message: "Error" }); // Send a generic error message to the user
   } else {
     next();
