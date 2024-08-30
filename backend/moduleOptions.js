@@ -1,5 +1,6 @@
 import cors from "cors";
 import session from "express-session";
+import rateLimit from "express-rate-limit";
 
 const apiUrl = process.env.BACKEND_APP_API_URL;
 
@@ -17,6 +18,13 @@ export const sessionOptions = session({
     httpOnly: true,
     sameSite: "strict",
     maxAge: 21600000,
+  },
+});
+export const loginLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 5,
+  message: {
+    error: "Too many login attempts, please try again after 1 minute.",
   },
 });
 export const checkRole = (requiredRoles) => {

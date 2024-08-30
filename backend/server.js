@@ -3,7 +3,12 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import bcrypt from "bcrypt";
 import cookieParser from "cookie-parser";
-import { corsOptions, sessionOptions, checkRole } from "./moduleOptions.js";
+import {
+  corsOptions,
+  sessionOptions,
+  checkRole,
+  loginLimiter,
+} from "./moduleOptions.js";
 import { models } from "./database/orm.js";
 import {
   getEmployees,
@@ -71,7 +76,7 @@ app.use("/api", (req, res, next) => {
   console.log("Request for " + req.originalUrl);
   next();
 });
-
+app.set("trust proxy", 1); // trust first proxy for loginlimiter
 //--------------------------------------------------------------------//
 //---------------------- Passport Configuration ----------------------//
 passport.serializeUser((user, done) => {
@@ -114,7 +119,7 @@ passport.use(
 //-------------------------------------------------------------------//
 // ------------------ Endpoints Authentification ------------------- //
 
-app.post("/api/login", (req, res, next) => {
+app.post("/api/login", loginLimiter, (req, res, next) => {
   try {
     passport.authenticate("local", (err, user, info) => {
       if (err) {
