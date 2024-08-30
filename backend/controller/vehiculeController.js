@@ -146,7 +146,7 @@ async function isIDreachable(req) {
 
 function checkTypeVehicule(typeVehicule) {
   typeVehicule = String(typeVehicule);
-  let types = ["camion", "camionette"];
+  let types = ["camion", "camionnette"];
   console.log(types.includes(typeVehicule));
   return types.includes(typeVehicule);
 }
