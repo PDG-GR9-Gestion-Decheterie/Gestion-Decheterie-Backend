@@ -1,6 +1,7 @@
 import cors from "cors";
 import session from "express-session";
 import rateLimit from "express-rate-limit";
+import compression from "compression";
 
 const apiUrl = process.env.BACKEND_APP_API_URL;
 
@@ -25,6 +26,13 @@ export const loginLimiter = rateLimit({
   max: 5,
   message: {
     error: "Too many login attempts, please try again after 1 minute.",
+  },
+});
+export const compressionOptions = compression({
+  threshold: 1024, // 1KB minimum size before compression
+  level: 4, // 1-9 compression level
+  filter: (req, res) => {
+    return req.headers["x-no-compression"] !== "true";
   },
 });
 export const checkRole = (requiredRoles) => {

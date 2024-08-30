@@ -8,6 +8,7 @@ import {
   sessionOptions,
   checkRole,
   loginLimiter,
+  compressionOptions,
 } from "./moduleOptions.js";
 import { models } from "./database/orm.js";
 import {
@@ -67,6 +68,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(corsOptions);
+app.use(compressionOptions);
 app.use(sessionOptions);
 app.use(passport.initialize());
 app.use(passport.session());
