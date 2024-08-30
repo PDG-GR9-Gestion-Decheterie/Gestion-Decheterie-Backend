@@ -8,10 +8,23 @@ export async function getContenantsDecheterie(req, res) {
 
     let contenantsData = [];
     for (let idDecheterie of decheteriesDispo) {
+      let decheterie = await models.Decheterie.findOne({
+        where: {
+          id: idDecheterie,
+        },
+      });
+
       let contenants = await models.Contenant.findAll({
         where: {
           fk_decheterie: idDecheterie,
         },
+      });
+      contenants = contenants.map((contenant) => {
+        delete contenant.dataValues.fk_decheterie;
+        return {
+          ...contenant.dataValues,
+          decheterie_nom: decheterie.nom,
+        };
       });
       contenantsData = contenantsData.concat(contenants);
     }
