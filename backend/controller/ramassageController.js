@@ -66,8 +66,6 @@ export async function getRamassages(req, res) {
       delete ramassageData.fk_vehicule;
       delete ramassageData.contenant_fk_decheterie;
       delete ramassageData.decheterie_id;
-      delete ramassageData.decheterie_fk_adresse;
-      delete ramassageData.decheterie_fk_adresse;
       delete ramassageData.vehicule_fk_decheterie;
       delete ramassageData.employe_idlogin;
       delete ramassageData.employe_mdplogin;
