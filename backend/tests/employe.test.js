@@ -19,6 +19,7 @@ import {
   EmployeOK,
   EmployeKO,
   tdoumasCreateRequest,
+  tdoumasCreateRequestPassword,
   tdoumasUpdateRequest,
   tdoumasUpdateRequestPassword,
   tdoumasGetOneResponse,
@@ -95,6 +96,12 @@ describe("Employe CRUD", () => {
       message: EmployeOK.add,
     });
 
+    // test if the password is correct
+    const list2 = await request(app)
+      .post("/api/login")
+      .send(tdoumasCreateRequestPassword);
+    expect(list2.statusCode).toEqual(200);
+
     // get one
     const employeGet = await request(app)
       .get("/api/employes/tdoumas")
@@ -120,10 +127,10 @@ describe("Employe CRUD", () => {
     });
 
     // test if the password is updated
-    const list2 = await request(app)
+    const list3 = await request(app)
       .post("/api/login")
       .send(tdoumasUpdateRequestPassword);
-    expect(list2.statusCode).toEqual(200);
+    expect(list3.statusCode).toEqual(200);
 
     // delete
     const employeDelete = await request(app)
