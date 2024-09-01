@@ -39,8 +39,8 @@ const tdoumasUpdateRequest = {
 };
 
 const tdoumasUpdateRequestPassword = {
-  idlogin: "tdoumas",
-  mdplogin: "password",
+  username: "tdoumas",
+  password: "password",
 };
 
 const tdoumasGetOneResponse = {
