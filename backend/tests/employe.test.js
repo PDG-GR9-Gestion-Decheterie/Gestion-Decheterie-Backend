@@ -20,6 +20,7 @@ import {
   EmployeKO,
   tdoumasCreateRequest,
   tdoumasUpdateRequest,
+  tdoumasUpdateRequestPassword,
   tdoumasGetOneResponse,
   tdoumasGetAllResponse,
   jdoeCreateRequest,
@@ -117,6 +118,12 @@ describe("Employe CRUD", () => {
     expect(employeUpdate.body).toEqual({
       message: EmployeOK.update,
     });
+
+    // test if the password is updated
+    const list2 = await request(app)
+      .post("/api/login")
+      .send(tdoumasUpdateRequestPassword);
+    expect(list2.statusCode).toEqual(200);
 
     // delete
     const employeDelete = await request(app)

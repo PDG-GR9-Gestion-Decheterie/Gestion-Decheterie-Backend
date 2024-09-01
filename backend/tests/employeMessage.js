@@ -38,6 +38,11 @@ const tdoumasUpdateRequest = {
   fk_decheterie: 1,
 };
 
+const tdoumasUpdateRequestPassword = {
+  idlogin: "tdoumas",
+  mdplogin: "password",
+};
+
 const tdoumasGetOneResponse = {
   employeData: {
     idlogin: "tdoumas",
@@ -462,6 +467,7 @@ export {
   EmployeKO,
   tdoumasCreateRequest,
   tdoumasUpdateRequest,
+  tdoumasUpdateRequestPassword,
   tdoumasGetOneResponse,
   tdoumasGetAllResponse,
   jdoeCreateRequest,
