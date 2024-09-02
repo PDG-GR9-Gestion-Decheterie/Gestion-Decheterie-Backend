@@ -24,6 +24,11 @@ const tdoumasCreateRequest = {
   fk_decheterie: 1,
 };
 
+const tdoumasCreateRequestPassword = {
+  username: "tdoumas",
+  password: "123",
+};
+
 const tdoumasUpdateRequest = {
   idlogin: "tdoumas",
   mdplogin: "password",
@@ -36,6 +41,11 @@ const tdoumasUpdateRequest = {
   typepermis: "C",
   fk_adresse: 1,
   fk_decheterie: 1,
+};
+
+const tdoumasUpdateRequestPassword = {
+  username: "tdoumas",
+  password: "password",
 };
 
 const tdoumasGetOneResponse = {
@@ -461,7 +471,9 @@ export {
   EmployeOK,
   EmployeKO,
   tdoumasCreateRequest,
+  tdoumasCreateRequestPassword,
   tdoumasUpdateRequest,
+  tdoumasUpdateRequestPassword,
   tdoumasGetOneResponse,
   tdoumasGetAllResponse,
   jdoeCreateRequest,

@@ -111,6 +111,9 @@ export async function updateEmployee(req, res) {
     }
     let employe = null;
 
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.mdplogin, salt);
+
     employe = await models.Employe.findByPk(req.params.id);
 
     if (!employe) {
@@ -119,6 +122,7 @@ export async function updateEmployee(req, res) {
 
     employe.set({
       ...req.body,
+      mdplogin: hashedPassword,
     });
     await employe.save();
 
