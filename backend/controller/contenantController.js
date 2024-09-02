@@ -71,6 +71,12 @@ export async function createContenant(req, res) {
       return res.status(403).json({ error: "Forbidden" });
     }
 
+    // if the next id is null, find the next id
+    if (req.body.id == null) {
+      let maxId = await models.Contenant.max("id");
+      req.body.id = maxId + 1;
+    }
+
     const newContenant = await models.Contenant.create(req.body);
     await newContenant.save();
     res.status(201).json({

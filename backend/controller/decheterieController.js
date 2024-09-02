@@ -65,6 +65,12 @@ export async function getDecheterieById(req, res) {
 // Créer une decheterie - /decheteries
 export async function createDecheterie(req, res) {
   try {
+    // if the next id is null, find the next id
+    if (req.body.id == null) {
+      let maxId = await models.Decheterie.max("id");
+      req.body.id = maxId + 1;
+    }
+
     const newDecheterie = await models.Decheterie.create(req.body);
     await newDecheterie.save();
     let principal = await idPrinciaple(req);

@@ -126,6 +126,12 @@ export async function createRamassage(req, res) {
       return res.status(403).json({ error: "Forbidden" });
     }
 
+    // if the next id is null, find the next id
+    if (req.body.id == null) {
+      let maxId = await models.Ramassage.max("id");
+      req.body.id = maxId + 1;
+    }
+
     // Créer un nouveau ramassage avec les données reçues
     const newRamassage = await models.Ramassage.create(req.body);
     await newRamassage.save();

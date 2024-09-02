@@ -70,6 +70,12 @@ export async function getAdresseById(req, res) {
 // Créer une Adresse - /adresses
 export async function createAdresse(req, res) {
   try {
+    // if the next id is null, find the next id
+    if (req.body.id == null) {
+      let maxId = await models.Adresse.max("id");
+      req.body.id = maxId + 1;
+    }
+
     const newAdresse = await models.Adresse.create(req.body);
     await newAdresse.save();
     res.status(201).json({
