@@ -49,6 +49,7 @@ export async function getAdressesSearch(req, res) {
       .json({ error: "An error occurred while fetching addresses" });
   }
 }
+
 // Get une Adresse par id - /adresses/:id
 export async function getAdresseById(req, res) {
   try {
@@ -67,6 +68,7 @@ export async function getAdresseById(req, res) {
     res.status(404).json({ error: "Error" });
   }
 }
+
 // Créer une Adresse - /adresses
 export async function createAdresse(req, res) {
   try {
@@ -86,6 +88,7 @@ export async function createAdresse(req, res) {
     res.status(500).json({ error: "Error adding adresse" });
   }
 }
+
 // Mettre à jour une Adresse - /adresses/:id
 export async function updateAdresse(req, res) {
   try {
@@ -108,6 +111,7 @@ export async function updateAdresse(req, res) {
     res.status(500).json({ error: "Error updating adresse" });
   }
 }
+
 // Supprimer une Adresse - /adresses/:id
 export async function deleteAdresse(req, res) {
   try {

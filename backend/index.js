@@ -1,6 +1,7 @@
 import app from "./server.js";
 import { initializeDB } from "./database/orm.js";
 
+// Function to start the server
 async function startServer() {
   console.log("Starting server...");
   await initializeDB();
@@ -9,6 +10,7 @@ async function startServer() {
   });
 }
 
+// Start the server
 startServer().catch((err) => {
   console.error("Failed to start server:", err);
 });

@@ -5,13 +5,16 @@ import compression from "compression";
 import winston from "winston";
 import path from "path";
 
+// Define the API URL from the .env file
 const apiUrl = process.env.BACKEND_APP_API_URL;
 
+// Define the CORS options
 export const corsOptions = cors({
   origin: apiUrl,
   credentials: true,
 });
 
+// Define the session options
 export const sessionOptions = session({
   secret: "2kLq6}3uH@;{3,sT73H:8%24)4w^EKBZx2+rESg6k4GMwe_?2bm",
   resave: false,
@@ -23,6 +26,8 @@ export const sessionOptions = session({
     maxAge: 21600000,
   },
 });
+
+// Define the rate limiter options for the login route
 export const loginLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   max: 5,
@@ -31,6 +36,8 @@ export const loginLimiter = rateLimit({
   },
   skipSuccessfulRequests: true, // Ne pas compter les requêtes réussies
 });
+
+// Define the compression options
 export const compressionOptions = compression({
   threshold: 1024, // 1KB minimum size before compression
   level: 4, // 1-9 compression level
@@ -38,6 +45,8 @@ export const compressionOptions = compression({
     return req.headers["x-no-compression"] !== "true";
   },
 });
+
+// Define the logger options
 export const logger = winston.createLogger({
   level: "info",
   format: winston.format.combine(
@@ -52,6 +61,7 @@ export const logger = winston.createLogger({
   ],
   exitOnError: false,
 });
+
 // Error handler middleware, used to send a generic error message to the user when the db is down for example
 export function errorHandler(err, req, res, next) {
   if (err) {
@@ -62,6 +72,8 @@ export function errorHandler(err, req, res, next) {
     next();
   }
 }
+
+// Check if the user is authenticated and has the required role
 export const checkRole = (requiredRoles) => {
   return (req, res, next) => {
     if (!req.isAuthenticated()) {

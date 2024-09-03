@@ -58,6 +58,7 @@ export async function getVehiculeById(req, res) {
     res.status(404).json({ error: "Error" });
   }
 }
+
 // Créer un vehicule - /vehicules
 export async function createVehicule(req, res) {
   try {
@@ -80,6 +81,7 @@ export async function createVehicule(req, res) {
     res.status(500).json({ error: "Error adding vehicule" });
   }
 }
+
 // Mettre à jour un vehicule - /vehicules/:id
 export async function updateVehicule(req, res) {
   try {
@@ -104,6 +106,7 @@ export async function updateVehicule(req, res) {
     res.status(500).json({ error: "Error updating vehicule" });
   }
 }
+
 // Supprimer un vehicule - /vehicules/:id
 export async function deleteVehicule(req, res) {
   try {
@@ -124,6 +127,8 @@ export async function deleteVehicule(req, res) {
     res.status(500).json({ error: "Error deleting vehicule" });
   }
 }
+
+// Check if the id is reachable by the user
 async function isIDreachable(req) {
   let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
   let vehiculesData = [];
@@ -144,6 +149,7 @@ async function isIDreachable(req) {
   return true;
 }
 
+// Check if the vehicule type is correct - camion or camionnette
 function checkTypeVehicule(typeVehicule) {
   typeVehicule = String(typeVehicule);
   let types = ["camion", "camionnette"];

@@ -54,6 +54,7 @@ export async function getContenantById(req, res) {
     res.status(404).json({ error: "Error" });
   }
 }
+
 // Créer une Contenant - /contenants
 export async function createContenant(req, res) {
   try {
@@ -87,6 +88,7 @@ export async function createContenant(req, res) {
     res.status(500).json({ error: "Error adding contenant" });
   }
 }
+
 // Mettre à jour une Contenant - /contenants/:id
 export async function updateContenant(req, res) {
   try {
@@ -116,6 +118,7 @@ export async function updateContenant(req, res) {
     res.status(500).json({ error: "Error updating contenant" });
   }
 }
+
 // Supprimer une Contenant - /contenants/:id
 export async function deleteContenant(req, res) {
   try {
@@ -137,6 +140,7 @@ export async function deleteContenant(req, res) {
   }
 }
 
+// Check if the contenant is reachable by the user
 async function isIDreachable(req) {
   let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
   let contenantsData = [];
@@ -157,8 +161,8 @@ async function isIDreachable(req) {
   return true;
 }
 
+// Validate the integrity of the contenant before creating it
 function isContenantValid(contenant) {
-  // Validate the integrity of the contenant before creating it
   if (contenant.nom === "palette") {
     if (
       contenant.nbcadre < 0 ||
