@@ -30,6 +30,12 @@ export async function getDecheteries(req, res) {
           ...flattenObject(adresse.dataValues, "adresse_"),
         };
       }
+
+      if (decheterie.dataValues.id == (await idPrinciaple(req))) {
+        decheterieData.principal = true;
+      } else {
+        decheterieData.principal = false;
+      }
       delete decheterieData.fk_adresse;
       delete decheterieData.adresse_id;
       decheteriesData.push(decheterieData);

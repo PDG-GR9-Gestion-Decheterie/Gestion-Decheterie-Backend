@@ -40,6 +40,7 @@ const decheterie1GetAllResponse = {
       adresse_city: "Yverdon-les-Bains",
       adresse_region: "VD",
       adresse_postcode: "1400",
+      principal: true,
     },
     {
       id: 10,
@@ -49,6 +50,7 @@ const decheterie1GetAllResponse = {
       adresse_city: "Yverdon-les-Bains",
       adresse_region: "VD",
       adresse_postcode: "1400",
+      principal: false,
     },
   ],
 };
@@ -83,6 +85,7 @@ const decheterie2GetAllResponse = {
       adresse_city: "Berne",
       adresse_region: "VD",
       adresse_postcode: "3000",
+      principal: true,
     },
   ],
 };
@@ -97,6 +100,7 @@ const decheterie1GetAllResponseClear = {
       adresse_city: "Yverdon-les-Bains",
       adresse_region: "VD",
       adresse_postcode: "1400",
+      principal: true,
     },
   ],
 };
