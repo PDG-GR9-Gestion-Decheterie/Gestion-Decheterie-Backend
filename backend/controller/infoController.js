@@ -1,6 +1,7 @@
 import { models } from "../database/orm.js";
 import { flattenObject } from "./utils.js";
 
+// Get tous les infos - /infos
 export async function getInfos(req, res) {
   try {
     let infosData = [];

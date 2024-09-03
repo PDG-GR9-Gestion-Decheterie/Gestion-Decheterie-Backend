@@ -62,9 +62,16 @@ export async function getDecheterieById(req, res) {
     res.status(404).json({ error: "Error" });
   }
 }
+
 // Créer une decheterie - /decheteries
 export async function createDecheterie(req, res) {
   try {
+    // if the next id is null, find the next id
+    if (req.body.id == null) {
+      let maxId = await models.Decheterie.max("id");
+      req.body.id = maxId + 1;
+    }
+
     const newDecheterie = await models.Decheterie.create(req.body);
     await newDecheterie.save();
     let principal = await idPrinciaple(req);
@@ -81,6 +88,7 @@ export async function createDecheterie(req, res) {
     res.status(500).json({ error: "Error adding decheterie" });
   }
 }
+
 // Mettre à jour une decheterie - /decheteries/:id
 export async function updateDecheterie(req, res) {
   try {
@@ -106,6 +114,7 @@ export async function updateDecheterie(req, res) {
     res.status(500).json({ error: "Error updating decheterie" });
   }
 }
+
 // Supprimer une decheterie - /decheteries/:id
 export async function deleteDecheterie(req, res) {
   try {
@@ -136,11 +145,14 @@ export async function deleteDecheterie(req, res) {
   }
 }
 
+// Check if the decheterie is reachable
 async function isIDreachable(req) {
   let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
   let id = parseInt(req.params.id, 10);
   return decheteriesDispo.includes(id);
 }
+
+// Check if the decheterie is principal
 async function idPrinciaple(req) {
   let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
   let decheteries = await models.Principale.findOne({

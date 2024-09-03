@@ -85,6 +85,7 @@ export async function getRamassages(req, res) {
     res.status(404).json({ error: "Error" });
   }
 }
+
 // Get un ramassage par id - /ramassages/:id
 export async function getRamassageById(req, res) {
   try {
@@ -112,6 +113,7 @@ export async function getRamassageById(req, res) {
     res.status(404).json({ error: "Error" });
   }
 }
+
 // Créer un ramassage - /ramassages
 export async function createRamassage(req, res) {
   try {
@@ -126,6 +128,12 @@ export async function createRamassage(req, res) {
       return res.status(403).json({ error: "Forbidden" });
     }
 
+    // if the next id is null, find the next id
+    if (req.body.id == null) {
+      let maxId = await models.Ramassage.max("id");
+      req.body.id = maxId + 1;
+    }
+
     // Créer un nouveau ramassage avec les données reçues
     const newRamassage = await models.Ramassage.create(req.body);
     await newRamassage.save();
@@ -137,6 +145,7 @@ export async function createRamassage(req, res) {
     res.status(500).json({ error: "Error adding ramassage" });
   }
 }
+
 // Mettre à jour un ramassage - /ramassages/:id
 export async function updateRamassage(req, res) {
   try {
@@ -164,6 +173,7 @@ export async function updateRamassage(req, res) {
     res.status(500).json({ error: "Error updating ramassage" });
   }
 }
+
 // Supprimer un ramassage - /ramassages/:id
 export async function deleteRamassage(req, res) {
   try {
@@ -183,6 +193,8 @@ export async function deleteRamassage(req, res) {
     res.status(500).json({ error: "Error deleting ramassage" });
   }
 }
+
+// Check if the id is reachable by the user
 async function isIDreachable(req) {
   let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
   let ramassagesData = await models.Ramassage.findAll({
@@ -199,6 +211,7 @@ async function isIDreachable(req) {
   return true;
 }
 
+// Check if the employee has the right licence for the vehicule
 async function isRightLicence(ramassage) {
   let employe = await models.Employe.findByPk(ramassage.fk_employee);
   let vehicule = await models.Vehicule.findByPk(ramassage.fk_vehicule);
@@ -216,6 +229,8 @@ async function isRightLicence(ramassage) {
   }
   return true;
 }
+
+// Check if the ramassage is in the right decheterie - Contenant, Employe and Vehicule
 async function isInRightDecheterie(req) {
   let contenant = await models.Contenant.findByPk(req.body.fk_contenant);
   let employe = await models.Employe.findByPk(req.body.fk_employee);
@@ -225,11 +240,6 @@ async function isInRightDecheterie(req) {
   if (!contenant || !employe || !vehicule) {
     return false;
   }
-
-  console.log(contenant.fk_decheterie);
-  console.log(employe.fk_decheterie);
-  console.log(vehicule.fk_decheterie);
-  console.log(decheteriesDispo);
 
   if (
     contenant.fk_decheterie !== req.body.fk_decheterie ||

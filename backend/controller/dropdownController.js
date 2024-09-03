@@ -16,6 +16,7 @@ export async function getFonctions(req, res) {
     res.status(404).json({ error: "Error" });
   }
 }
+
 // Get tous les Status - /status
 export async function getStatus(req, res) {
   try {
@@ -32,6 +33,7 @@ export async function getStatus(req, res) {
     res.status(404).json({ error: "Error" });
   }
 }
+
 // Get tous les Dechets - /dechets
 export async function getDechets(req, res) {
   try {

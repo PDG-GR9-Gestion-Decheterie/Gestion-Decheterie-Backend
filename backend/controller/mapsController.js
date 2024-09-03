@@ -1,3 +1,4 @@
+// Get la clé API Google map from the docker compose .env file - /apikey
 export async function getAPIKey(req, res) {
   const APIKey = process.env.GOOGLE_MAPS_API_KEY;
   try {

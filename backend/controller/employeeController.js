@@ -2,6 +2,7 @@ import { models } from "../database/orm.js";
 import bcrypt from "bcrypt";
 import Sequelize from "sequelize";
 import { flattenObject, findDecheteriePrinciaple } from "./utils.js";
+
 // Get tous les employes - /employes
 export async function getEmployees(req, res) {
   try {
@@ -74,6 +75,7 @@ export async function getEmployeeById(req, res) {
     res.status(404).json({ error: "Error" });
   }
 }
+
 // Créer un employe - /employes
 export async function createEmployee(req, res) {
   try {
@@ -103,6 +105,7 @@ export async function createEmployee(req, res) {
     res.status(500).json({ error: "Error adding employe" });
   }
 }
+
 // Mettre à jour un employe - /employes/:id
 export async function updateEmployee(req, res) {
   try {
@@ -132,6 +135,7 @@ export async function updateEmployee(req, res) {
     res.status(500).json({ error: "Error updating employe" });
   }
 }
+
 // Supprimer un employe - /employes/:id
 export async function deleteEmployee(req, res) {
   try {
@@ -157,6 +161,7 @@ export async function deleteEmployee(req, res) {
     res.status(500).json({ error: "Error deleting employe" });
   }
 }
+
 // Recuperer le profil de l'employe connecté - /employes/profil
 export async function getEmployeeProfile(req, res) {
   try {
@@ -198,6 +203,8 @@ export async function getEmployeeProfile(req, res) {
     res.status(404).json({ error: "Error" });
   }
 }
+
+// Check if the employe is reachable by the user
 async function isIDreachable(req) {
   let decheteriesDispo = await findDecheteriePrinciaple(req.user.idlogin);
   let employesData = await models.Employe.findAll({

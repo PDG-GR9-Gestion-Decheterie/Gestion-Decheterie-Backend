@@ -1,4 +1,6 @@
 import { models } from "../database/orm.js";
+
+// Flatten an object
 export function flattenObject(obj, prefix = "") {
   const flattened = {};
 
@@ -17,6 +19,7 @@ export function flattenObject(obj, prefix = "") {
   return flattened;
 }
 
+// Find the decheterie principale of an employee
 export async function findDecheteriePrinciaple(id) {
   let employee = await models.Employe.findOne({
     where: {
