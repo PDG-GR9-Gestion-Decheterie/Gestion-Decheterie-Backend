@@ -31,9 +31,9 @@ export async function getDecheteries(req, res) {
         };
       }
 
-      if(decheterie.dataValues.id == await idPrinciaple(req)){
+      if (decheterie.dataValues.id == (await idPrinciaple(req))) {
         decheterieData.principal = true;
-      }else{
+      } else {
         decheterieData.principal = false;
       }
       delete decheterieData.fk_adresse;
@@ -62,11 +62,6 @@ export async function getDecheterieById(req, res) {
     }
 
     let decheterieData = decheterie.dataValues;
-    if(decheterie.dataValues.id == await idPrinciaple(req)){
-      decheterieData.principal = true;
-    }else{
-      decheterieData.principal = false;
-    }
     res.status(200).json({ decheterieData });
   } catch (err) {
     console.error("Error fetching decheterie:", err);
