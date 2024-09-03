@@ -173,19 +173,15 @@ describe("Employe CRUD", () => {
     const employeGet = await request(app)
       .get("/api/employes/tdoumas")
       .set("Cookie", cookie);
-    expect(employeGet.statusCode).toEqual(403);
-    expect(employeGet.body).toEqual({
-      error: Forbidden.error,
-    });
+    expect(employeGet.statusCode).toEqual(200);
+    expect(employeGet.body).toEqual(tdoumasGetOneResponse);
 
     // get all
     const employeGetAll = await request(app)
       .get("/api/employes")
       .set("Cookie", cookie);
-    expect(employeGetAll.statusCode).toEqual(403);
-    expect(employeGetAll.body).toEqual({
-      error: Forbidden.error,
-    });
+    expect(employeGetAll.statusCode).toEqual(200);
+    expect(employeGetAll.body).toEqual(tdoumasGetAllResponse);
 
     // update
     const employeUpdate = await request(app)
@@ -247,19 +243,15 @@ describe("Employe CRUD", () => {
     const employeGet = await request(app)
       .get("/api/employes/tdoumas")
       .set("Cookie", cookie);
-    expect(employeGet.statusCode).toEqual(403);
-    expect(employeGet.body).toEqual({
-      error: Forbidden.error,
-    });
+    expect(employeGet.statusCode).toEqual(200);
+    expect(employeGet.body).toEqual(tdoumasGetOneResponse);
 
     // get all
     const employeGetAll = await request(app)
       .get("/api/employes")
       .set("Cookie", cookie);
-    expect(employeGetAll.statusCode).toEqual(403);
-    expect(employeGetAll.body).toEqual({
-      error: Forbidden.error,
-    });
+    expect(employeGetAll.statusCode).toEqual(200);
+    expect(employeGetAll.body).toEqual(tdoumasGetAllResponse);
 
     // update
     const employeUpdate = await request(app)
@@ -321,19 +313,15 @@ describe("Employe CRUD", () => {
     const employeGet = await request(app)
       .get("/api/employes/tdoumas")
       .set("Cookie", cookie);
-    expect(employeGet.statusCode).toEqual(403);
-    expect(employeGet.body).toEqual({
-      error: Forbidden.error,
-    });
+    expect(employeGet.statusCode).toEqual(200);
+    expect(employeGet.body).toEqual(tdoumasGetOneResponse);
 
     // get all
     const employeGetAll = await request(app)
       .get("/api/employes")
       .set("Cookie", cookie);
-    expect(employeGetAll.statusCode).toEqual(403);
-    expect(employeGetAll.body).toEqual({
-      error: Forbidden.error,
-    });
+    expect(employeGetAll.statusCode).toEqual(200);
+    expect(employeGetAll.body).toEqual(tdoumasGetAllResponse);
 
     // update
     const employeUpdate = await request(app)
