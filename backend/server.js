@@ -266,7 +266,7 @@ app.get("/api/favicon.ico", (req, res) => res.status(204));
  *       200:
  *         description: A list of employees
  */
-app.get("/api/employes", checkRole(["Responsable"]), getEmployees);
+app.get("/api/employes", checkRole(["All"]), getEmployees);
 
 /**
  * @swagger
@@ -285,7 +285,7 @@ app.get("/api/employes", checkRole(["Responsable"]), getEmployees);
  *       200:
  *         description: Employee details
  */
-app.get("/api/employes/:id", checkRole(["Responsable"]), getEmployeeById);
+app.get("/api/employes/:id", checkRole(["All"]), getEmployeeById);
 
 /**
  * @swagger
