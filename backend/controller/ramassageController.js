@@ -61,7 +61,6 @@ export async function getRamassages(req, res) {
         };
       }
       delete ramassageData.fk_contenant;
-      delete ramassageData.fk_employee;
       delete ramassageData.fk_decheterie;
       delete ramassageData.fk_vehicule;
       delete ramassageData.contenant_fk_decheterie;
