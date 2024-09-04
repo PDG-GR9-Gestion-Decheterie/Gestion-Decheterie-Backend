@@ -12,6 +12,7 @@ export async function getRamassages(req, res) {
       where: {
         fk_decheterie: { [Sequelize.Op.in]: decheteriesDispo },
       },
+      order: [['date', 'DESC']], // Ajout de la clause order pour trier par date
     });
     if (ramassages === null) {
       throw new Error();
