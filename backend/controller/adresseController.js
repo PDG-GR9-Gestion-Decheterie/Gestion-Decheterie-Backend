@@ -2,6 +2,8 @@ import { models } from "../database/orm.js";
 import Sequelize from "sequelize";
 import { Op } from "sequelize";
 
+const limitSearchResults = 50;
+
 // Get tous les Adresses - /adresses/:string
 export async function getAdressesSearch(req, res) {
   try {
@@ -30,12 +32,26 @@ export async function getAdressesSearch(req, res) {
     }));
 
     // Rechercher des adresses correspondant à tous les termes avec une limite de 50 résultats
-    const adressesData = await models.Adresse.findAll({
+    let adressesData = await models.Adresse.findAll({
       where: {
         [Op.and]: searchConditions, // Tous les termes doivent correspondre
       },
-      limit: 50, // Limiter le nombre de résultats à 50
+      order: [
+        // Donner plus de poids aux rues qui matchent le plus
+        [Sequelize.fn("CHAR_LENGTH", Sequelize.col("street")), "ASC"],
+      ],
+      limit: limitSearchResults, // Limiter le nombre de résultats à 50
     });
+
+    // Si aucun résultat n'est trouvé, rechercher des adresses correspondant à l'un des termes
+    if (!adressesData.length) {
+      adressesData = await models.Adresse.findAll({
+        where: {
+          [Op.or]: searchConditions,
+        },
+        limit: 50,
+      });
+    }
 
     if (!adressesData.length) {
       return res.status(404).json({ error: "No matching addresses found" });
