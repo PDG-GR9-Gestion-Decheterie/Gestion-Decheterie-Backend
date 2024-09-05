@@ -36,10 +36,6 @@ export async function getAdressesSearch(req, res) {
       where: {
         [Op.and]: searchConditions, // Tous les termes doivent correspondre
       },
-      order: [
-        // Donner plus de poids aux rues qui matchent le plus
-        [Sequelize.fn("CHAR_LENGTH", Sequelize.col("street")), "ASC"],
-      ],
       limit: limitSearchResults, // Limiter le nombre de résultats à 50
     });
 
