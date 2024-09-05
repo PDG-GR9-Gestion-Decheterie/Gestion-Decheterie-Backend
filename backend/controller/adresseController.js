@@ -36,7 +36,6 @@ export async function getAdressesSearch(req, res) {
       where: {
         [Op.and]: searchConditions, // Tous les termes doivent correspondre
       },
-
       limit: limitSearchResults, // Limiter le nombre de résultats à 50
     });
 
