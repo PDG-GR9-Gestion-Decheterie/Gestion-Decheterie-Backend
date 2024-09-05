@@ -114,10 +114,17 @@ export async function updateEmployee(req, res) {
     }
     let employe = null;
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.mdplogin, salt);
+    let hashedPassword = null;
+    if (req.body.mdplogin) {
+      const salt = await bcrypt.genSalt(10);
+      hashedPassword = await bcrypt.hash(req.body.mdplogin, salt);
+    }
 
     employe = await models.Employe.findByPk(req.params.id);
+
+    if (!hashedPassword) {
+      hashedPassword = employe.dataValues.mdplogin;
+    }
 
     if (!employe) {
       throw new Error("Employe not found");
